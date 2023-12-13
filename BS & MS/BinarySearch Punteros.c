@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 
-int binarySearch (int A [], int i, int j, int k) {
+int binarySearch (int *A, int i, int j, int k) {
     int m;
     while (i <= j) {
         m = (i + j) >> 1;
