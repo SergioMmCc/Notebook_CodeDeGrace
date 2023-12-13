@@ -3,22 +3,18 @@
 #include <math.h>
 #include <string.h>
 
-int BinarySearch (int A [], int i, int j, int k) {
+int binarySearch (int A [], int i, int j, int k) {
     int m;
-    
-    if (i>j)
-       return -1*i -1;
-    else {
-         m = (i+j) / 2;
-         if (A[m] == k) 
-            return m;
-            else {
-                 if (k >A[m])
-                    return BinarySearch (A, m+1, j, k);
-                 else
-                     return BinarySearch (A, i, m-1, k);
-                 }
-         }
+    while (i <= j) {
+        m = (i + j) >> 1;
+        if (A[m] == k)
+           return m;
+        else if (k > A[m])
+             i = m + 1;
+           else
+                j = m - 1;
+    }
+    return -i -1;
 }
 
 int main () {
@@ -31,7 +27,7 @@ int main () {
         scanf ("%d", &q);
         for (index = 1; index <= q; index++) {
             scanf ("%d", &k);
-            position = BinarySearch (A, 1, n, k);
+            position = binarySearch (A, 1, n, k);
             if (position >= 0)
                 printf ("\nThe element %d is in the position %d in the array. \n", k, position);
             else {
