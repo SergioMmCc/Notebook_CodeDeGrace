@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #define limite 10001000
-
 int main() {
     bool es_primo[limite + 1];
     
