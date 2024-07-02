@@ -123,7 +123,7 @@ void BFS (struct graph *G, int s, int color[], int d[], int pi[]) {
                 color[v] = GRAY;
                 d[v] = d[u] + 1;
                 pi[v] = u;
-                Q[tail] =v;
+                Q[tail] = v;
                 tail++;
             }
             tempEdge = tempEdge->next;

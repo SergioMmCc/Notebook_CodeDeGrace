@@ -8,11 +8,11 @@ int binarySearch (int *A, int i, int j, int k) {
     while (i <= j) {
         m = (i + j) >> 1;
         if (A[m] == k)
-           return m;
+            return m;
         else if (k > A[m])
-             i = m + 1;
-           else
-                j = m - 1;
+            i = m + 1;
+        else
+            j = m - 1;
     }
     return -i -1;
 }
