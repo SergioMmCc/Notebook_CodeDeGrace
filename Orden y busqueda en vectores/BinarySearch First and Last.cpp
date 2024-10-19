@@ -1,4 +1,4 @@
-int binarySearchFirstOccurrence(int A[], int i, int j, int k) {
+int binarySearchFirstOccurrence(vector<int>& A, int i, int j, int k) {
     int result, result2;
     result = binarySearch(A, i, j, k);
     if (result >= 0) {
@@ -11,7 +11,7 @@ int binarySearchFirstOccurrence(int A[], int i, int j, int k) {
     return result;
 }
 
-int binarySearchLastOccurrence(int A[], int i, int j, int k) {
+int binarySearchLastOccurrence(vector<int>& A, int i, int j, int k) {
     int result, result2;
     result = binarySearch(A, i, j, k);
     if (result >= 0) {

@@ -7,3 +7,7 @@ long long gcd (long long A, long long B) {
     }
     return a;
 }
+
+ll lcm(ll a, ll b){
+    return (a / gcd(a, b)) * b;
+}
