@@ -72,4 +72,73 @@ def main ():
     indice3 = lista.index(x, start, end) # Devuelve la primera aparicion de x en el rango [start, end)
     conteo = lista.count(x) # Devuelve el numero de veces que aparece 'x' en la lista
 
+    # Metodos de sets
+    # No tiene elementos repetidos, no esta ordenado
+    s = {1, 2, 3} # Declarar
+    s.add(4) # Agregar un elemento
+    s.remove(4) # Eliminar un elemento. Si el elemento no esta lanza un error
+    s.discard(4) # Tambien elimina un elemento pero si no esta no genera error
+    x = s.pop() # Elimina y retorna un elemento arbitrario
+    s.clear() # Vacía el conjunto
+    s1 = {1, 2}
+    s2 = {2, 3}
+    s3 = {4, 5, 6}
+
+    # Metodos de operaciones de conjuntos
+    # Union de conjuntos
+    s4 = s1.union(s2, s3)
+    s4 = s1 | s2 | s3
+
+    # Interseccion de conjuntos
+    s4 = s1.instersection(s2, s3)
+    s4 = s1 & s2 & s3
+
+    # Retorna lo que esta en el primer conjunto pero no en los demas
+    s4 = s1.difference(s2, s3)
+    s4 = s1 - s2 - s3
+
+    # Los elementos que solo estan en un conjunto
+    # Se recomienda usarla solo para dos conjuntos
+    s4 = s1.symmetric_difference(s2).symmetric_difference(s3)
+    s4 = (s1 ^ s2) ^ s3
+
+    
+    # Metodos para relaciones de conjuntos
+
+    s1.issubset(s2) # Devuelve True si s1 es subconjunto de s2
+    s1.issuperset(s2) # Devuelve True si s1 es superconjunto de s2
+    s1.isdisjoint(s2) # Devuelve True si no tienen elementos en comun
+
+
+    # Metodos de actualizacion
+
+    # Actualiza s1 con la union entre s1 y s2
+    s1.update(s2) 
+    s1 |= s2
+
+    # Actualiza s1 con la interseccion entre s1 y s2
+    s1.intersection_update(s2)
+    s1 &= s2
+
+    # Actualiza s1 eliminando los elementos que estan en s2
+    s1.difference_update(s2)
+    s1 -= s2
+
+    # Actualiza s1 con la diferencia simetrica entre s1 y s2
+    s1.symmetric_difference_update(s2)
+    s1 ^= s2
+
+
+    # SortedSet puede hacer todo eso, pero esta ordenado y tambien tiene:
+    # pip install sortedcontainers -> Instalacion
+    from sortedcontainers import SortedSet
+    s = SortedSet([1, 2, 3, 4]) # Declarar
+    mini = s.pop() # Retorna el elemento menor
+    cond = 2 in s # Retorna True si s esta en s
+    i = s.index(2) # Retorna la posicion de 2 (0-index)
+    s.update([4, 5, 7]) # Agrega elementos
+    s.bisect_left(6) # Retorna el indice en que se insertaria el 6
+    s.bisect_right(3) # Lo mismo que bisect_left pero si el elemento ya 
+                      # esta en s entonces devuelve su posicion + 1
+
 main()
