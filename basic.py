@@ -45,11 +45,11 @@ def main ():
     mina = min(mina, number)
     maxa = max(maxa, number)
 
-    # Convertir un numero binario (guardado como cadena) en un entero base 10
-    n10 = int(n2, 2)
+    # Convertir un numero base x (guardado como cadena) en un entero base 10
+    n10 = int(n2, x)
 
     # Pasar un numero de base 10 a base 2 (se convierte a cadena)
-    ans2 = bin(ans10)[2:]
+    ans2 = bin(ans10)[2:] # Para cambiar de base 10 a cualquier otra base (que no sea base 2) toca a mano
 
     # Evaluar una string que es una expresion matematica (tambien puede tener parentesis)
     result = eval(expresion)
@@ -140,5 +140,36 @@ def main ():
     s.bisect_left(6) # Retorna el indice en que se insertaria el 6
     s.bisect_right(3) # Lo mismo que bisect_left pero si el elemento ya 
                       # esta en s entonces devuelve su posicion + 1
+
+    
+    # Diccionarios
+    dic = {'a' : 1, 'b' : 2} # Declarar
+    n = dic.get('a') # Acceder al value de la key 'a', sino esta devuelve None
+    n = dic.get('a', 0) # Si la key 'a' esta, devuelve su value, sino devuelve 0
+    claves = dic.keys() # Retorna una lista con todas las keys
+    valores = dic.values() # Retorna una lista con todos los values
+    parejas = dic.items() # Retorna una lista de tuplas con todos los pares key-value
+    dic.update({'c' : 3, 'd' : 4}) # Insertar elementos en dic
+    dic.update(dic2) # Actualizar dic con los elementos de dic2
+    a = dic.pop('a') # Elimina y retorna el value cuya key es 'a', sino esta genera error
+    a = dic.pop('a', 0) # Elimina y retorna el value cuya key es 'a', sino esta devuelve 0
+    a = dic.popitem() # Elimina y devuelve el ultimo par key-value que fue insertado
+    dict.clear() # Elimina el diccionario
+    valor = dict.setdefault('a') # Si esta esa key, devuelve su value
+    valor = dict.setdefault('a', 2) # Si esta esa key, devuelve 2
+    value = dict.setdefault('e', 5) # Si no esta esa key, la agrega con ese value y retorna el value
+    keys = ['a', 'b', 'c']
+    dic = dict.fromkeys(keys, 0) # Crea un nuevo diccionario con claves del iterable y todas con el mismo valor
+
+    # Diccionarios ordenados
+    from sortedcontainers import SortedDict
+    dic = SortedDict({'c' : 3, 'a' : 1, 'b' : 2}) # Declarar
+    valor = dic['a'] # Devuelve el valor de la clave dada
+    dic['d'] = 4 # Asignacion
+    elemento = dic.popitem(0) # Elimina el elmento en la posicion 0, sino se especifica el indice elimina el ultimo elemento
+    # Tambien tiene bisect_left(key) y bisect_right(key), los cuales funcionan igual que en SortedSet
+    pareja = dic.peekitem(1) # Devuelve el par clave valor en el indice dado, sin eliminarlo
+    pareja = dic.popitem() # Elimina el ultimo elemento y lo retorna
+    pareja = dic.popitem(last=False) # Elimina el primer elemento y lo retorna
 
 main()

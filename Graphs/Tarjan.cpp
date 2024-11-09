@@ -1,3 +1,9 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define endl '\n'
+using ll = long long;
+#define pb push_back
+
 /* Complexity: O(E + V)
 Tarjan’s algorithm for finding strongly connected
 components.
@@ -14,11 +20,6 @@ false)
 *current_scc = ID of the current_scc being discovered
 (Initialize to 0)
 */
-#include<bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-using ll = long long;
-#define pb push_back
 
 const int MAXN = 1e5 + 1;
 const ll mod = 1e9 + 7;
