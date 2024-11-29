@@ -4,6 +4,7 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 #define pb push_back
+#define sz size()
 
 void solver(){
     

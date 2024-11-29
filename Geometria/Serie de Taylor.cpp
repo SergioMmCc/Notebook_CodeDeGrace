@@ -1,3 +1,4 @@
+// El angulo esta dado en radianes
 // Probado para un problema con precisión de 10^-6
 
 #include<bits/stdc++.h>
