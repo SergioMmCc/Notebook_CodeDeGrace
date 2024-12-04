@@ -1,5 +1,5 @@
-long long gcd (long long A, long long B) {
-    long long temp;
+ll gcd (ll a, ll b) {
+    ll temp;
     while (b != 0) {
         temp = b;
         b = a % b;
