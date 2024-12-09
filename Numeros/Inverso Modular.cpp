@@ -1,10 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define endl '\n'
+using ll = long long;
 
-long long mod_inverse(long long a, long long n) {
-    long long i = n, v = 0, d = 1;
+ll mod_inverse(ll a, ll n) {
+    ll i = n, v = 0, d = 1;
     while(a > 0) {
-        long long t = i/a, x = a;
+        ll t = i/a, x = a;
         a = i%x;
         i = x;
         x = d;
@@ -18,7 +20,7 @@ long long mod_inverse(long long a, long long n) {
 }
 
 int main() {
-    long long a, n;
+    ll a, n;
     cin >> a >> n;
     cout << mod_inverse(a, n) << endl;
     return 0;
