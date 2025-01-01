@@ -21,12 +21,11 @@ false)
 (Initialize to 0)
 */
 
-const int MAXN = 1e5 + 1;
-const ll mod = 1e9 + 7;
+const int maxn = 1e5 + 1;
 
-vector<int> g[MAXN];
-vector<int> d(MAXN, -1), low(MAXN), scc(MAXN), reps(MAXN, 0);
-vector<bool> stacked(MAXN);
+vector<int> graph[maxn];
+vector<int> d(maxn, -1), low(maxn), scc(maxn), reps(maxn, 0);
+vector<bool> stacked(maxn);
 stack<int> s;
 int ticks = 0, current_scc = 0;
 
@@ -34,7 +33,7 @@ void tarjan(int u){
     d[u] = low[u] = ticks++;
     s.push(u);
     stacked[u] = true;
-    const vector<int> &out = g[u];
+    const vector<int> &out = graph[u];
     for (int k=0, m=out.size(); k<m; ++k){
         const int &v = out[k];
         if (d[v] == -1){
@@ -60,7 +59,7 @@ void solver(){
     int n, m; cin>>n>>m;
     for(int i = 1; i <= m; i++){
         int u, v;cin>>u>>v;
-        g[u].pb(v);
+        graph[u].pb(v);
     }
 
     // Hallar los SCC
