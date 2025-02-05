@@ -48,6 +48,8 @@ void join(int u, int v){
 }
 
 // Algoritmo de Kruskal para hallar el Minimal Spanning Tree
+// Complejidad O(m * lg(m))
+// En grafos densos m ≈ n²
 ll kruskal(vector<edge>& edges, int n){
     ll total = 0;
     sort(edges.begin(), edges.end());
