@@ -1,20 +1,24 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl '\n'
-#define MAXN 100000
+#define MAXN 200000
 
-long long const inf = 2e9;
+const int inf = 2e9;
 
 typedef pair<int, int> pii;
 vector<pii> graph[MAXN+1];
 
+// Comparador para ordenar la cola de prioridad por el peso menor
 struct comp{
     bool operator() (pii a, pii b){
-        return a.second > b.second;
+        return a.second > b.second; // Para Maximal Spanning Tree cambiar '>' por '<'
     }
 };
 
+// Algoritmo de Prim para hallar el Minimal Spanning Tree de un grafo no dirigido y conexo
+// Complejidad O(m * lg(n))
 void prim(int source, int n, vector<int>& distance, vector<int>& parent){
+    vector<bool> inQueue(n+1, 1);
     for(int i = 1; i <= n; i++){
         distance[i] = inf;
         parent[i] = -1;
@@ -25,8 +29,9 @@ void prim(int source, int n, vector<int>& distance, vector<int>& parent){
     while(!pq.empty()){
         int u = pq.top().first;
         pq.pop();
+        inQueue[u] = 0;
         for(pii v : graph[u]){
-            if(distance[v.first] > v.second){
+            if(inQueue[v.first] && distance[v.first] > v.second){
                 distance[v.first] = v.second;
                 parent[v.first] = u;
                 pq.push({v.first, distance[v.first]});
@@ -46,15 +51,12 @@ int main() {
     }
     vector<int> distance(n+1), parent(n+1);
     prim(1, n, distance, parent);
-    for(int i = 1; i <= n; i++)
-        cout<<"vertex: "<<i<<" distance: "<<distance[i]<<" parent: "<<parent[i]<<endl;
-    cout<<endl;
     
     //Para calcular el peso total en el MST
-    int totalWeight = 0;
+    long long totalWeight = 0;
     for(int i = 1; i <= n; i++)
         totalWeight += distance[i];
-    cout<<"Peso total del minimal spanning tree: "<<totalWeight<<endl;
+    cout<<totalWeight<<endl;
 
     return 0;
 }
