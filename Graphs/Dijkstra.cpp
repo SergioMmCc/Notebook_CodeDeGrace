@@ -14,22 +14,23 @@ struct comp{
     }
 };
 
-void dijkstra(int source, int n, vector<int>& distance, vector<int>& parent){
+void dijkstra(int source, int n, vector<int>& d, vector<int>& parent){
     for(int i = 1; i <= n; i++){
-        distance[i] = inf;
+        d[i] = inf;
         parent[i] = -1;
     }   
-    distance[source] = 0;
+    d[source] = 0;
     priority_queue<pii, vector<pii>, comp> pq;
     pq.push({source, 0});
     while(!pq.empty()){
-        int u = pq.top().first;
+        int u = pq.top().first, w = pq.top().second;
         pq.pop();
+        if(d[u] < w) continue;
         for(pii v : graph[u]){
-            if(distance[v.first] > distance[u] + v.second){
-                distance[v.first] = distance[u] + v.second;
+            if(d[v.first] > w + v.second){
+                d[v.first] = w + v.second;
                 parent[v.first] = u;
-                pq.push({v.first, distance[v.first]});
+                pq.push({v.first, d[v.first]});
             }
         }
     }
@@ -44,10 +45,10 @@ int main() {
         graph[u].push_back({v, w});
         graph[v].push_back({u, w});
     }
-    vector<int> distance(n+1), parent(n+1);
-    dijkstra(1, n, distance, parent);
+    vector<int> d(n+1), parent(n+1);
+    dijkstra(1, n, d, parent);
     for(int i = 1; i <= n; i++)
-        cout<<"vertex: "<<i<<" distance: "<<distance[i]<<" parent: "<<parent[i]<<endl;
+        cout<<"vertex: "<<i<<" d: "<<d[i]<<" parent: "<<parent[i]<<endl;
 
     return 0;
 }
