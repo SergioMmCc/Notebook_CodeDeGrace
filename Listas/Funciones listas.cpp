@@ -22,7 +22,7 @@ int main() {
     ios_base::sync_with_stdio(0);cin.tie(NULL);
     list <int> lista;
 	lista.push_back(1);
-	len = lista.size();
+	int len = lista.size();
 	list<int>::iterator it1 = lista.begin();
 	list<int>::iterator it2 = lista.end();
 	lista.erase(it1);
