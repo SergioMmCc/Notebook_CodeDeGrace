@@ -62,6 +62,10 @@ void rollback(stack<pair<bool, piii>>& st){
     }
 }
 
+void persist(stack<pair<bool, piii>>& st){
+    st.push({0, {components, {0, 0}}});
+}
+
 void solver(){
     int n, m; cin>>n>>m;
     initDSU(n);
@@ -72,7 +76,7 @@ void solver(){
         // estado del DSU en ese momento. Para hacerlo guardamos en la pila una 
         // operacion de tipo 0 y el numero de componentes que habia en el momento
         // de ese guardado
-        if(op == "persist") st.push({0, {components, {0, 0}}});
+        if(op == "persist") persist(st);
         else if(op == "rollback"){
             rollback(st);
             cout<<components<<endl;
