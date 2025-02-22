@@ -33,7 +33,7 @@ void initDSU(int n){
 
 int find(int u){
     if(leader[u] == u) return u;
-    return find(leader[u]);
+    return find(leader[u]); // Notar que no se esta usando compresion de caminos
 }
 
 void join(int u, int v, stack<change>& st){
