@@ -8,74 +8,71 @@ using ld = long double;
 typedef pair<int, int> pii;
 typedef pair<int, pii> piii;
 
+// Esta implmentacion usando Union-Find es ligeramente mas rapida
 const int maxn = 200005;
 int components;
-vector<int> leader(maxn);
-unordered_set<int> sets[maxn];
+vector<int> leader(maxn), sizen(maxn);
+
+// - op = 0 para decir que llegamos al anterior persist
+// - u es el vertice cuyo lider cambiamos
+// - len es el tamaño del vertice hacia el cual enviamos el componente
+// que lideraba u
+// - from es el vertice que ahora va a liderar a u
+struct change{
+    bool op;
+    int u, len, from;
+};
 
 void initDSU(int n){
     components = n;
     for(int i = 1; i <= n; i++){
         leader[i] = i;
-        sets[i].insert(i);
+        sizen[i] = 1;
     }
 }
 
-void join(int u, int v, stack<pair<bool, piii>>& st){
-    int leaderU = leader[u], leaderV = leader[v];
-    if(leaderU != leaderV){
-        if(sets[leaderV].size() > sets[leaderU].size())
-            swap(leaderU, leaderV);
-        
-        for(int v : sets[leaderV]){
-            leader[v] = leaderU;
-            st.push({1, {v, {leaderV, leaderU}}});
-            // Cada que hacemos algun cambio en el DSU, guardamos en una stack
-            // la informacion sobre ese cambio, asi en caso de que hagamos rollback
-            // podremos devolver cada vertice a su anterior posicion, como si eliminaramos
-            // las aristas agregadas desde la ultima vez que "guardamos" el DSU
-            sets[leaderU].insert(v);
-        }
-        sets[leaderV].clear();
+int find(int u){
+    if(leader[u] == u) return u;
+    return find(leader[u]); // Notar que no se esta usando compresion de caminos
+}
+
+void join(int u, int v, stack<change>& st){
+    u = find(u); v = find(v);
+    if(u != v){
+        if(sizen[v] > sizen[u])
+            swap(u, v);
+        leader[v] = u;
+        st.push({1, v, sizen[u], u});
+        sizen[u] += sizen[v];
         components--;
     }
 }
 
-// EL rollback sirve para devolver el DSU a un estado previo
-void rollback(stack<pair<bool, piii>>& st){
+void rollback(stack<change>& st){
     while(!st.empty()){
-        bool op = st.top().first;
-        int u = st.top().second.first;
-        int to = st.top().second.second.first, from = st.top().second.second.second;
+        bool op = st.top().op;
+        int u = st.top().u;
+        int len = st.top().len, from = st.top().from;
         st.pop();
-        if(!op){
-            // En caso de que op sea 0, quiere decir que llegamos al ultimo
-            // guardado apartir del cual aun no habiamos hecho rollback. Asi
-            // que reestablecemos el numero de componentes y terminamos el ciclo.
-            components = u;
-            break;
-        }
-        // Devolvemos cada vertice a su anterior componente
-        sets[from].erase(u);
-        sets[to].insert(u);
-        leader[u] = to;
+
+        if(!op) break; // Si !op quiere decir que llegamos al anterior persist
+        
+        sizen[from] = len; // Recuperar la talla que tenia from antes del join que estamos eliminando
+        leader[u] = u; // Ahora u vuelve a ser su propio lider, como antes del join
+        components++; // Siempre que deshago una union quiere decir que dividi un componente
     }
 }
 
-void persist(stack<pair<bool, piii>>& st){
-    st.push({0, {components, {0, 0}}});
+void persist(stack<change>& st){
+    st.push({0, 0, 0, 0});
 }
 
 void solver(){
     int n, m; cin>>n>>m;
     initDSU(n);
-    stack<pair<bool, piii>> st;
+    stack<change> st;
     while(m--){
         string op; cin>>op;
-        // Si la operacion dada es "persist", quiere decir que debemos guardar el
-        // estado del DSU en ese momento. Para hacerlo guardamos en la pila una 
-        // operacion de tipo 0 y el numero de componentes que habia en el momento
-        // de ese guardado
         if(op == "persist") persist(st);
         else if(op == "rollback"){
             rollback(st);
