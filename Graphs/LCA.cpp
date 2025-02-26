@@ -15,7 +15,7 @@ using namespace std;
 
 const int MAXT = 1001;
 const int LOG = 12; //El logaritmo base 2 del numero maximo de nodos
-vector<vector<int>> graph(MAXT, vector<int>()), up(MAXT, vector<int>(LOG, 0));
+vector<vector<int>> graph(MAXT, vector<int>()), up(MAXT, vector<int>(LOG, 0)); // up[a][i] guarda el ancestro que está a 2^i distancia de a
 vector<int> depth(MAXT, -1);
 priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
@@ -43,6 +43,7 @@ int LCA (int a, int b) {
     if(depth[a] < depth[b])
         swap(a, b);
     int k = depth[a] - depth[b];
+    // Este ciclo pone a y b en el mismo nivel
     for(int j = LOG - 1; j >= 0; j--) {
         if(k & (1 << j))
             a = up[a][j];
