@@ -19,7 +19,7 @@ vector<vector<int>> graph(MAXT, vector<int>()), up(MAXT, vector<int>(LOG, 0)); /
 vector<int> depth(MAXT, -1);
 priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
-void BFS () {
+void BFS() {
     depth[0] = 0;
     int v;
     pq.push({0, 0});
@@ -68,6 +68,8 @@ int main(){
         graph[u].push_back(v);
         graph[v].push_back(u);
     }
+
+    BFS();
 
     /* Asumiendo que es un grafo conectado y que nuestro 
        nodo raíz es 0, vamos a calcular el LCA de cada par
