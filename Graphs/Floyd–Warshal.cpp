@@ -11,6 +11,7 @@ const int maxn = 501, inf = 2e9;
 int d[maxn][maxn]; // d[i][j] = Longitud de la ruta mas corta desde i hasta j
 
 // Complejidad O(n³)
+// Sirve tanto para grafos dirigidos como no dirigidos
 void floyd(int n){
     for(int k = 1; k <= n; k++){
         for(int i = 1; i <= n; i++){
