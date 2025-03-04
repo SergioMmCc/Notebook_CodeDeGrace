@@ -38,6 +38,7 @@ void solver(){
     // - Si i == j, logicamente la distancia es 0
     // - Si hay una arista entre i y j, la distancia toma ese valor
     // - De lo contrario inicializamos la distancia como infinito
+    // Cambiar en caso de grafo dirigido
     for(int i = 1; i < n; i++){
         for(int j = i + 1; j <= n; j++){
             d[i][j] = d[j][i] = inf;
