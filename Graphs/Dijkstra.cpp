@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl '\n'
-#define MAXN 100000
+using ll = long long;
 
+const int maxn = 1e5 + 1;
 long long const inf = 2e9;
-
 typedef pair<int, int> pii;
-vector<pii> graph[MAXN+1];
+vector<pii> graph[maxn];
 
 struct comp{
     bool operator() (pii a, pii b){
