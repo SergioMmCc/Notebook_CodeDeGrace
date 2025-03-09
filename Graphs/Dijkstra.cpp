@@ -1,11 +1,13 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 #define endl '\n'
 using ll = long long;
-
-const int maxn = 1e5 + 1;
-long long const inf = 2e9;
+using ld = long double;
+#define pb push_back
+#define sz size()
 typedef pair<int, int> pii;
+
+const int maxn = 1e5 + 1, inf = 1e9;
 vector<pii> graph[maxn];
 
 struct comp{
@@ -14,6 +16,7 @@ struct comp{
     }
 };
 
+// Complejidad O(m*log(n))
 void dijkstra(int source, int n, vector<int>& d, vector<int>& parent){
     for(int i = 1; i <= n; i++){
         d[i] = inf;
@@ -36,9 +39,8 @@ void dijkstra(int source, int n, vector<int>& d, vector<int>& parent){
     }
 }
 
-int main() {
-    ios_base::sync_with_stdio(0);cin.tie(NULL);
-    int n, m;cin>>n>>m;
+void solver(){
+    int n, m, s; cin>>n>>m>>s;
     for(int i = 0; i < m; i++){
         int u, v, w;
         cin>>u>>v>>w;
@@ -46,9 +48,18 @@ int main() {
         graph[v].push_back({u, w});
     }
     vector<int> d(n+1), parent(n+1);
-    dijkstra(1, n, d, parent);
+    dijkstra(s, n, d, parent);
     for(int i = 1; i <= n; i++)
         cout<<"vertex: "<<i<<" d: "<<d[i]<<" parent: "<<parent[i]<<endl;
+}
+
+int main() {
+    ios_base::sync_with_stdio(0);cin.tie(NULL);
+    int t = 1;
+    // cin>>t;
+    while(t--){
+        solver();
+    }
 
     return 0;
 }
