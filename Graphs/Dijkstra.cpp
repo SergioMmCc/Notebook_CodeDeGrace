@@ -53,7 +53,7 @@ void solver(){
         cout<<"vertex: "<<i<<" d: "<<d[i]<<" parent: "<<parent[i]<<endl;
 }
 
-int main() {
+int main(){
     ios_base::sync_with_stdio(0);cin.tie(NULL);
     int t = 1;
     // cin>>t;
