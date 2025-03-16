@@ -26,15 +26,60 @@ void dijkstra(int source, int n, vector<int>& d, vector<int>& parent){
     priority_queue<pii, vector<pii>, comp> pq;
     pq.push({source, 0});
     while(!pq.empty()){
-        int u = pq.top().first, w = pq.top().second;
+        int u = pq.top().first, w1 = pq.top().second;
         pq.pop();
-        if(d[u] < w) continue;
-        for(pii v : graph[u]){
-            if(d[v.first] > w + v.second){
-                d[v.first] = w + v.second;
-                parent[v.first] = u;
-                pq.push({v.first, d[v.first]});
+        if(d[u] < w1) continue;
+        for(pii edge : graph[u]){
+            int v = edge.first, w2 = edge.second;
+            if(d[v] > w1 + w2){
+                d[v] = w1 + w2;
+                parent[v] = u;
+                pq.push({v, d[v]});
             }
+        }
+    }
+}
+
+/*  
+    Para saber si una arista puede estar en un camino más corto desde s hasta t
+    podemos hacer un dijsktra desde s y desde t, despues recorrer cada arista u, v
+    y revisar si la distancia de s hasta u, mas la distancia de t hasta v, (o la
+    distancia desde s hasta v mas la distancia desde t hasta u si el grafo es no
+    dirigido) mas el peso de esa arista es igual a la distancia desde s hasta t, 
+    en caso de que si, quiere decir que esa arista puede hacer parte de un camino
+    más corto desde s hasta t.
+    También se puede hacer para grafos dirigidos. En ese caso, el dijkstra desde t
+    tiene que hacerse inviertiendo todas las aristas del grafo. 
+*/
+
+/*  
+    Para saber si una arista está en todos los caminos más cortos desde s hasta t
+    (que para llegar de s hasta t de la manera mas eficiente posible si o si tengo
+    que pasar por cierta arista) podemos armar un grafo auxiliar con las aristas
+    que pueden estar en un camino mas corto de s hasta t. Lo podemos armar como si
+    fuera un grafo dirigido teniendo en cuenta la distancia de s a los vertices u y
+    v de la arista. Despues recorremos el grafo con un BFS de la siguiente manera: 
+*/
+
+void BFS(int s, int t, int n, vector<bool>& ans, map<piil, int>& edges, vector<vector<pil>>& graph, vector<int>& inDegree){
+    // ans está inicializado con 0s
+    vector<bool> visited(n+1); visited[s] = 1;
+    queue<int> q; q.push(s);
+    int roads = 1;
+    while(!q.empty()){
+        int u = q.front(); q.pop();
+        if(u != t) roads += graph[u].sz - 1; // Aumentamos roads con el numero de salidas de u, - 1
+        for(pil edge : graph[u]){
+            int v = edge.first; ll w = edge.second;
+            int index = edges[{{u, v}, w}]; // Para acceder al indice de la arista;
+                                            // tener cuidado por si la arista en el grafo fuera (v, u) en lugar de (u, v)
+            if(roads == 1) ans[index] = 1; // Si roads es 1, esa arista está en todos los caminos más cortos de s a t
+
+            // Despues de visitar v por primera vez, cada que lo vuelva a visitar disminuyo roads
+            if(visited[v]) roads--;
+            visited[v] = 1; // Marco que ya lo visite por si es la primera vez
+            inDegree[v]--; // Resto su número de aristas de entrada
+            if(!inDegree[v]) q.push(v); // Cuando he visitado la ultima arista que entra en v, lo meto en la cola
         }
     }
 }

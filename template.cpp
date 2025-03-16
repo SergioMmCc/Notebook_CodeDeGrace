@@ -5,6 +5,8 @@ using ll = long long;
 using ld = long double;
 #define pb push_back
 #define sz size()
+#define fi first
+#define se second
 typedef pair<int, int> pii;
 
 void solver(){
