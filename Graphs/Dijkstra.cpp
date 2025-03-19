@@ -17,7 +17,7 @@ struct comp{
     }
 };
 
-// Complejidad O(m*log(m))
+// Complejidad O(m*log(n))
 void dijkstra(int source, int n, vector<ll>& d, vector<int>& parent){
     for(int i = 1; i <= n; i++){
         d[i] = inf;
@@ -57,7 +57,7 @@ void dijkstra(int source, int n, vector<ll>& d, vector<int>& parent){
     de v y ponemos esta nueva distancia, ademas de agregarla a la cola de prioridad del
     dijkstra.
 
-    La complejidad es O(m*k*log(m*k)), por lo tanto m*k debe ser pequeño.
+    La complejidad es O(m*k*log(n*k)), por lo tanto m*k debe ser pequeño.
     Link de un ejercicio: https://cses.fi/problemset/task/1196/
 */
 
