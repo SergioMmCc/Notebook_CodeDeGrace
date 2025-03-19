@@ -5,32 +5,33 @@ using ll = long long;
 using ld = long double;
 #define pb push_back
 #define sz size()
-typedef pair<int, int> pii;
+typedef pair<int, ll> pil;
 
-const int maxn = 1e5 + 1, inf = 1e9;
-vector<pii> graph[maxn];
+const int maxn = 1e5 + 1;
+const ll inf = 1e15;
+vector<vector<pil>> graph(maxn);
 
 struct comp{
-    bool operator() (pii a, pii b){
+    bool operator() (pil a, pil b){
         return a.second > b.second;
     }
 };
 
 // Complejidad O(m*log(n))
-void dijkstra(int source, int n, vector<int>& d, vector<int>& parent){
+void dijkstra(int source, int n, vector<ll>& d, vector<int>& parent){
     for(int i = 1; i <= n; i++){
         d[i] = inf;
         parent[i] = -1;
     }   
     d[source] = 0;
-    priority_queue<pii, vector<pii>, comp> pq;
+    priority_queue<pil, vector<pil>, comp> pq;
     pq.push({source, 0});
     while(!pq.empty()){
-        int u = pq.top().first, w1 = pq.top().second;
+        int u = pq.top().first; ll w1 = pq.top().second;
         pq.pop();
         if(d[u] < w1) continue;
-        for(pii edge : graph[u]){
-            int v = edge.first, w2 = edge.second;
+        for(pil edge : graph[u]){
+            int v = edge.first; ll w2 = edge.second;
             if(d[v] > w1 + w2){
                 d[v] = w1 + w2;
                 parent[v] = u;
@@ -61,7 +62,7 @@ void dijkstra(int source, int n, vector<int>& d, vector<int>& parent){
     v de la arista. Despues recorremos el grafo con un BFS de la siguiente manera: 
 */
 
-void BFS(int s, int t, int n, vector<bool>& ans, map<piil, int>& edges, vector<vector<pil>>& graph, vector<int>& inDegree){
+void BFS(int s, int t, int n, vector<bool>& ans, map<pill, int>& edges, vector<vector<pil>>& graph, vector<int>& inDegree){
     // ans está inicializado con 0s
     vector<bool> visited(n+1); visited[s] = 1;
     queue<int> q; q.push(s);
@@ -92,7 +93,8 @@ void solver(){
         graph[u].push_back({v, w});
         graph[v].push_back({u, w});
     }
-    vector<int> d(n+1), parent(n+1);
+    vector<ll> d(n+1);
+    vector<int> parent(n+1);
     dijkstra(s, n, d, parent);
     for(int i = 1; i <= n; i++)
         cout<<"vertex: "<<i<<" d: "<<d[i]<<" parent: "<<parent[i]<<endl;
