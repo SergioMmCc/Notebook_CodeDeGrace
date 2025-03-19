@@ -42,6 +42,11 @@ void dijkstra(int source, int n, vector<ll>& d, vector<int>& parent){
 }
 
 // Algunas aplicaciones:
+/*
+    Tambien sirve para grafos con pesos negativos siempre y cuando no haya ciclos 
+    negativos, en ese caso usar Bellman-Ford
+*/
+
 /* 
     Para saber las k menores distancias desde s hasta t (usando k caminos diferentes)
     podemos modificar el vector de distancias, haciendo que sea un vector de colas de 
