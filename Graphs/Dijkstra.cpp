@@ -17,7 +17,7 @@ struct comp{
     }
 };
 
-// Complejidad O(m*log(n))
+// Complejidad O(m*log(m))
 void dijkstra(int source, int n, vector<ll>& d, vector<int>& parent){
     for(int i = 1; i <= n; i++){
         d[i] = inf;
@@ -40,6 +40,26 @@ void dijkstra(int source, int n, vector<ll>& d, vector<int>& parent){
         }
     }
 }
+
+// Algunas aplicaciones:
+/* 
+    Para saber las k menores distancias desde s hasta t (usando k caminos diferentes)
+    podemos modificar el vector de distancias, haciendo que sea un vector de colas de 
+    prioridad. Asi cuando llegamos para cada nodo almacenamos las k distancias menores.
+    Entonces cuando sacamos un nodo u de la cola de prioridad del dijkstra, verificamos
+    si su peso mayor en su cola de prioridad es menor que el que estamos analizando en
+    el momento, en caso de que si, continuamos con la siguiente iteracion. Luego, para
+    cada nodo adyacente v, verificamos si este aun no tiene k elementos en su cola de 
+    prioridad y agregamos el nuevo peso tanto en su cola de prioridad como en la del
+    dijkstra. En caso de que si tenga k elementos, verificamos si la distancia w1 mas
+    el peso de la arista que estamos analizando es menor que el valor mayor de la cola
+    de prioridad de v, en caso de que si, sacamos el valor mayor de la cola de prioridad
+    de v y ponemos esta nueva distancia, ademas de agregarla a la cola de prioridad del
+    dijkstra.
+
+    La complejidad es O(m*k*log(m*k)), por lo tanto m*k debe ser pequeño.
+    Link de un ejercicio: https://cses.fi/problemset/task/1196/
+*/
 
 /*  
     Para saber si una arista puede estar en un camino más corto desde s hasta t
