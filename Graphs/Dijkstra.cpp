@@ -44,7 +44,8 @@ void dijkstra(int source, int n, vector<ll>& d, vector<int>& parent){
 // Algunas aplicaciones:
 /*
     Tambien sirve para grafos con pesos negativos siempre y cuando no haya ciclos 
-    negativos, en ese caso usar Bellman-Ford
+    negativos, en ese caso usar Bellman-Ford. Cabe resaltar que si el grafo es 
+    grande, es propenso a dar TLE.
 */
 
 /* 
@@ -58,12 +59,39 @@ void dijkstra(int source, int n, vector<ll>& d, vector<int>& parent){
     prioridad y agregamos el nuevo peso tanto en su cola de prioridad como en la del
     dijkstra. En caso de que si tenga k elementos, verificamos si la distancia w1 mas
     el peso de la arista que estamos analizando es menor que el valor mayor de la cola
-    de prioridad de v, en caso de que si, sacamos el valor mayor de la cola de prioridad
+    de prioridad de v, en caso de que si, s acamos el valor mayor de la cola de prioridad
     de v y ponemos esta nueva distancia, ademas de agregarla a la cola de prioridad del
     dijkstra.
 
     La complejidad es O(m*k*log(n*k)), por lo tanto m*k debe ser pequeño.
     Link de un ejercicio: https://cses.fi/problemset/task/1196/
+*/
+
+/*
+    Podemos hallar el potencial de un grafo:
+    En caso de que el grafo tenga pesos negativos, podemos hallar una funcion p dado que
+    para cada arista (u -> v), w(u -> v) + p[u] - p[v] >= 0.
+    La podemos hallar creando un nuevo vertice s y aristas que vayan desde s hacia todos
+    los vertices del grafo con peso 0. Entonces corremos dijkstra desde ese vertice y las
+    distancias desde s hacia cada vertice seran los valores de la funcion p (todos estos 
+    seran <= 0). Ahora lo que hacemos es reemplazar el peso w de cada arista u -> v 
+    por w + p[u] - p[v]. Basicamente la idea consiste en que a cada arista que salga desde
+    u le vamos a sumar p[u] y a cada arista que llegue a u le vamos a restar p[u].
+    Si bien la funcion potencial esta pensada para utilizarla en el algoritmo de Jhonson y 
+    para min cost max flow, tambien se puede utilizar para mejorar la complejidad del dijkstra 
+    en algunos casos especificos. Logicamente no tiene sentido pensar en optimizar el dijkstra
+    utilizando la funcion potencial, la cual es calculada usando el dijkstra, sin embargo en
+    algunos ejercicios podemos darnos cuenta de que se puede calcular una funcion p valida
+    sin necesidad de correr ningun algoritmo, en tal caso, ya podriamos hacer un dijkstra
+    sobre un grafo sin pesos negativos, lo cual sera mucho mas eficiente. 
+    Ejercicio ejemplo: https://codeforces.com/contest/1627/problem/E
+    Ahora, para saber la distancia desde u hasta v, usando los pesos del grafo original,
+    corremos el dijkstra desde u y la respuesta es d[v] - p[u] + p[v], debido a que a cada
+    vertice x intermedio le sumamos p[x] al llegar y le restamos p[x] al salir, pero en ningun
+    momento le habiamos restado p[u], debido a que partimos desde ahi, y tampoco habiamos sumado
+    p[v], debido a que nunca salimos de ahi.
+    
+    Source: https://codeforces.com/blog/entry/95823
 */
 
 /*  
@@ -113,7 +141,7 @@ void BFS(int s, int t, int n, vector<bool>& ans, map<pill, int>& edges, vector<v
 void solver(){
     int n, m, s; cin>>n>>m>>s;
     for(int i = 0; i < m; i++){
-        int u, v, w;
+        int u, v; ll w;
         cin>>u>>v>>w;
         graph[u].push_back({v, w});
         graph[v].push_back({u, w});
