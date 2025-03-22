@@ -22,7 +22,12 @@ const ll inf = 1e15;
     En caso de que haya un ciclo negativo alcanzable desde s, permite saberlo
 
     Para saber si el grafo tiene algun ciclo negativo no necesariamente alcanzable desde un vertice s, 
-    podemos inicializar todas las distancias en 0 y el proceso es el mismo
+    podemos inicializar todas las distancias en 0 y el proceso es el mismo.
+    Si queremos saber el camino de alguno de esos ciclos negativos que hayan en el grafo, retornamos algun
+    vertice que en la ultima ronda haya sufrido una reduccion en su distancia, luego viajamos hacia su padre 
+    n veces (esto porque puede ser que el vertice que sufrio una reduccion no este dentro del ciclo sino 
+    despues de uno), despues recorremos un camino desde ese vertice yendo a sus antecesores hasta que 
+    volvamos a llegar al vertice de inicio y finalmente invertinos ese recorrido.
 
     Para saber si hay un ciclo negativo en algun camino desde s hasta t, podemos correr el Bellman-Ford, 
     marcar los vertices para los cuales puede haber una mejora en la n-esima ronda (lo cual quiere decir que
