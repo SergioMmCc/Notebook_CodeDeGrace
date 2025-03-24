@@ -9,7 +9,7 @@ typedef pair<int, int> pii;
 
 // Estructura para almacenar todas las aristas
 struct edge {
-    int u, v, w;
+    int u, v; ll w;
 
     // Ordenar las aristas por el menor peso
     bool operator<(const edge& that) const {
@@ -56,7 +56,7 @@ ll kruskal(vector<edge>& edges, int n){
     initDSU(n);
 
     for(int i = 0; i < edges.sz; i++){
-        int u = edges[i].u, v = edges[i].v, w = edges[i].w;
+        int u = edges[i].u, v = edges[i].v; ll w = edges[i].w;
         if(find(u) != find(v)){
             total += w;
             join(u, v);
@@ -70,7 +70,7 @@ void solver(){
     int n, m; cin>>n>>m;
     vector<edge> edges;
     for(int i = 0; i < m; i++){
-        int u, v, w; cin>>u>>v>>w;
+        int u, v; ll w; cin>>u>>v>>w;
         edge newEdge; newEdge.w = w, newEdge.u = u, newEdge.v = v;
         edges.pb(newEdge);
     }

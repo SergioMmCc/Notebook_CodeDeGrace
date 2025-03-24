@@ -103,7 +103,9 @@ void dijkstra(int source, int n, vector<ll>& d, vector<int>& parent){
     en caso de que si, quiere decir que esa arista puede hacer parte de un camino
     más corto desde s hasta t.
     También se puede hacer para grafos dirigidos. En ese caso, el dijkstra desde t
-    tiene que hacerse inviertiendo todas las aristas del grafo. 
+    tiene que hacerse inviertiendo todas las aristas del grafo.
+    Si armamos un grafo con las aristas que puedan estar en un camino mas corto de
+    s hasta t, obtendriamos un DAG (Directed Acyclic Graph).
 */
 
 /*  

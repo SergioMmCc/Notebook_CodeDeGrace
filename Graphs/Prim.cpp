@@ -29,6 +29,7 @@ void prim(int source, int n, vector<int>& distance, vector<int>& parent){
     while(!pq.empty()){
         int u = pq.top().first;
         pq.pop();
+        if(!inQueue[u]) continue;
         inQueue[u] = 0;
         for(pii v : graph[u]){
             if(inQueue[v.first] && distance[v.first] > v.second){
