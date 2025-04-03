@@ -4,7 +4,6 @@ using namespace std;
 
 const int maxn = 200005;
 int components;
-vector<int> graph[maxn];
 vector<int> leader(maxn);
 vector<int> sets[maxn];
 
@@ -38,8 +37,6 @@ int main(){
     initDSU(n); //Inicializar DSU
     for(int i = 0; i < m; i++){
         int u, v;cin>>u>>v;
-        graph[u].push_back(v);
-        graph[v].push_back(u);
         join(u, v); //Unir vertice u con v
     }
     cout<<components<<endl;

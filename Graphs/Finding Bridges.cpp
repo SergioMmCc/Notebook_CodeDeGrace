@@ -25,6 +25,7 @@ void DFS(int u, int prev){
             continue;
         }
         sons[u].pb(v);
+        used.insert({u, v});
         father[v] = u;
         DFS(v, u);
     }
@@ -44,6 +45,10 @@ void solver(){
     }
 
     // 1 es la raiz en este caso
+    // Tener en cuenta que si el grafo no es conexo y se quieren hallar puentes
+    // en algun componente, tocaria lanzar un DFS para cada componente y en la
+    // iteracion final saltarse todos los vertices desde los cuales se lanzo algun
+    // DFS
     DFS(1, -1); // Crear DFS tree
     calc(1); // Calcular el dp
 
