@@ -71,7 +71,7 @@ int main (){
     //Actualizaciones (el primer valor siempre debe ser 1)
     st.rangeSet(1, a[0], 1, 5); /*En este caso pondriamos el valor de a[0] en
                                   cada uno de los elementos del array del 
-                                  segment tree desde 1 hast 5*/
+                                  segment tree desde 1 hasta 5*/
     
     //Para actualizar un solo valor
     st.rangeSet(1, 5, 3, 3); /*El limite inferior y superior son el mismo, entonces
