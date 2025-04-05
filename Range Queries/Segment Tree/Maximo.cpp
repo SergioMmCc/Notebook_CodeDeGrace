@@ -49,7 +49,7 @@ int main(){
     vector<int> a;
     for(int i = 0; i < n; i++){
         int save; cin>>save;
-        a.push_back(save);
+        a.pb(save);
     }
     buildTree(a);
     

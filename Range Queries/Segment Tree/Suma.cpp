@@ -14,6 +14,11 @@ vector<ll> tree(2 * maxn + 1);
 int n;
 
 // 0-index
+/*
+    Tambien podemos calcular multiplicaciones (incluyendo multiplicacion modular y
+    multiplicacion de matrices), operaciones bitwise como and (&), or (|) y xor (^),
+    gcd y cualquier operacion que cumpla con la propiedad asociativa
+*/
 void buildTree(vector<ll>& a){
     for (int i = 0; i < n; i++) tree[i + n] = a[i];
     for (int i = n - 1; i > 0; --i) tree[i] = tree[i << 1] + tree[(i << 1) ^ 1];
@@ -46,7 +51,7 @@ int main(){
     vector<ll> a;
     for(int i = 0; i < n; i++){
         ll save; cin>>save;
-        a.push_back(save);
+        a.pb(save);
     }
     buildTree(a);
     
