@@ -7,8 +7,8 @@ const ll mod = 1e9 + 7;
 
 ll myPow(ll b, ll e){
     ll result = 1;
-    while (e > 0) {
-        if (e % 2 == 1)
+    while(e > 0){
+        if(e % 2 == 1)
             result = ((b % mod) * (result % mod)) % mod;
         b = ((b % mod) * (b % mod)) % mod;
         e /= 2;
@@ -16,7 +16,7 @@ ll myPow(ll b, ll e){
     return result;
 }
 
-int main() {
+int main(){
     ll b, e, result;
     cin >> b >> e;
     result = myPow(b, e);

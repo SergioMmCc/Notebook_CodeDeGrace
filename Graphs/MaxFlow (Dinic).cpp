@@ -1,21 +1,3 @@
-// Aplicado en grafos de flujo dirigidos con capacidades en las aristas
-// Complejidad O(v^2 * E)
-// Para grafos con capacidades unitarias o en redes densas O(sqrt(V) * E)
-
-/* Otra aplicacion: Minimum vertex cut
-   Para hallar el minimum vertex cut tendriamos que llamar Dinic con 2*n + 2
-   y añadir una arista entre cada 2*i y 2*i + 1 con capacidad de 1, para
-   0 <= i < n. Despues se agregan aristas con capacidad 1 según las condiciones
-   del ejercicio o del grafo original. Si buscamos añadir una arista desde un
-   vertice u hasta un vertice v, usamos: graph.addEdge(2*u + 1, 2*v, 1).
-   Despues agregamos aristas desde el nodo 2*n hacia todos los nodos iniciales
-   y desde todos los nodos finales hacia el nodo 2*n + 1.
-   Finalmente, usamos graph.calc(2*n, 2*n + 1), para hallar el maximo flujo
-   desde 2*n (que cumple la funcion de source-fuente), hasta 2*n + 1 (que cumple
-   la funcion de sink-sumidero). El valor del maximo flujo corresponde al valor
-   del minimum vertex cut. */
-
-
 #include <bits/stdc++.h>
 using namespace std;
 #define endl '\n'
@@ -30,6 +12,27 @@ struct comp{
         return a.second < b.second;
     }
 };
+
+
+
+// Aplicado en grafos de flujo dirigidos con capacidades en las aristas
+// Complejidad O(v^2 * E)
+// Para grafos con capacidades unitarias o en redes densas O(sqrt(V) * E)
+
+/* 
+	Otra aplicacion: Minimum vertex cut
+   Para hallar el minimum vertex cut tendriamos que llamar Dinic con 2*n + 2
+   y añadir una arista entre cada 2*i y 2*i + 1 con capacidad de 1, para
+   0 <= i < n. Despues se agregan aristas con capacidad 1 según las condiciones
+   del ejercicio o del grafo original. Si buscamos añadir una arista desde un
+   vertice u hasta un vertice v, usamos: graph.addEdge(2*u + 1, 2*v, 1).
+   Despues agregamos aristas desde el nodo 2*n hacia todos los nodos iniciales
+   y desde todos los nodos finales hacia el nodo 2*n + 1.
+   Finalmente, usamos graph.calc(2*n, 2*n + 1), para hallar el maximo flujo
+   desde 2*n (que cumple la funcion de source-fuente), hasta 2*n + 1 (que cumple
+   la funcion de sink-sumidero). El valor del maximo flujo corresponde al valor
+   del minimum vertex cut. 
+*/
 
 struct Dinic {
 	struct Edge {

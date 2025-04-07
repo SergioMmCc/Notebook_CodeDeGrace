@@ -2,7 +2,7 @@
 using namespace std;
 #define endl '\n'
 
-// n veritces
+// n vertices
 // Complejidad: O(v * e)
 
 int n;

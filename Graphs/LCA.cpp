@@ -1,3 +1,14 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define endl '\n'
+
+const int MAXT = 1001;
+const int LOG = 12; //El logaritmo base 2 del numero maximo de nodos
+vector<vector<int>> graph(MAXT, vector<int>()), up(MAXT, vector<int>(LOG, 0)); // up[a][i] guarda el ancestro que está a 2^i distancia de a
+vector<int> depth(MAXT, -1);
+priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+
+
 /* Este algoritmo sirve para calcular el minimo ancestro
    comun (Lowest Common Ancestor) entre dos nodos especificos.
    Cada query tiene una complejidad de 0(lg(n)), siendo n
@@ -8,16 +19,6 @@
    llegar al nodo raíz, esto se calcula mediante un BFS. */
 
 // Esta implementación sirve para grafos no dirigidos
-
-#include <bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-
-const int MAXT = 1001;
-const int LOG = 12; //El logaritmo base 2 del numero maximo de nodos
-vector<vector<int>> graph(MAXT, vector<int>()), up(MAXT, vector<int>(LOG, 0)); // up[a][i] guarda el ancestro que está a 2^i distancia de a
-vector<int> depth(MAXT, -1);
-priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
 void BFS() {
     depth[0] = 0;
