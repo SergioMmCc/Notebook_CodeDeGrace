@@ -145,8 +145,8 @@ void solver(){
     for(int i = 0; i < m; i++){
         int u, v; ll w;
         cin>>u>>v>>w;
-        graph[u].push_back({v, w});
-        graph[v].push_back({u, w});
+        graph[u].pb({v, w});
+        graph[v].pb({u, w});
     }
     vector<ll> d(n+1);
     vector<int> parent(n+1);
