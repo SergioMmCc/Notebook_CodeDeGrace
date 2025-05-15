@@ -2,7 +2,7 @@
 using namespace std;
 #define endl '\n'
 using ll = long long;
-const int limite = 10001000;
+const int limite = 10001000; // Hasta este numero hay un poco mas de 6e5 primos
 
 vector<bool> esPrimo(limite + 1, 1);
 
