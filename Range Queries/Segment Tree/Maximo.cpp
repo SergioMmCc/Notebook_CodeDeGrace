@@ -14,7 +14,7 @@ const int maxn = 100001, ninf = -1e9;
 /* 
     Para minimo simplemente cambiar los max por min y cambiar el ninf por inf
 */
-vector<int> tree(2*maxn);
+vector<int> tree(4*maxn);
 int n;
 
 void buildTree(vector<int>& a){

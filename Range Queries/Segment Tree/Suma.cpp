@@ -10,7 +10,7 @@ using ld = long double;
 typedef pair<int, int> pii;
 const int maxn = 100001;
 
-vector<ll> tree(2 * maxn + 1);
+vector<ll> tree(4 * maxn + 1);
 int n;
 
 // 0-index
