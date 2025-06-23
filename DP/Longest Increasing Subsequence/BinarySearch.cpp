@@ -24,6 +24,18 @@ const int inf = 1e9 + 1;
 //   equivalente al tamaño de la Longest Non-Increasing Subsequence.
 //   Es decir, el mayor tamaño de array a, donde para cada 
 //   i < j, a[i] >= a[j]
+// - Si me piden la mayor subsecuencia de numeros consecutivos, se 
+//   se puede usar un enfoque con sets o mapas, en el que se guarde 
+//   cada valor en donde termina una subsecuencia consecutiva, y el
+//   tamaño de esta. Entonces cada que queramos agregar un valor x,
+//   buscamos si existe una subsecuencia que termine en el x - 1,
+//   con longitud l, en caso de que si la eliminamos y agregamos una
+//   nueva subsecuencia que termina en x con longitud l + 1. Finalmente,
+//   recorremos todas las subsecuencias guardadas en el set o map y nos
+//   quedamos con la que tenga mayor longitud. Para reconstruir los 
+//   indices podemos encontrar la ultima ubicacion del numero mayor x de 
+//   subsecuencia mas larga y recorrer hacia la izquierda buscando x-1,
+//   despues x-2, hasta llegar a x - l + 1.
 
 void solver(){
     int n; cin>>n;
