@@ -57,6 +57,7 @@ def main ():
     # Metodos de listas (list)
     # Resaltar que una sola lista puede contener varios tipos de datos, incluida otra lista
     lista = [1, "dos", [3, "cuatro"], 5.0, True] # Declarar
+    n = lista[i] # Sirve para acceder al elemento i de una lista
     lista.append(6) # Agregar un elemento
     lista.remove('dos') # Eliminar un elemento
     lista.sort() # Ordenar
