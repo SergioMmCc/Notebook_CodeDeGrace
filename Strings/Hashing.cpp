@@ -1,5 +1,16 @@
+// Algunas notas:
+// - Usar Hashing en codeforces puede ser peligroso debido al hacking
+// - La probabilidad de que 2 cadenas tengan el mismo hashing es de n / m
+//   siendo n la longitud de la cadena mas larga
+// - Si tengo un conjunto de hashes de k cadenas con longitud de maximo n,
+//   la probabilidad de que 2 cadenas tengan igual hash es de (k^2 * n) / m
+//   Por ende, si k y n son de alrededor de 1e5 y m alrededor de 1e9, es 
+//   casi seguro que habra colisiones. Una forma de solucionarlo puede ser 
+//   un primo m mas largo, como 2^61 - 1 y usar enteros de 128 bits para las
+//   multiplicaciones, aunque ahora el hashing y las queries serian un poco
+//   mas lentas.
+
 // Halla el hashing de una cadena en 0(n)
-// La probabilidad de fallar es q / B, siendo q el numero de comparaciones
 ll compute_hash(string s){
     ll p = 31; // Si s se compone de lowercase english letters
     // ll p = 53; // Si s se compone de lowercase y uppercase english letters
@@ -38,6 +49,7 @@ void precalc_hashing(string s, vector<ll>& h, vector<ll>& ph){
 }
 
 ll queries(ll l, ll r, vector<ll>& h, vector<ll>& ph){
+    ll m = 1000000009;
     if(!l) return h[r];
-    return (h[r] - h[l-1] * ph[r-l+1]) % (1000000009LL); // Si cambio el valor del modulo, tambien cambiarlo aca
+    return (h[r] - ((h[l-1] * ph[r-l+1]) % m) + m) % m;
 }
