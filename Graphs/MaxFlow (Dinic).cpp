@@ -85,6 +85,19 @@ int main() {
     graph.addEdge(s, d, c); //Agregar una arista desde s hasta d con capacidad c
     
     graph.calc(source, sink); //Maximo flujo desde source hast sink
+
+	// Para reconstruir el flujo enviado por cuales aristas
+	for(int u = 0; u < N; ++u) {
+		for(auto &e : graph.adj[u]) {
+			int v = e.to;
+			ll f = e.flow(); // f = flujo enviado desde u a v
+
+			// Mostrar solo aristas "reales" (no las de retroceso)
+			if (f > 0 && e.oc > 0) {
+				cout << "Flujo de " << u << " a " << v << ": " << f << endl;
+			}
+		}
+	}
  
     return 0;
 }
