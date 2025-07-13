@@ -8,7 +8,7 @@ const long double pi = 3.141592654;
 
 /* Como calcular el seno de un ángulo utilizando
    la serie de Taylor */
-long double ssin(long double x) {
+long double ssin(long double x){ // Radianes
 	int n = 20;
 	long double sign = 1, factorial = 1, xp = x;
 	long double ans = x;
@@ -23,11 +23,11 @@ long double ssin(long double x) {
 
 /* Como calcular el coseno de un ángulo utilizando
    la serie de Taylor */
-long double ccos(long double x) {
+long double ccos(long double x){ // Radianes
     int n = 20;
     long double sign = 1, factorial = 1, xp = 1;
     long double ans = 1;
-    for(int i = 1; i <= n; i++) {
+    for(int i = 1; i <= n; i++){
         sign *= -1;
         factorial *= (2*i - 1) * (2*i);
         xp *= x * x;
