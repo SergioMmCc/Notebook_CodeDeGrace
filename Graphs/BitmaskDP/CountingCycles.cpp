@@ -12,6 +12,7 @@ typedef pair<int, int> pii;
 const int maxn = 20;
 vector<vector<int>> graph(maxn);
 
+// Complejidad O(2 ^ n * n ^ 2)
 void solver(){
     int n, m; cin>>n>>m;
     for(int i = 0; i < m; i++){
