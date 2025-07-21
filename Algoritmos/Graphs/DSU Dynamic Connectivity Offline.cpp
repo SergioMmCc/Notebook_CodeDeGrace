@@ -74,7 +74,7 @@ void persist(){
 // se agrega la arista hasta que se elimina (en caso de que alguna 
 // arista no sea eliminada en ningun momento, asignaremos su valor r
 // como m + 1 en 1-index o m en 0-index). Y cada operacion del tipo
-// get va a tenr un tiempo t. Para resolver el problema vamos a dividir
+// get va a tener un tiempo t. Para resolver el problema vamos a dividir
 // cada segmento en mitades hasta que lleguemos a un segmento de tamaño
 // 1, en ese caso vamos a revisar cuales queries get coinciden con el
 // valor del rango y las vamos a responder. Cada que ingresamos a un
