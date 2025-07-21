@@ -7,6 +7,11 @@ int components;
 vector<int> graph[maxn];
 vector<int> leader(maxn), sizen(maxn);
 
+// Usando compresion de caminos y union by rank la complejidad se ve reducida a la inversa 
+// de Ackermann (casi tiempo constante)
+// Si utilizamos compresion de caminos sin union by rank, la complejidad promedio es O(lgn)
+// Lo he testeado para bosques sin union by rank y no hay problemas con el tiempo, no estoy
+// seguro para cualquier tipo de grafo
 void initDSU(int n){
     components = n;
     for(int i = 1; i <= n; i++){
