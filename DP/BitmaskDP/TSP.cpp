@@ -27,7 +27,8 @@ typedef pair<int, int> pii;
     - Para hallar el ciclo hamiltoniano mas corto, podemos elegir el vertice
       0 como inicial y marcar dp[i][1<<i] = distancia(0, i) para cada vertice 
       entre 1 y n-1 (dejamos dp[0][1] = inf) y luego correr el algoritmo 
-      obligando que el vertice 0 sea el vertice final
+      obligando que el vertice 0 sea el vertice final (tener cuidado con el
+      caso donde solo hay un vertice, donde la respuesta es 0).
 */
 
 const int maxn = 20, inf = 1e9;
