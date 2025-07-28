@@ -26,6 +26,11 @@ vector<vector<int>> graph(20);
 //   estado cuyo subconjunto contenga 2 o mas vertices y finalmente
 //   dividimos la respuesta entre 2 ya que de esa forma se esta
 //   contando 2 veces cada camino (en ambas direcciones)
+// - Para contar la cantidad de ciclos hamiltonianos que tiene un grafo
+//   podemos marcar algun nodo en especifico como inicial, por ejemplo
+//   el 0 y contar todos los caminos hamiltonianos que empiezan en ese 
+//   nodo. Finalmente, para cada 1 <= i < n, si hay una arista que 
+//   conecte i con 0, sumamos dp[i][lim-1].
 
 // Complejidad: O(2^n * n^2)
 void solver(){
