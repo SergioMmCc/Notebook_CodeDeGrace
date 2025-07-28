@@ -25,10 +25,9 @@ typedef pair<int, int> pii;
       y que solo sea valida cuando el vertice final sea n-1, es decir, 
       dp[n-1][lim-1].
     - Para hallar el ciclo hamiltoniano mas corto, podemos elegir el vertice
-      0 como inicial y marcar dp[i][1<<i] = distancia(0, i) para cada vertice 
-      entre 1 y n-1 (dejamos dp[0][1] = inf) y luego correr el algoritmo 
-      obligando que el vertice 0 sea el vertice final (tener cuidado con el
-      caso donde solo hay un vertice, donde la respuesta es 0).
+      0 como inicial y marcar dp[0][1] = 0 e inicializar los demas estados en
+      inf, despues corremos el algoritmo con normalidad y finalmente para
+      cada 1 <= i < n calculamos dp[i][lim-1] + dis(0, i) y elegimos el menor.
 */
 
 const int maxn = 20, inf = 1e9;
@@ -51,7 +50,7 @@ void solver(){
     for(int mask = 1; mask < lim; mask++){
         if(mask & 1 == 0) continue; // Si no he visitado el vertice inicial
         for(int u = 0; u < n; u++){
-            if(mask && (1 << u) == 0) continue; // Si no he visitado la arista donde quiero finalizar
+            if(mask && (1 << u) == 0) continue; // Si no he visitado el vertice donde quiero finalizar
 
             for(pii e : graph[u]){
                 int v = e.fi, w = e.se;
