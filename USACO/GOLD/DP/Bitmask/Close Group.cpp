@@ -40,7 +40,7 @@ void solver(){
     for(int mask = 0; mask < lim; mask++){
         for(int submask = mask; submask != 0; submask = (submask - 1) & mask){
             int subset = mask ^ submask;
-            dp[mask] = min(dp[mask], dp[subset] + dp[mask ^ subset]);
+            dp[mask] = min(dp[mask], dp[subset] + dp[submask]);
         }
     }
 
