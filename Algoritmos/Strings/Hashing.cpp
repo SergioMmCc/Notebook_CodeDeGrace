@@ -8,7 +8,8 @@
 //   casi seguro que habra colisiones. Una forma de solucionarlo puede ser 
 //   un primo m mas largo, como 2^61 - 1 (2305843009213693951) y usar 
 //   enteros de 128 bits para las multiplicaciones, aunque ahora el hashing 
-//   y las queries serian un poco mas lentas.
+//   y las queries serian un poco mas lentas. (Para hacerlo puedo simplemente
+//   poner using ll = __int128; y cambiar el modulo).
 
 // Halla el hashing de una cadena en O(n)
 ll compute_hash(string s){

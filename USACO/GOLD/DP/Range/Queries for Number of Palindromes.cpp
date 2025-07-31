@@ -1,8 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define endl '\n'
-using i128 = __int128;
-#define ll i128
+using ll = __int128;
 using ld = long double;
 #define pb push_back
 #define sz size()
