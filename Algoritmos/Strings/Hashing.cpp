@@ -6,11 +6,11 @@
 //   la probabilidad de que 2 cadenas tengan igual hash es de (k^2 * n) / m
 //   Por ende, si k y n son de alrededor de 1e5 y m alrededor de 1e9, es 
 //   casi seguro que habra colisiones. Una forma de solucionarlo puede ser 
-//   un primo m mas largo, como 2^61 - 1 y usar enteros de 128 bits para las
-//   multiplicaciones, aunque ahora el hashing y las queries serian un poco
-//   mas lentas.
+//   un primo m mas largo, como 2^61 - 1 (2305843009213693951) y usar 
+//   enteros de 128 bits para las multiplicaciones, aunque ahora el hashing 
+//   y las queries serian un poco mas lentas.
 
-// Halla el hashing de una cadena en 0(n)
+// Halla el hashing de una cadena en O(n)
 ll compute_hash(string s){
     ll p = 31; // Si s se compone de lowercase english letters
     // ll p = 53; // Si s se compone de lowercase y uppercase english letters
