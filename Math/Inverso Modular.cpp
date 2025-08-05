@@ -3,8 +3,8 @@ using namespace std;
 #define endl '\n'
 using ll = long long;
 
-ll mod_inverse(ll a, ll n) {
-    ll i = n, v = 0, d = 1;
+ll mod_inverse(ll a, ll mod) {
+    ll i = mod, v = 0, d = 1;
     while(a > 0) {
         ll t = i/a, x = a;
         a = i%x;
@@ -13,10 +13,10 @@ ll mod_inverse(ll a, ll n) {
         d = v - t*x;
         v = x;
     }
-    v %= n;
+    v %= mod;
     if(v < 0)
-        v += n;
-    return v; // (a * v) mod n = 1
+        v += mod;
+    return v; // (a * v) % mod = 1
 }
 
 int main() {
