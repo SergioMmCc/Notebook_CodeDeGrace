@@ -17,7 +17,7 @@ void solver(){
     for(int i = 0; i < n; i++) cin>>a[i].fi>>a[i].se;
     ll v; cin>>v;
 
-    // Tranformar los puntos
+    // Transformar los puntos
     for(int i = 0; i < n; i++){
         ll p = -a[i].fi + v * a[i].se, q = a[i].fi + v * a[i].se;
         a[i] = {p, q};
