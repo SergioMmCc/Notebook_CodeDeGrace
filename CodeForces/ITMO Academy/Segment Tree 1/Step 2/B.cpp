@@ -24,7 +24,6 @@ void build(vector<int>& a, int v, int tl, int tr){
 
 // Las queries son [l, r]
 int query(int v, int tl, int tr, int k){
-    // cout<<"v -> "<<v<<" tl -> "<<tl<<" tr -> "<<tr<<" k -> "<<k<<endl;
     if(tl == tr) return tree[v].se;
 
     int tm = (tl + tr) / 2;
@@ -48,8 +47,6 @@ void solver(){
     for(int i = 0; i < n; i++) cin>>a[i];
 
     build(a, 1, 0, n-1);
-    // for(int i = 0; i <= 3*n; i++) cout<<tree[i].fi<<' ';
-    // cout<<endl;
 
     while(m--){
         int op; cin>>op;
