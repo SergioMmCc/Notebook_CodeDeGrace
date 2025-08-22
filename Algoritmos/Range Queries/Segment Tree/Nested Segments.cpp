@@ -9,29 +9,18 @@ using ld = long double;
 #define se second
 typedef pair<int, int> pii;
 
-const int maxn = 1e5 + 1;
+const int maxn = 2e5 + 1;
 
 // Implementacion con array 0-index
 // Todas las operaciones se hacen inicialmente con v = 1, tl = 0, tr = n - 1
 /*
-    - Tambien podemos calcular multiplicaciones (incluyendo multiplicacion modular y
-      multiplicacion de matrices), operaciones bitwise como and (&), or (|) y xor (^),
-      gcd y cualquier operacion que cumpla con la propiedad asociativa
-    - Si me piden sumar val en un rango [l, r] y perguntar por el valor de un elemento 
-      en especifico, para update sumo val en l, resto val en r + 1, para query pregunto
-      la suma [0, i].
+    Dados ciertos segmentos, los recorre en orden del primero en r (que
+    termina primero) y dice la cantidad de segmentos que contiene (si estoy
+    analizando un segmento x1, x2, cuenta la cantidad de segmentos y1, y2
+    con x1 < y1 <= y2 < x2). 
+    Todos los puntos de los segmentos son diferentes entre si.
 */ 
 vector<ll> tree(4*maxn);
-
-void build(vector<int>& a, int v, int tl, int tr){
-    if(tl == tr) tree[v] = a[tl];
-    else{
-        int tm = (tl + tr) / 2;
-        build(a, 2*v, tl, tm);
-        build(a, 2*v + 1, tm + 1, tr);
-        tree[v] = tree[2*v] + tree[2*v + 1];
-    }
-}
 
 // Las queries son [l, r]
 ll query(int v, int tl, int tr, int l, int r){
@@ -54,23 +43,30 @@ void update(int v, int tl, int tr, int pos, ll val){
 }
 
 void solver(){
-    int n, m; cin>>n>>m;
-    vector<int> a(n);
-    for(int i = 0; i < n; i++) cin>>a[i];
+    int n; cin>>n;
+    int n2 = 2*n;
+    vector<int> a(n2);
+    for(int i = 0; i < n2; i++){cin>>a[i]; a[i]--;}
 
-    build(a, 1, 0, n-1);
+    vector<int> ans(n), st(n, -1);
 
-    while(m--){
-        int op; cin>>op;
-        if(op == 1){
-            int i, v; cin>>i>>v;
-            update(1, 0, n-1, i, v);
+    for(int i = 0; i < n2; i++){
+        if(st[a[i]] == -1){ // Si no he tocado el extremo izquierdo, lo guardo y sigo
+            st[a[i]] = i;
+            continue;
         }
-        else{
-            int l, r; cin>>l>>r;
-            cout<<query(1, 0, n-1, l, r-1)<<endl;
-        }
+
+        int num = a[i];
+        int l = st[num];
+        ans[num] = query(1, 0, n2 - 1, l, i); // Pregunto por la suma desde l hasta i
+        update(1, 0, n2 - 1, l, 1); // Cuando termino de analizar un segmento, pongo su l en 1
     }
+
+    for(int i = 0; i < n; i++){
+        if(i) cout<<' ';
+        cout<<ans[i];
+    }
+    cout<<endl;
 }
 
 int main(){
