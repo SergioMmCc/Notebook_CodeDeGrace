@@ -1,31 +1,37 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 #define endl '\n'
+using ll = long long;
+using ld = long double;
+#define pb push_back
+#define sz size()
+#define fi first
+#define se second
+typedef pair<int, int> pii;
 
-const int MAXT = 1001;
-const int LOG = 12; //El logaritmo base 2 del numero maximo de nodos
-vector<vector<int>> graph(MAXT, vector<int>()), up(MAXT, vector<int>(LOG, 0)); // up[a][i] guarda el ancestro que está a 2^i distancia de a
-vector<int> depth(MAXT, -1);
-priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+const int maxn = 2e5 + 1;
+const int LOG = 19; //El logaritmo base 2 del numero maximo de nodos
+vector<vector<int>> graph(maxn), up(maxn, vector<int>(LOG)); // up[a][i] guarda el ancestro que está a 2^i distancia de a
+vector<int> depth(maxn, -1);
 
 
 /* Este algoritmo sirve para calcular el minimo ancestro
    comun (Lowest Common Ancestor) entre dos nodos especificos.
    Cada query tiene una complejidad de 0(lg(n)), siendo n
    el número de nodos del grafo, gracias al Binary Lifting.
-   El algoritmo toma un nodo en especifico como raiz (en este
-   caso el nodo 0), y calcula la profundidad de cada nodo
-   según el número minimo de nodos que debe atravesar para
-   llegar al nodo raíz, esto se calcula mediante un BFS. */
+   El algoritmo toma un nodo en especifico como raiz y calcula 
+   la profundidad de cada nodo según el número minimo de nodos 
+   que debe atravesar para llegar al nodo raíz, esto se calcula
+   mediante un BFS. */
 
-// Esta implementación sirve para grafos no dirigidos
+// Esta implementación sirve para grafos no dirigidos y dirigidos
 
-void BFS() {
-    depth[0] = 0;
-    int v;
-    pq.push({0, 0});
+void BFS(int s) {
+    depth[s] = 0;
+    priority_queue<pii, vector<pii>, greater<pii>> pq;
+    pq.push({0, s});
     while(!pq.empty()) {
-        v = pq.top().second;
+        int v = pq.top().se;
         pq.pop();
         for(int u : graph[v]) {
             if(depth[u] == -1) {
@@ -66,15 +72,15 @@ int main(){
     for(int i = 0; i < m; i++){
         int u, v;
         cin>>u>>v;
-        graph[u].push_back(v);
-        graph[v].push_back(u);
+        graph[u].pb(v);
+        graph[v].pb(u);
     }
-
-    BFS();
 
     /* Asumiendo que es un grafo conectado y que nuestro 
        nodo raíz es 0, vamos a calcular el LCA de cada par
        de nodos del grafo */
+
+    BFS(0);
 
     for(int i = 0; i < n; i++){
         for(int j = i+1; j <= n; j++)
