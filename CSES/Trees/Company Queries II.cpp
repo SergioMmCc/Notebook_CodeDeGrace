@@ -47,8 +47,7 @@ void BFS(int s) {
 }
 
 int LCA (int a, int b) {
-    if(depth[a] < depth[b])
-        swap(a, b);
+    if(depth[a] < depth[b]) swap(a, b);
     int k = depth[a] - depth[b];
     // Este ciclo pone a y b en el mismo nivel
     for(int j = LOG - 1; j >= 0; j--) {
@@ -67,24 +66,17 @@ int LCA (int a, int b) {
 }
 
 int main(){
-    int n, m;
-    cin>>n>>m;
-    for(int i = 0; i < m; i++){
-        int u, v;
-        cin>>u>>v;
-        graph[u].pb(v);
-        graph[v].pb(u);
+    int n, m; cin>>n>>m;
+    for(int i = 2; i <= n; i++){
+        int u; cin>>u;
+        graph[u].pb(i);
     }
 
-    /* Asumiendo que es un grafo conectado y que nuestro 
-       nodo raíz es 0, vamos a calcular el LCA de cada par
-       de nodos del grafo */
+    BFS(1);
 
-    BFS(0);
-
-    for(int i = 0; i < n; i++){
-        for(int j = i+1; j <= n; j++)
-            cout<<"El Lowest Common Ancestor entre "<<i<<" y "<<j<<" es: "<<LCA(i, j)<<endl;
+    while(m--){
+        int u, v; cin>>u>>v;
+        cout<<LCA(u, v)<<endl;
     }
 
     return 0;
