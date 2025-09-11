@@ -9,19 +9,17 @@ using ld = long double;
 #define se second
 typedef pair<int, int> pii;
 
-// LCA
 const int maxn = 2e5 + 1;
-const int LOG = 19; // El logaritmo base 2 del numero maximo de nodos
-vector<vector<int>> tree(maxn), up(maxn, vector<int>(LOG)); // up[a][i] guarda el ancestro que está a 2^i distancia del nodo a
+const int LOG = 19; //El logaritmo base 2 del numero maximo de nodos
+vector<vector<int>> tree(maxn), up(maxn, vector<int>(LOG)); // up[a][i] guarda el ancestro que está a 2^i distancia de a
 vector<int> depth(maxn, -1);
-priority_queue<pii, vector<pii>, greater<pii>> pq;
 
-void BFS() {
-    depth[1] = 0;
-    int v;
-    pq.push({0, 1});
+void BFS(int s) {
+    depth[s] = 0;
+    priority_queue<pii, vector<pii>, greater<pii>> pq;
+    pq.push({0, s});
     while(!pq.empty()) {
-        v = pq.top().second;
+        int v = pq.top().se;
         pq.pop();
         for(int u : tree[v]) {
             if(depth[u] == -1) {
@@ -36,19 +34,19 @@ void BFS() {
     }
 }
 
-int LCA (int a, int b) {
+int LCA(int a, int b){
     if(depth[a] < depth[b])
         swap(a, b);
     int k = depth[a] - depth[b];
     // Este ciclo pone a y b en el mismo nivel
-    for(int j = LOG - 1; j >= 0; j--) {
+    for(int j = LOG - 1; j >= 0; j--){
         if(k & (1 << j))
             a = up[a][j];
     }
     if(a == b)
         return a;
-    for(int j = LOG - 1; j >= 0; j--) {
-        if(up[a][j] != up[b][j]) {
+    for(int j = LOG - 1; j >= 0; j--){
+        if(up[a][j] != up[b][j]){
             a = up[a][j];
             b = up[b][j];
         }
@@ -68,7 +66,7 @@ void DFS(int u, int pa){
     if(u == 1){
         for(int v : tree[u]){
             rama[v] = v;
-            sum[{depth[v], rama[v]}] += a[v];
+            sum[{depth[v], rama[v]}] += (ll)a[v];
             ans1 = max(ans1, sum[{depth[v], rama[v]}]);
             DFS(v, u);
         }
@@ -78,7 +76,7 @@ void DFS(int u, int pa){
     for(int v : tree[u]){
         if(v == pa) continue;
         rama[v] = rama[u];
-        sum[{depth[v], rama[v]}] += a[v];
+        sum[{depth[v], rama[v]}] += (ll)a[v];
         ans1 = max(ans1, sum[{depth[v], rama[v]}]);
         DFS(v, u);
     }
@@ -93,22 +91,31 @@ void solver(){
         tree[v].pb(u);
     }
 
-    BFS();
+    BFS(1);
     DFS(1, -1);
 
     for(int i = 2; i <= n; i++){
+        if(!a[i]) continue;
         pii test = {depth[i], rama[i]};
         if(sum[test] == ans1){
             if(wLCA.find(test) != wLCA.end()){
                 int aux = LCA(wLCA[test], i);
+                // cout<<"i -> "<<i<<" antes -> "<<wLCA[test]<<" aux -> "<<aux<<endl;
                 wLCA[test] = aux;
             }
             else wLCA[test] = i;
         }
     }
 
+    // for(int i = 1; i <= n; i++){
+    //     for(int j = i; j <= n; j++){
+    //         cout<<"LCA entre "<<i<<" y "<<j<<" es "<<LCA(i, j)<<endl;
+    //     }
+    // }
+
     for(auto x : wLCA){
         int u = x.se, v = x.fi.fi;
+        // cout<<"depthV -> "<<v<<" LCA -> "<<u<<" depthLCA -> "<<depth[u]<<endl;
         ans2 = min(ans2, v - depth[u] + 1);
     }
 
