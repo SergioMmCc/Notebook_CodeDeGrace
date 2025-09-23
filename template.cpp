@@ -17,7 +17,7 @@ void solver(){
 }
 
 int main(){
-    ios_base::sync_with_stdio(0);cin.tie(NULL);
+    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
     // freopen("name.in", "r", stdin);
 	// freopen("name.out", "w", stdout);
     int t = 1;

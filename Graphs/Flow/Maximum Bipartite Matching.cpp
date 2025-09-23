@@ -10,7 +10,7 @@ using namespace std;
 // How to use:
 // Set g[i][j] to 1 if element i of the Left set can
 // be paired with element j of the Right set.
-// Fill the table for all 0 <= i < L and 0 <= j < R.
+// Fill the table for all 1 <= i <= L and 1 <= j <= R.
 // matchL[i] will contain i’s match in the Right set
 // and matchR[j] will contain j’s match in the Left set.
 
