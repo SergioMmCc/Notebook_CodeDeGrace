@@ -13,7 +13,28 @@ typedef pair<int, int> pii;
 // using ordered_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 void solver(){
-    
+    int n; cin>>n;
+    ll a = 0, b = 0;
+    map<ll, ll> freq;
+    for(int i = 0; i < n; i++){
+        ll num; cin>>num;
+        a += num / 2;
+        b += num / 2;
+        if(num % 2){
+            freq[num]++;
+        }
+    }
+
+    vector<ll> add;
+    for(const auto& par: freq) add.pb(par.se);
+    sort(add.begin(), add.end());
+    reverse(add.begin(), add.end());
+    for(int i = 0; i < add.sz; i++){
+        if(i % 2) b += add[i];
+        else a += add[i];
+    }
+
+    cout<<a<<' '<<b<<endl;
 }
 
 int main(){
@@ -21,7 +42,7 @@ int main(){
     // freopen("name.in", "r", stdin);
 	// freopen("name.out", "w", stdout);
     int t = 1;
-    // cin>>t;
+    cin>>t;
     while(t--){
         solver();
     }

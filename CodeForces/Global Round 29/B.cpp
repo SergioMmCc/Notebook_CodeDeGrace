@@ -13,7 +13,12 @@ typedef pair<int, int> pii;
 // using ordered_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 void solver(){
-    
+    int n; cin>>n;
+    vector<int> ans(2*n);
+    ans[0] = ans[n] = n;
+    for(int i = 1; i < n; i++) ans[i] = ans[2*n - i] = n - i;
+    for(int i = 0; i < 2*n; i++) cout<<ans[i]<<' ';
+    cout<<endl;
 }
 
 int main(){
@@ -21,7 +26,7 @@ int main(){
     // freopen("name.in", "r", stdin);
 	// freopen("name.out", "w", stdout);
     int t = 1;
-    // cin>>t;
+    cin>>t;
     while(t--){
         solver();
     }

@@ -13,7 +13,10 @@ typedef pair<int, int> pii;
 // using ordered_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 void solver(){
-    
+    int x, y; cin>>x>>y;
+    if(y > x) cout<<2<<endl;
+    else if(x > y + 1 && y > 1) cout<<3<<endl;
+    else cout<<-1<<endl;
 }
 
 int main(){
@@ -21,7 +24,7 @@ int main(){
     // freopen("name.in", "r", stdin);
 	// freopen("name.out", "w", stdout);
     int t = 1;
-    // cin>>t;
+    cin>>t;
     while(t--){
         solver();
     }

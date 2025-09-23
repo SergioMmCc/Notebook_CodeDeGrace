@@ -12,8 +12,32 @@ typedef pair<int, int> pii;
 // using namespace __gnu_pbds;
 // using ordered_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
-void solver(){
+bool check(string s){
+    int n = s.sz;
+    if(n == 1 || n % 2 == 0) return 1;
     
+    int count = 0;
+    for(int i = 0; i < n; i++){
+        if(s[i] == '1') count++;
+    }
+
+    if(count == n / 2 + 1 && count % 2 == 0) return 0;
+    return 1;
+}
+
+void solver(){
+    int n; string s; cin>>n>>s;
+    string aux = "";
+    bool cond = 1;
+    for(int i = 0; cond && i < n; i++){
+        aux += s[i];
+        if(s[i] == '1' && (i == n - 1 || s[i+1] == '1')){
+            cond = check(aux);
+            aux = "";
+        }
+    }
+
+    cout<<(cond ? "YES" : "NO")<<endl;
 }
 
 int main(){
@@ -21,7 +45,7 @@ int main(){
     // freopen("name.in", "r", stdin);
 	// freopen("name.out", "w", stdout);
     int t = 1;
-    // cin>>t;
+    cin>>t;
     while(t--){
         solver();
     }
