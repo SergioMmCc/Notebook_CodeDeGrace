@@ -44,7 +44,7 @@ typedef pair<int, int> pii;
 	 desde 2*n (que cumple la funcion de source-fuente), hasta 2*n + 1 (que cumple
 	 la funcion de sink-sumidero). El valor del maximo flujo corresponde al valor
 	 del minimum vertex cut.
-   - Node-disjoint path cover:
+   - Node-disjoint path cover en un DAG:
      Un path cover es un conjunto de caminos en un grafo tal que cada nodo pertenece
 	 a al menos un camino. Un Node-disjoint path cover quiere decir que cada nodo 
 	 debe pertenecer a exactamente un camino.
@@ -54,7 +54,7 @@ typedef pair<int, int> pii;
 	 esas son las aristas que vamos a elegir para armar el Node-disjoint path cover, 
 	 entonces el total de caminos sera n - c, siendo n la cantidad de nodos en el grafo 
 	 original y c la cantidad de aristas en el matching.
-   - General path cover:
+   - General path cover en un DAG:
      El minimum path cover se puede hallar de manera similar al minimum node-disjoint
 	 path cover, pero esta vez vamos a agregar una arista de uout hacia vin si en el
 	 grafo original se puede llegar desde u hasta v (posiblemente a traves de multiples
