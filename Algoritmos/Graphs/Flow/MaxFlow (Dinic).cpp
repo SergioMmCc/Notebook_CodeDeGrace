@@ -59,6 +59,10 @@ typedef pair<int, int> pii;
 	 path cover, pero esta vez vamos a agregar una arista de uout hacia vin si en el
 	 grafo original se puede llegar desde u hasta v (posiblemente a traves de multiples
 	 aristas).
+   - Maximum Antichain:
+     Una antichain es un conjunto de nodos de un grafo en el cual ningun nodo tiene un
+	 camino hacia cualquier otro usando las aristas del grafo. En un DAG, la longitud
+	 de la maximum antichain es igual a la longitud del minimum path cover.
 
    Para bipartitos:
    - Maximum Matching:
