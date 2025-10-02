@@ -54,6 +54,8 @@ typedef pair<int, int> pii;
 	 esas son las aristas que vamos a elegir para armar el Node-disjoint path cover, 
 	 entonces el total de caminos sera n - c, siendo n la cantidad de nodos en el grafo 
 	 original y c la cantidad de aristas en el matching.
+	 Las aristas que se usan en los caminos de la particion son las aristas del matching,
+	 para saber donde empiezan los caminos, tomo los u tal que uin no fue matcheado.
    - General path cover en un DAG:
      El minimum path cover se puede hallar de manera similar al minimum node-disjoint
 	 path cover, pero esta vez vamos a agregar una arista de uout hacia vin si en el
@@ -62,7 +64,37 @@ typedef pair<int, int> pii;
    - Maximum Antichain:
      Una antichain es un conjunto de nodos de un grafo en el cual ningun nodo tiene un
 	 camino hacia cualquier otro usando las aristas del grafo. En un DAG, la longitud
-	 de la maximum antichain es igual a la longitud del minimum path cover.
+	 de la maximum antichain es igual a la longitud del minimum path cover. Para
+	 reconstruirla hallamos el minimum vertex cover M, los nodos tales que uin no
+	 pertenece a M y uout tampoco, pertenecen a la maximum antichain.
+   - Maquinas y tareas (problema de asignacion):
+     Tengo un conjunto B de tareas que me dan un beneficio B(t), puedo comprar un 
+	 conjunto de maquinas M por un costo M(t). Para realizar la tarea B tengo que comprar
+	 ciertas maquinas. Cada maquina la puedo utilizar para realizar cualquier cantidad de
+	 tareas. Para resolverlo asumo que ya me pagaron las tareas y tengo un beneficio total
+	 X, entonces no realizar una tarea tiene un costo B(t). Construyo un grafo bipartito,
+	 conecto S con cada maquina con una capacidad M(t), conecto cada tarea con T con una
+	 capacidad B(t), y finalmente para cada tarea B y cada maquina M requerida para 
+	 realizar la tarea B agrego una arista con capacidad infinita. Finalmente, el beneficio
+	 maximo es X menos el corte minimo. Si la arista S, M forma parte del corte, entonces
+	 compro la maquina M, si la arista B, T hace parte del corte, entonces no realizo la 
+	 tarea B.
+	 En general, si tengo un problema que consiste en elegir un conjunto de nodos V' (donde
+	 cada nodo tiene un valor w(v)) tal que para toda arista u, v, v pertenece a V' si y solo 
+	 si u tambien pertenece a V', y se maximice el valor de los nodos elegidos, lo puedo 
+	 resolver asi: agrego nodos S y T, agrego una arista S con capacidad abs(w(v)), v si w(v) < 0,
+	 una arista v, T con capacidad w(v) si w(v) > 0, y todas las aristas u, v del grafo original
+	 con capacidad inf. Los nodos elegidos (V') son los alcanzables desde S en la red residual, el 
+	 valor de V' es la suma de los w(v) postivos menos el valor del corte minimo.
+   - Si tengo un problema en el cual elegir determinado nodo hace que no pueda elegir otros, y 
+     quiero elegir un conjunto de nodos que maximice la suma de w(v) para cada v elegido, lo puedo 
+	 resolver separando los nodos en 2 lados U y V (para formar un bipartito) asegurandome que
+	 podria elegir todos los nodos de alguno de los lados sin ningun problema (que los nodos
+	 que pertenezcan al mismo lado no se restringen entre si), agrego aristas S, u con capacidad w(u)
+	 para cada u que pertenezca a U, agrego aristas v, T con capacidad w(v) para cada v que pertenezca
+	 a V, y aristas u, v con capacidad infinita para cada par de nodos tal que si elijo u no puedo 
+	 elegir v y viceversa. La respuesta es la suma w(v) para cada v que pertenece al graof, menos el
+	 valor del minimo corte.
 
    Para bipartitos:
    - Maximum Matching:
