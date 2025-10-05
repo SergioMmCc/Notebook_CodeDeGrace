@@ -1,16 +1,19 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define endl '\n'
-using ll = long long;
-using ld = long double;
 #define pb push_back
-#define sz size()
+#define sz(a) ((int)a.size())
+#define all(a) a.begin(), a.end()
 #define fi first
 #define se second
+#define lb lower_bound
+#define up upper_bound
+typedef long long ll;
+typedef long double ld;
 typedef pair<int, int> pii;
 // #include<ext/pb_ds/assoc_container.hpp>
 // using namespace __gnu_pbds;
-// using ordered_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
+// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 void solver(){
     

@@ -7,6 +7,7 @@ using ld = long double;
 #define sz size()
 #define fi first
 #define se second
+#define all(a) a.begin(), a.end()
 typedef pair<int, int> pii;
 // #include<ext/pb_ds/assoc_container.hpp>
 // using namespace __gnu_pbds;
@@ -29,8 +30,8 @@ void solver(){
     }
 
     for(int i = 1; i <= m; i++){
-        sort(a[i].begin(), a[i].end());
-        sort(b[i].begin(), b[i].end());
+        sort(all(a[i]));
+        sort(all(b[i]));
     }
 
     vector<vector<int>> dp(m+1, vector<int>(m+1));
@@ -39,8 +40,8 @@ void solver(){
             dp[i][j] = dp[i-1][j];
             if(j) dp[i][j] = max(dp[i][j], dp[i-1][j-1]);
 
-            auto it1 = upper_bound(a[i].begin(), a[i].end(), j);
-            auto it2 = upper_bound(b[i].begin(), b[i].end(), i - j);
+            auto it1 = upper_bound(all(a[i]), j);
+            auto it2 = upper_bound(all(b[i]), i - j);
 
             int index1 = it1 - a[i].begin();
             int index2 = it2 - b[i].begin();
