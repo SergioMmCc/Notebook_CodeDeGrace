@@ -3,23 +3,28 @@ using namespace std;
 
 /* 
     0-index.
+    Sea n la cantidad en el lado izquierdo y m la cantidad en el lado
+    derecho, se requiere n >= m, es decir, deben haber igual o mas 
+	workers que jobs.
+    Minimo costo para el maximum matching de un bipartito ponderado.
     Para explicar el algoritmo se documenta utilizando worker (W) como L
     y job (J) como R. Cada trabajador cobra cierta cantidad por realizar
     cierto trabajo sin embargo cada trabajador solo puede realizar un 
     trabajo. Se halla el menor costo para realizar todos los trabajos.
     Complejidad: O(J * W^2)
+    Suele ser un poco mas eficiente que el algoritmo de MaxFlow MinCost.
 */
 
 int ckmin(int &a, int b) { return a > b ? ((a = b), true) : false; }
 
 /**
- * @return the jobs of each worker in the optimal assignment,
+ * return the jobs of each worker in the optimal assignment,
  * or -1 if the worker is not assigned
  */
 template <class T> vector<int> hungarian(const vector<vector<T>> &C){
 	int J = C.size();
 	int W = C[0].size();
-	assert(J <= W);
+	assert(J <= W); // Verifica que el lado izquierdo (W) sea mayor o igual al lado derecho (J)
 
 	// job[w] = job assigned to w-th worker, or -1 if no job assigned
 	// note: a W-th worker was added for convenience
@@ -76,17 +81,17 @@ int main(){
 	cin>>n;
 	vector<vector<int>> c(n, vector<int>(n));
 
-	for(int i = 0; i < n; i++){ // ith worker
-		for(int j = 0; j < n; j++){ // jth job
+	for(int i = 0; i < n; i++){ // ith job
+		for(int j = 0; j < n; j++){ // jth worker
             cin>>c[i][j]; 
         }
 	}
 
 	vector<int> mat = hungarian(c);
 
-    // Se suman los costos segun el costo de que el worker mat[i] realice el job i
+    // Se suma segun el costo de que el job mat[i] sea realizado por el worker i
 	int cost = 0;
 	for (int i = 0; i < n; i++) cost += c[mat[i]][i]; 
 	cout<<cost<<endl;
-	for(int i = 0; i < n; i++) cout<<mat[i] + 1<<' '<<i + 1<<endl; // El worker mat[i] realiza el job i
+	for(int i = 0; i < n; i++) cout<<mat[i]<<' '<<i<<endl; // El job mat[i] es realizado por el worker i
 }

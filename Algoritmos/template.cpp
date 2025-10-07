@@ -7,7 +7,7 @@ using namespace std;
 #define fi first
 #define se second
 #define lb lower_bound
-#define up upper_bound
+#define ub upper_bound
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> pii;

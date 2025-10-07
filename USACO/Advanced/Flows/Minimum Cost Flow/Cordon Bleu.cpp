@@ -1,19 +1,24 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-
-/* 
-    0-index.
-    Para explicar el algoritmo se documenta utilizando worker (W) como L
-    y job (J) como R. Cada trabajador cobra cierta cantidad por realizar
-    cierto trabajo sin embargo cada trabajador solo puede realizar un 
-    trabajo. Se halla el menor costo para realizar todos los trabajos.
-    Complejidad: O(J * W^2)
-*/
+#define endl '\n'
+#define pb push_back
+#define sz(a) ((int)a.size())
+#define all(a) a.begin(), a.end()
+#define fi first
+#define se second
+#define lb lower_bound
+#define ub upper_bound
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> pii;
+// #include<ext/pb_ds/assoc_container.hpp>
+// using namespace __gnu_pbds;
+// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 int ckmin(int &a, int b) { return a > b ? ((a = b), true) : false; }
 
 /**
- * @return the jobs of each worker in the optimal assignment,
+ * return the jobs of each worker in the optimal assignment,
  * or -1 if the worker is not assigned
  */
 template <class T> vector<int> hungarian(const vector<vector<T>> &C){
@@ -71,22 +76,63 @@ template <class T> vector<int> hungarian(const vector<vector<T>> &C){
 	return job; // Retorna la mejor asignacion encontrada
 }
 
-int main(){
-	int n;
-	cin>>n;
-	vector<vector<int>> c(n, vector<int>(n));
+int dis(pii a, pii b){
+    return abs(a.fi - b.fi) + abs(a.se - b.se);
+}
 
-	for(int i = 0; i < n; i++){ // ith worker
-		for(int j = 0; j < n; j++){ // jth job
-            cin>>c[i][j]; 
+void solver(){
+    int n, m; cin>>n>>m;
+    vector<pii> a(n), b(m);
+    for(int i = 0; i < n; i++) cin>>a[i].fi>>a[i].se;
+    for(int i = 0; i < m; i++) cin>>b[i].fi>>b[i].se;
+    pii r; cin>>r.fi>>r.se;
+
+    int ans = 0, aum = 5000;
+    vector<vector<int>> c(n, vector<int>(m));
+    vector<int> dr(n);
+    for(int i = 0; i < n; i++){
+        dr[i] = dis(r, a[i]);
+        ans += dr[i];
+        int minus = 5000;
+        for(int j = 0; j < m; j++){
+            c[i][j] = dis(a[i], b[j]);
+            minus = min(minus, c[i][j]);
+            c[i][j] = min(c[i][j], dr[i]);
         }
-	}
 
-	vector<int> mat = hungarian(c);
+        aum = min(aum, minus - dr[i]);
+    }
 
-    // Se suman los costos segun el costo de que el worker mat[i] realice el job i
-	int cost = 0;
-	for (int i = 0; i < n; i++) cost += c[mat[i]][i]; 
-	cout<<cost<<endl;
-	for(int i = 0; i < n; i++) cout<<mat[i] + 1<<' '<<i + 1<<endl; // El worker mat[i] realiza el job i
+    if(aum > 0){
+        ans *= 2;
+        ans += aum;
+        cout<<ans<<endl;
+        return;
+    }
+
+    for(int i = 0; i < n; i++){
+        for(int j = m; j < n; j++){
+            c[i].pb(dr[i]);
+        }
+    }
+
+	m = max(m, n);
+
+    vector<int> mat = hungarian(c);
+    for(int i = 0; i < m; i++) if(mat[i] != -1) ans += c[mat[i]][i];
+
+    cout<<ans<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    // freopen("name.in", "r", stdin);
+	// freopen("name.out", "w", stdout);
+    int t = 1;
+    // cin>>t;
+    while(t--){
+        solver();
+    }
+
+    return 0;
 }
