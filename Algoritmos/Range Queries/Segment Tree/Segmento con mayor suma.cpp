@@ -10,7 +10,7 @@ using ld = long double;
 typedef pair<int, int> pii;
 
 struct Node{
-    ll seg, pref, suf, sum;
+    ll seg, pref, suf, sum; // El resultado del segmento con mayor suma se guarda en seg
 };
 
 const int maxn = 1e5 + 1;
