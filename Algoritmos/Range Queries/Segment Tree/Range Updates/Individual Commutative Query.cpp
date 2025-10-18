@@ -14,13 +14,11 @@ const int maxn = 1e5 + 1;
 // Implementacion con array 0-index
 // Todas las operaciones se hacen inicialmente con v = 1, tl = 0, tr = n - 1
 /*
-    - Las operaciones de las updates pueden ser cualquiera que cumpla com las propiedades
+    - Las operaciones de las updates pueden ser cualquiera que cumpla con las propiedades
       conmutativa y asociativa (suma, multiplicacion, max, min, gcd, lcm), se debe tener
       cuidado con el valor inicial (ejemplo: suma en 0, multiplicacion en 1).
-    - Si me piden sumar val en un rango [l, r] y perguntar por el valor de un elemento 
-      en especifico, para update sumo val en l, resto val en r + 1, para query pregunto
-      la suma [0, i].
 */ 
+
 vector<ll> tree(4*maxn);
 
 void build(vector<int>& a, int v, int tl, int tr){

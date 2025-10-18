@@ -33,7 +33,7 @@ void push(int v){
 void update(int v, int tl, int tr, int l, int r, ll val){
     if(l > r) return;
     if(tl == l && tr == r){
-        tree[v] = val;
+        tree[v] = max(val, tree[v]);
         marked[v] = 1;
         return;
     }
@@ -51,8 +51,8 @@ ll query(int v, int tl, int tr, int pos){
 
     push(v);
     int tm = (tl + tr) / 2;
-    if(pos <= tm) ans = query(2*v, tl, tm, pos);
-    else ans = query(2*v + 1, tm + 1, tr, pos);
+    if(pos <= tm) ans = max(ans, query(2*v, tl, tm, pos));
+    else ans = max(ans, query(2*v + 1, tm + 1, tr, pos));
 
     return ans;
 }
