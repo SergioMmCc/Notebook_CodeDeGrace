@@ -1,0 +1,1 @@
+cout<<fixed<<setprecision(cantidad_decimales)<<ans<<endl;
