@@ -17,23 +17,21 @@ typedef pair<int, int> pii;
 
 void solver(){
     int n; cin>>n;
-    vector<vector<ll>> dp(n+1, vector<ll>(n+1));
-    for(int i = 1; i <= n; i++){
-        for(int l = 1, r = i - 1; l <= r; l++, r--){
-            dp[i][r] += dp[l][min(l, r >> 1)];
-        }
+    vector<vector<ll>> dp(n+1, vector<ll>(2));
 
-        for(int j = 1; j <= i; j++) dp[i][j] += dp[i][j-1];
-        dp[i][i]++;
+    dp[0][0] = 1;
+    for(int i = 1; i <= n; i++){
+        dp[i][0] = 2LL * dp[i-1][0] + dp[i-1][1];
+        dp[i][1] = dp[i-1][0] + dp[i-1][1];
     }
 
-    cout<<dp[n][n]<<endl;
+    cout<<dp[n][0] + dp[n][1]<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    freopen("peacefulsets.in", "r", stdin);
-	freopen("peacefulsets.out", "w", stdout);
+    // freopen("name.in", "r", stdin);
+	// freopen("name.out", "w", stdout);
     int t = 1;
     // cin>>t;
     while(t--){
