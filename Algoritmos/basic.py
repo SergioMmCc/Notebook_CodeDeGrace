@@ -18,6 +18,15 @@ def main ():
     # Leer una cadena
     s = input()
 
+    # Leer hasta fin de archivo
+    def main():
+    while(True):
+        try:
+            n = int(input())
+            # Procesar lo que sea necesario
+        except EOFError:
+            break
+
     # Tamaño de una cadena
     x = len(s)
 
