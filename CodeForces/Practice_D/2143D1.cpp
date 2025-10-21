@@ -15,47 +15,52 @@ typedef pair<int, int> pii;
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
-const ll mod = 1e9 + 7;
+const int mod = 1e9 + 7, maxn = 301;
 
-vector<ll> pot2(301);
-void calcPot2(){
-    pot2[0] = 1;
-    for(int i = 1; i < 301; i++) pot2[i] = (pot2[i-1] * 2LL) % mod;
+int dp[301][301][301];
+
+int sum(int a, int b){
+    return (a + b) % mod;
 }
 
 void solver(){
     int n; cin>>n;
-    ll ans = pot2[n];
-    vector<int> a(n);
-    for(int i = 0; i < n; i++) cin>>a[i];
+    vector<int> a(n+1);
+    for(int i = 1; i <= n; i++) cin>>a[i];
 
-    int add1 = 0;
-    for(int i = 0; i < n - 2; i++){
-        bool cond1 = 1;
-        int add2 = 0;
-        for(int j = i + 1; j < n - 1; j++){
-            if(a[j] >= a[i]){
-                add2++;
-                continue;
+    // Limpiar
+    for(int i = 0; i <= n; i++){
+        for(int j = 0; j <= n; j++){
+            for(int k = 0; k <= n; k++){
+                dp[i][j][k] = 0;
             }
-
-            bool cond2 = 1;
-            int add3 = 0;
-            for(int k = j + 1; k < n; k++){
-                if(a[k] >= a[j]){
-                    add3++;
-                    continue;
-                }
-
-                cout<<"i -> "<<i<<" j -> "<<j<<" k -> "<<k<<" ans -> "<<ans<<endl;
-                ans = (ans - pot2[add1 + add2 + add3 + n - k - 1] + mod) % mod;
-                cond1 = cond2 = 0;
-            }
-
-            add2 += cond2;
         }
+    }
 
-        add1 += cond1;
+    int ans = 0;
+    dp[0][0][0] = 1;
+    for(int i = 1; i <= n; i++){
+        for(int j = 0; j <= n; j++){
+            for(int k = 0; k <= j; k++){
+                dp[i][j][k] = sum(dp[i][j][k], dp[i-1][j][k]);
+                if(a[i] >= j){
+                    dp[i][a[i]][k] = sum(dp[i][a[i]][k], dp[i-1][j][k]);
+                    // cout<<"here1"<<" i -> "<<i<<" a[i] -> "<<a[i]<<" j -> "<<j<<" k -> "<<k<<" b -> "<<b<<" add -> "<<add<<endl;
+                    // dp[i][a[i]][j][b] = sum(dp[i][a[i]][j][b], dp[i-1][j][k][b]);
+                }
+                else if(a[i] >= k){
+                    // cout<<"here2"<<endl;
+                    dp[i][j][a[i]] = sum(dp[i][j][a[i]], dp[i-1][j][k]);
+                }
+            }
+        }
+    }
+
+    for(int j = 0; j <= n; j++){
+        for(int k = 0; k <= j; k++){
+            // cout<<"j -> "<<j<<" k -> "<<k<<" val -> "<<dp[n][j][k]<<endl;
+            ans = sum(ans, dp[n][j][k]);
+        }
     }
 
     cout<<ans<<endl;
@@ -65,7 +70,6 @@ int main(){
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
     // freopen("name.in", "r", stdin);
 	// freopen("name.out", "w", stdout);
-    calcPot2();
     int t = 1;
     cin>>t;
     while(t--){
