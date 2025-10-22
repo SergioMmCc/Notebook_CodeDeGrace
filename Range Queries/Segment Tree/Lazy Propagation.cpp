@@ -46,7 +46,8 @@ private:
         a = updateOp(a, b, len);
     }
 
-    void propagate(int v, int tl, int tr){ // O(1)
+    // O(1)
+    void propagate(int v, int tl, int tr){
         if(tr - tl == 1) return;
         int tm = (tr + tl) / 2;
         applyUpdOp(lazy[2*v + 1], lazy[v], 1);
@@ -56,7 +57,9 @@ private:
         lazy[v] = neutro;
     }
 
-    void update(int l, int r, ll val, int v, int tl, int tr){ // O(lg(n))
+    // O(lg(n))
+    // [l, r)
+    void update(int l, int r, ll val, int v, int tl, int tr){
         propagate(v, tl, tr);
         if(tl >= r || l >= tr) return;
         if(tl >= l && tr <= r){
@@ -71,7 +74,9 @@ private:
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
 
-    ll calc(int l, int r, int v, int tl, int tr){ // O(lg(n))
+    // O(lg(n))
+    // [l, r)
+    ll calc(int l, int r, int v, int tl, int tr){
         propagate(v, tl, tr);
         if(tl >= r || l >= tr) return neutro;
         if(tl >= l && tr <= r) return tree[v];
