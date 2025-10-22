@@ -2,6 +2,7 @@
 // - Usar Hashing en codeforces puede ser peligroso debido al hacking
 // - La probabilidad de que 2 cadenas tengan el mismo hashing es de n / m
 //   siendo n la longitud de la cadena mas larga
+// - Lo ideal es utilizar un p de al menos la longitud de la cadena mas larga
 // - Si tengo un conjunto de hashes de k cadenas con longitud de maximo n,
 //   la probabilidad de que 2 cadenas tengan igual hash es de (k^2 * n) / m
 //   Por ende, si k y n son de alrededor de 1e5 y m alrededor de 1e9, es 
