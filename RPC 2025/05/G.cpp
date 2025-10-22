@@ -7,61 +7,51 @@ using ld = long double;
 #define sz size()
 #define fi first
 #define se second
-typedef pair<int, int> pii;
-using i128 = __int128;
-#define int i128
-#define ll i128
+typedef pair<ll, ll> pll;
 
-const ll b = 31;
-i128 mod = 2305843009213693951;
-vector<i128> potB(27);
+const ll b1 = 31, b2 = 37, mod1 = 1000000009, mod2 = 998244353;
+vector<ll> potB1(28), potB2(28);
 void calcPotB(){
-    potB[0] = 1;
-    for(int i = 1; i < 27; i++) potB[i] = (potB[i-1] * (i128)b) % mod;
+    potB1[0] = 1;
+    potB2[0] = 1;
+    for(int i = 1; i < 28; i++){
+        potB1[i] = (potB1[i-1] * b1) % mod1;
+        potB2[i] = (potB2[i-1] * b2) % mod2;
+    }
 }
 
-ll hashFreq(vector<int>& freq){
-    ll ans = 0;
-    for(int i = 0; i < 27; i++) ans = ((i128)ans + (((i128)freq[i] * potB[i]) % mod)) % mod;
-    return ans;
-}
-
-void calc(string a, map<ll, int>& fa){
+void calc(string a, vector<map<pll, ll>>& fa){
     for(int i = 0; i < a.sz; i++){
-        vector<int> freq(27);
+        ll ans1 = 0, ans2 = 0;
         for(int j = i; j < a.sz; j++){
-            freq[a[j] - 'a']++;
-            fa[hashFreq(freq)]++;
+            int idx = a[j] - 'a';
+            ans1 = (ans1 + potB1[idx]) % mod1;
+            ans2 = (ans2 + potB2[idx]) % mod2;
+            fa[j-i][{ans1, ans2}]++;
         }
     }
 }
 
 void solver(){
     string a, b; cin>>a>>b;
-    map<ll, int> fa, fb;
+    vector<map<pll, ll>> fa(a.sz), fb(b.sz);
     // cout<<"en a -> "<<endl;
     calc(a, fa);
     // cout<<endl<<"en b -> "<<endl;
     calc(b, fb);
 
     ll ans = 0;
-    for(auto it : fa){
-        ll h = it.fi; int f = it.se;
-        auto it2 = fb.find(h);
-        if(it2 != fb.end()) ans += (ll)f * (ll)fb[h];
+    for(int i = 0; i < a.sz; i++){
+        for(auto it : fa[i]){
+            pll h = it.fi; ll f = it.se;
+            auto it2 = fb[i].find(h);
+            if(it2 != fb[i].end()) ans += (ll)f * (ll)fb[i][h];
+        }
     }
 
-    string pri = "";
-    while(ans){
-        pri += '0' + (ans % 10);
-        ans /= 10;
-    }
-
-    reverse(pri.begin(), pri.end());
-    cout<<pri<<endl;
+    cout<<ans<<endl;
 }
 
-#undef int
 int main(){
     ios_base::sync_with_stdio(0);cin.tie(NULL);
     calcPotB();
