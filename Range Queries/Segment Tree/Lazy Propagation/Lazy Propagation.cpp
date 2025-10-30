@@ -118,16 +118,16 @@ private:
     }
 
     // O(n)
-    // void build(int v, int tl, int tr){ 
-    //     if(tr == tl + 1){
-    //         tree[v] = 1;
-    //         return;
-    //     }
-    //     int tm = (tr + tl) / 2;
-    //     build(2*v + 1, tl, tm);
-    //     build(2*v + 2, tm, tr);
-    //     tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
-    // }
+    void build(vector<ll>& a, int v, int tl, int tr){ 
+        if(tr == tl + 1){
+            tree[v] = a[tl];
+            return;
+        }
+        int tm = (tr + tl) / 2;
+        build(a, 2*v + 1, tl, tm);
+        build(a, 2*v + 2, tm, tr);
+        tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
+    }
 
 
 public:
@@ -136,7 +136,6 @@ public:
         while(size < n) size *= 2;
         lazy.assign(2*size, 0LL);
         tree.assign(2*size, 0LL);
-        // build(0, 0, size);
     }
 
     void update(int l, int r, ll val){
@@ -145,6 +144,10 @@ public:
 
     ll calc(int l, int r){
         return calc(l, r, 0, 0, size);
+    }
+
+    void build(vector<ll>& a){
+        build(a, 0, 0, size);
     }
 };
 
