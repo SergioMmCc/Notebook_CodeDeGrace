@@ -25,7 +25,7 @@ private:
 
     ll updateOp(ll a, ll b, ll len){
         if(b == neutro) return a;
-        if(a == neutro) return b*len;
+        if(a == neutro) return b;
         return a + b;
     }
 

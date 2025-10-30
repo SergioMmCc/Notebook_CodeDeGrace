@@ -16,12 +16,9 @@ typedef pair<int, int> pii;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 // Segment Tree Lazy Propagation
-// - Es necesario que se cumpla la propiedad asociativa tanto en las operaciones de update como calc.
-// - Es necesario que se cumpla que calcOp(updateOp(a, x), updateOp(b, x)) == updateOp(calcOp(a, b), x),
-//   es decir, que updateOp sea distributiva relativa a calcOp, ejemplo, update de multiplicacion, calc
-//   suma. En caso de que no se cumpla esa propiedad (update assign, calc suma o update suma, calc suma),
-//   se debe ajustar utilizando la longitud del rango en la operacion update. 
-// - Este ejemplo corresponde a update assign y calc suma.
+// - Se hacen querys l, x, donde se retorna el indice (0-index) del primer elemento que cumpla 
+//   i >= l && a[i] >= x.
+// - En esta implemetacion se usan updates de suma.
 
 class segTree {
 private:
@@ -33,13 +30,14 @@ private:
 
     ll updateOp(ll a, ll b, ll len){
         if(b == neutro) return a;
-        return b * len;
+        if(a == neutro) return b;
+        return a + b;
     }
 
     ll calcOp(ll a, ll b){
         if(a == neutro) return b;
         if(b == neutro) return a;
-        return a + b;
+        return max(a, b);
     }
 
     void applyUpdOp(ll &a, ll b, ll len){
@@ -76,18 +74,22 @@ private:
 
     // O(lg(n))
     // [l, r)
-    ll calc(int l, int r, int v, int tl, int tr){
+    int calc(int l, int r, int v, int tl, int tr, ll x){
         propagate(v, tl, tr);
-        if(tl >= r || l >= tr) return neutro;
-        if(tl >= l && tr <= r) return tree[v];
+        if(tl >= r || l >= tr) return -1;
+        if(tr == tl + 1){
+            return tl;
+        }
 
         int tm = (tl + tr) / 2;
-        ll m1 = calc(l, r, 2*v + 1, tl, tm);
-        ll m2 = calc(l, r, 2*v + 2, tm, tr);
-        return calcOp(m1, m2);
+        int ans = -1;
+        if(tree[2*v + 1] >= x) ans = calc(l, r, 2*v + 1, tl, tm, x);
+        if(ans == -1 && tree[2*v + 2] >= x) ans = calc(l, r, 2*v + 2, tm, tr, x);
+        return ans;
     }
 
-    // void build(int v, int tl, int tr){ // O(n)
+    // O(n)
+    // void build(int v, int tl, int tr){ 
     //     if(tr == tl + 1){
     //         tree[v] = 1;
     //         return;
@@ -112,8 +114,8 @@ public:
         update(l, r, val, 0, 0, size);
     }
 
-    ll calc(int l, int r){
-        return calc(l, r, 0, 0, size);
+    int calc(int l, int r, ll x){
+        return calc(l, r, 0, 0, size, x);
     }
 };
 
@@ -128,8 +130,8 @@ void solver(){
             st.update(l, r, val);
         }
         else{
-            int l, r; cin>>l>>r;
-            cout<<st.calc(l, r)<<endl;
+            ll x; int l; cin>>x>>l;
+            cout<<st.calc(l, n, x)<<endl;
         }
     }
 }
