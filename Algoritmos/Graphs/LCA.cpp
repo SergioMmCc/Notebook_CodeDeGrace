@@ -9,11 +9,6 @@ using ld = long double;
 #define se second
 typedef pair<int, int> pii;
 
-const int maxn = 2e5 + 1;
-const int LOG = 19; //El logaritmo base 2 del numero maximo de nodos
-vector<vector<int>> graph(maxn), up(maxn, vector<int>(LOG)); // up[a][i] guarda el ancestro que está a 2^i distancia de a
-vector<int> depth(maxn, -1);
-
 
 /* Este algoritmo sirve para calcular el minimo ancestro
    comun (Lowest Common Ancestor) entre dos nodos especificos.
@@ -25,6 +20,11 @@ vector<int> depth(maxn, -1);
    mediante un BFS. */
 
 // Esta implementación sirve para grafos no dirigidos y dirigidos
+
+const int maxn = 2e5 + 1;
+const int LOG = 19; //El logaritmo base 2 del numero maximo de nodos
+vector<vector<int>> graph(maxn), up(maxn, vector<int>(LOG)); // up[a][i] guarda el ancestro que está a 2^i distancia de a
+vector<int> depth(maxn, -1);
 
 void BFS(int s) {
     depth[s] = 0;
