@@ -14,9 +14,10 @@ typedef pair<int, int> pii;
 
 // Implementacion con array 0-index
 /*
-    - Tambien podemos calcular multiplicaciones (incluyendo multiplicacion modular y
-      multiplicacion de matrices), operaciones bitwise como and (&), or (|) y xor (^),
-      gcd y cualquier operacion que cumpla con la propiedad asociativa.
+    - Esta implementacion es de suma, sin embargo, tambien podemos calcular 
+      multiplicaciones (incluyendo multiplicacion modular y multiplicacion de 
+      matrices), operaciones bitwise como and (&), or (|) y xor (^), gcd y cualquier 
+      operacion que cumpla con la propiedad asociativa.
     - Se pueden contar minimos/maximos utilizando un par que guarde minimo, cantidad 
       de apariciones.
 */ 
