@@ -18,9 +18,17 @@ typedef pair<int, int> pii;
 class segTree {
 private:
     int size;
+    vector<ll> lazy;
     vector<ll> tree;
 
     ll neutro = LLONG_MAX - 1;
+
+    // Para query suma y update suma
+    ll updateOp(ll a, ll b, ll len){
+        if(b == neutro) return a;
+        if(a == neutro) return b*len;
+        return a + b*len;
+    }
 
     ll calcOp(ll a, ll b){
         if(a == neutro) return b;
@@ -28,21 +36,45 @@ private:
         return a + b;
     }
 
-    void update(int pos, ll val, int v, int tl, int tr){ // O(lg(n))
-        if(tr - tl == 1){
-            tree[v] = val;
+    void applyUpdOp(ll &a, ll b, ll len){
+        a = updateOp(a, b, len);
+    }
+
+    // O(1)
+    void propagate(int v, int tl, int tr){
+        if(tr - tl == 1) return;
+        int tm = (tr + tl) / 2;
+        // Para Update de invertir (cambiar 0s por 1s y viceversa), usar:
+        // lazy[2*v + 1] = !lazy[2*v + 1];
+        // lazy[2*v + 2] = !lazy[2*v + 2];
+        applyUpdOp(lazy[2*v + 1], lazy[v], 1);
+        applyUpdOp(tree[2*v + 1], lazy[v], tm - tl);
+        applyUpdOp(lazy[2*v + 2], lazy[v], 1);
+        applyUpdOp(tree[2*v + 2], lazy[v], tr - tm);
+        lazy[v] = neutro;
+    }
+
+    // O(lg(n))
+    // [l, r)
+    void update(int l, int r, ll val, int v, int tl, int tr){
+        propagate(v, tl, tr);
+        if(tl >= r || l >= tr) return;
+        if(tl >= l && tr <= r){
+            applyUpdOp(lazy[v], val, 1);
+            applyUpdOp(tree[v], val, tr - tl);
             return;
         }
         
         int tm = (tl + tr) / 2;
-        if(pos < tm) update(pos, val, 2*v + 1, tl, tm);
-        else update(pos, val, 2*v + 2, tm, tr);
+        update(l, r, val, 2*v + 1, tl, tm);
+        update(l, r, val, 2*v + 2, tm, tr);
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
 
     // O(lg(n))
     // [l, r)
     ll calc(int l, int r, int v, int tl, int tr){
+        propagate(v, tl, tr);
         if(tl >= r || l >= tr) return neutro;
         if(tl >= l && tr <= r) return tree[v];
 
@@ -52,10 +84,11 @@ private:
         return calcOp(m1, m2);
     }
 
-    void build(vector<ll>& a, int v, int tl, int tr){ // O(n)
-        if(tr - tl == 1){
-           if(tl < sz(a)) tree[v] = a[tl];
-           return;
+    // O(n)
+    void build(vector<ll>& a, int v, int tl, int tr){ 
+        if(tr == tl + 1){
+            tree[v] = a[tl];
+            return;
         }
         int tm = (tr + tl) / 2;
         build(a, 2*v + 1, tl, tm);
@@ -68,12 +101,12 @@ public:
     void init(int n){
         size = 1;
         while(size < n) size *= 2;
+        lazy.assign(2*size, 0LL);
         tree.assign(2*size, 0LL);
-        // build(0, 0, size);
     }
 
-    void update(int pos, ll val){
-        update(pos, val, 0, 0, size);
+    void update(int l, int r, ll val){
+        update(l, r, val, 0, 0, size);
     }
 
     ll calc(int l, int r){
@@ -102,9 +135,9 @@ void DFS(vector<pii>& ran, int u, int pa, int &cnt){
 }
 
 void solver(){
-    int n; cin>>n;
-    vector<int> color(n);
-    for(int i = 0; i < n; i++) cin>>color[i];
+    int n, q; cin>>n>>q;
+    vector<ll> a(n);
+    for(int i = 0; i < n; i++) cin>>a[i];
     for(int i = 1; i < n; i++){
         int u, v; cin>>u>>v; u--; v--;
         tree[u].pb(v);
@@ -115,28 +148,22 @@ void solver(){
     int cnt = 0;
     DFS(ran, 0, -1, cnt);
 
-    vector<int> orden(n);
-    for(int i = 0; i < n; i++) orden[ran[i].fi] = i;
-
-    vector<int> ans(n);
-    map<int, int> last;
     segTree st;
     st.init(n);
+    for(int i = 0; i < n; i++) st.update(ran[i].fi, ran[i].se, a[i]);
 
-    for(int i = n - 1; i >= 0; i--){
-        int u = orden[i];
-        int c = color[u];
-        if(last.find(c) != last.end()) st.update(last[c], 0);
-        last[c] = i;
-        st.update(i, 1);
-        ans[u] = st.calc(ran[u].fi, ran[u].se);
+    while(q--){
+        int op; cin>>op;
+        if(op == 1){
+            int s; ll x; cin>>s>>x; s--;
+            st.update(ran[s].fi, ran[s].se, x - a[s]);
+            a[s] = x;
+        }
+        else{
+            int s; cin>>s; s--;
+            cout<<st.calc(ran[s].fi, ran[s].fi + 1)<<endl;
+        }
     }
-
-    for(int i = 0; i < n; i++){
-        if(i) cout<<' ';
-        cout<<ans[i];
-    }
-    cout<<endl;
 }
 
 int main(){

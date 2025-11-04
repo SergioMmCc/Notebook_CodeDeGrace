@@ -23,8 +23,6 @@ void solver(){
     int y = a[1] - 2*x;
     int z = a[n-1] / 3;
 
-    int w = gcd(x, gcd(y, z));
-
     cout<<x<<' '<<y<<' '<<z<<endl;
 }
 
