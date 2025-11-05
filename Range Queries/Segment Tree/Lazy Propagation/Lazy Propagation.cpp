@@ -15,13 +15,42 @@ typedef pair<int, int> pii;
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
-// Segment Tree Lazy Propagation
-// - Es necesario que se cumpla la propiedad asociativa tanto en las operaciones de update como calc.
-// - Es necesario que se cumpla que calcOp(updateOp(a, x), updateOp(b, x)) == updateOp(calcOp(a, b), x),
-//   es decir, que updateOp sea distributiva relativa a calcOp, ejemplo, update de multiplicacion, calc
-//   suma. En caso de que no se cumpla esa propiedad (update assign, calc suma o update suma, calc suma),
-//   se debe ajustar utilizando la longitud del rango en la operacion update. 
-// - Este ejemplo corresponde a update assign y calc suma.
+/*
+    Segment Tree Lazy Propagation (ejemplo con update assign y calc suma.)
+    - Es necesario que se cumpla la propiedad asociativa tanto en las operaciones de update como calc.
+    - Es necesario que se cumpla que calcOp(updateOp(a, x), updateOp(b, x)) == updateOp(calcOp(a, b), x),
+    es decir, que updateOp sea distributiva relativa a calcOp, ejemplo, update de multiplicacion, calc
+    suma. En caso de que no se cumpla esa propiedad (update assign, calc suma o update suma, calc suma),
+    se debe ajustar utilizando la longitud del rango en la operacion update. 
+    - Si se llega a pedir update de diferentes tipos, toca tener cuidado con la propagacion. Ejemplo con
+    update de asignacion (1) y de suma (0):
+    Updates:
+    ll updateOp(ll a, ll b, ll len, int op){ // op -> assign, !op -> suma
+        if(op == -1) return neutro;
+        if(b == neutro) return a;
+        if(a == neutro) return b * len;
+        return op ? b * len : a + b * len;
+    }
+    Propagacion:
+    void propagate(int v, int tl, int tr){
+        if(tr - tl == 1 || lazy[v].se == -1) return;
+        int tm = (tr + tl) / 2;
+        
+        lazy[2*v + 1].fi = updateOp(lazy[2*v + 1].fi, lazy[v].fi, 1, lazy[v].se);
+        if(lazy[2*v + 1].se == -1) lazy[2*v + 1].se = lazy[v].se;
+        else lazy[2*v + 1].se = min(1, lazy[2*v + 1].se + lazy[v].se);
+
+        tree[2*v + 1] = updateOp(tree[2*v + 1], lazy[v].fi, tm - tl, lazy[v].se);
+
+
+        lazy[2*v + 2].fi = updateOp(lazy[2*v + 2].fi, lazy[v].fi, 1, lazy[v].se);
+        if(lazy[2*v + 2].se == -1) lazy[2*v + 2].se = lazy[v].se;
+        else lazy[2*v + 2].se = min(1, lazy[2*v + 2].se + lazy[v].se);
+
+        tree[2*v + 2] = updateOp(tree[2*v + 2], lazy[v].fi, tm - tl, lazy[v].se);
+        lazy[v] = {neutro, -1};
+    }
+*/
 
 class segTree {
 private:
