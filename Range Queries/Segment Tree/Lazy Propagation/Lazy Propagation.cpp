@@ -163,7 +163,7 @@ public:
     void init(int n){
         size = 1;
         while(size < n) size *= 2;
-        lazy.assign(2*size, 0LL);
+        lazy.assign(2*size, neutro);
         tree.assign(2*size, 0LL);
     }
 
