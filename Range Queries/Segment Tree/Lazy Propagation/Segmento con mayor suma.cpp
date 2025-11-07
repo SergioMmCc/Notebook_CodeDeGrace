@@ -16,6 +16,7 @@ typedef pair<int, int> pii;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 // Update de asignacion, query de segmento con mayor suma
+// La respuesta se guarda en .seg
 
 struct Node{
     ll seg, pref, suf, sum;
