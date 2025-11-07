@@ -17,21 +17,30 @@ typedef pair<int, int> pii;
 
 const int maxn = 2e5 + 1;
 vector<vector<int>> tree(maxn);
-vector<ll> f(maxn), len(maxn);
-int n;
+vector<pii> f(maxn);
+vector<int> g(maxn), h(maxn), ans(maxn);
 
 void DFS1(int u, int pa = -1){
-    len[u] = 1;
     for(int v : tree[u]){
         if(v == pa) continue;
         DFS1(v, u);
-        len[u] += len[v];
-        f[u] += f[v] + len[v];
+        if(f[v].fi + 1 > f[u].fi){
+            h[u] = f[u].fi;
+            f[u] = {f[v].fi + 1, v};
+        }
+        else if(f[v].fi + 1 > h[u]) h[u] = f[v].fi + 1;
     }
 }
 
 void DFS2(int u, int pa = -1){
-    if(pa != -1) f[u] = f[pa] + n - 2*len[u];
+    if(pa != -1){
+        if(f[pa].se == u) g[u] = h[pa] + 1;
+        else g[u] = f[pa].fi + 1;
+        g[u] = max(g[u], g[pa] + 1);
+    }
+
+    ans[u] = max(g[u], f[u].fi);
+
     for(int v : tree[u]){
         if(v == pa) continue;
         DFS2(v, u);
@@ -39,7 +48,7 @@ void DFS2(int u, int pa = -1){
 }
 
 void solver(){
-    cin>>n;
+    int n; cin>>n;
     for(int i = 1; i < n; i++){
         int u, v; cin>>u>>v;
         tree[u].pb(v);
@@ -48,7 +57,7 @@ void solver(){
 
     DFS1(1);
     DFS2(1);
-    for(int i = 1; i <= n; i++) cout<<f[i]<<' '; cout<<endl;
+    for(int i = 1; i <= n; i++) cout<<ans[i]<<' '; cout<<endl;
 }
 
 int main(){

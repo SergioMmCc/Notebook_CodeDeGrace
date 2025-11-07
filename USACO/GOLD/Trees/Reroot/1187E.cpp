@@ -25,13 +25,15 @@ void DFS1(int u, int pa = -1){
     for(int v : tree[u]){
         if(v == pa) continue;
         DFS1(v, u);
+        f[u] += f[v];
         len[u] += len[v];
-        f[u] += f[v] + len[v];
     }
+
+    f[u] += len[u];
 }
 
 void DFS2(int u, int pa = -1){
-    if(pa != -1) f[u] = f[pa] + n - 2*len[u];
+    if(pa != -1) f[u] = n + f[pa] - 2*len[u];
     for(int v : tree[u]){
         if(v == pa) continue;
         DFS2(v, u);
@@ -48,7 +50,10 @@ void solver(){
 
     DFS1(1);
     DFS2(1);
-    for(int i = 1; i <= n; i++) cout<<f[i]<<' '; cout<<endl;
+
+    ll ans = 0;
+    for(int i = 1; i <= n; i++) ans = max(ans, f[i]);
+    cout<<ans<<endl;
 }
 
 int main(){
