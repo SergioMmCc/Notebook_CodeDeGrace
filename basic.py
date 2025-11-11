@@ -20,12 +20,12 @@ def main ():
 
     # Leer hasta fin de archivo
     def main():
-    while(True):
-        try:
-            n = int(input())
-            # Procesar lo que sea necesario
-        except EOFError:
-            break
+        while(True):
+            try:
+                n = int(input())
+                # Procesar lo que sea necesario
+            except EOFError:
+                break
 
     # Tamaño de una cadena
     x = len(s)
