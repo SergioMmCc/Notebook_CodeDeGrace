@@ -9,8 +9,6 @@ using ld = long double;
 #define se second
 typedef pair<int, int> pii;
 
-const int inf = 1e9 + 1;
-
 // Complejidad: O(n * log(n))
 // - En este problema me piden el tamaño de la Longest Increasing
 //   Subsequence (LIS). Una LIS es un array a donde para cada
@@ -36,6 +34,8 @@ const int inf = 1e9 + 1;
 //   indices podemos encontrar la ultima ubicacion del numero mayor x de 
 //   subsecuencia mas larga y recorrer hacia la izquierda buscando x-1,
 //   despues x-2, hasta llegar a x - l + 1.
+
+const int inf = 1e9 + 1;
 
 void solver(){
     int n; cin>>n;
