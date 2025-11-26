@@ -76,12 +76,6 @@ void solver(){
                 y++;
             }
         }
-
-        // cout<<"j -> "<<j<<" a[j] -> "<<a[j]<<" copy -> "<<endl;
-        // for(int e : copy) cout<<e<<' '; cout<<endl<<"last -> "<<endl;
-        // for(int e : last) cout<<e<<' '; cout<<endl<<"next -> "<<endl;
-        // for(int e : next) cout<<e<<' '; cout<<endl<<"cnt -> "<<endl;
-        // for(int i = 1; i <= 10; i++) cout<<cnt[i]<<' '; cout<<endl;
         cout<<' '<<maxi;
 
         last = copy;
