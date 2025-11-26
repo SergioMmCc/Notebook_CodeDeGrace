@@ -149,7 +149,7 @@ private:
     // O(n)
     void build(vector<ll>& a, int v, int tl, int tr){ 
         if(tr == tl + 1){
-            tree[v] = a[tl];
+            if(tl < sz(a)) tree[v] = a[tl];
             return;
         }
         int tm = (tr + tl) / 2;
