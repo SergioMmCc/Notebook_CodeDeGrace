@@ -42,7 +42,6 @@ void solver(){
         if(op == 1){
             ll val; cin>>val;
             a[i] = (((val * mod_inverse(m)) % mod) - b + mod) % mod;
-            // cout<<"i -> "<<i<<" a[i] -> "<<a[i]<<endl;
         }
         else if(op == 2){
             ll val; cin>>val;
