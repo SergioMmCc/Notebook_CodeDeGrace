@@ -62,15 +62,21 @@ void solver(){
         return;
     }
 
-    int cnt1 = 0;
+    int cnt1 = 0, sum = 0;
     for(int i = 1; i <= n; i++){
         if(a[i] > rondas + 1){
             cout<<0<<endl;
             return;
         }
         if(a[i] == rondas + 1) cnt1++;
+        else sum += rondas - a[i];
     }
 
+    if(sum > a[0]){
+        cout<<0<<endl;
+        return;
+    }
+    
     ll ans = (fact[left] * fact[n - cnt1]) % mod;
     ll den = mod_inverse(fact[left - cnt1]);
     cout<<(ans * den) % mod<<endl;
