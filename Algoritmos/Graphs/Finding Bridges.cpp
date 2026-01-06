@@ -7,26 +7,36 @@ using ld = long double;
 #define sz size()
 typedef pair<int, int> pii;
 
+// O(n + m)
+// - Halla las aristas bridge en un grafo no dirigido conexo.
+// - La implementacion se hace con DFS, usando el concepto de
+//   DFS Tree.
+// - Para hallar los two edge connected components, simplemente 
+//   eliminar los bridges del grafo y hallar los componentes con
+//   normalidad.
+// - Todas las back-edge forman ciclos.
+// - Todas las back-edge conectan un nodo v con algun ancestro u.
+
 const int maxn = 2e5 + 5;
 vector<vector<int>> graph(maxn);
 vector<bool> visited(maxn);
-vector<int> dp(maxn), sons[maxn], father(maxn);
-set<pii> used;
+vector<int> dp(maxn), sons[maxn], father(maxn), depth(maxn);
 
 void DFS(int u, int prev){
     visited[u] = 1;
     for(int v : graph[u]){
         if(v == prev) continue;
-        if(visited[v]){
-            if(used.find({v, u}) != used.end()) continue;
+        if(visited[v]){ // Back-edge
+            // Revisar que la arista vaya de abajo hacia arriba
+            // para no considerarla 2 veces
+            if(depth[v] > depth[u]) continue;
             dp[u]++;
             dp[v]--;
-            used.insert({u, v});
             continue;
         }
-        sons[u].pb(v);
-        used.insert({u, v});
+        sons[u].pb(v); // Span-edge
         father[v] = u;
+        depth[v] = depth[u] + 1;
         DFS(v, u);
     }
 }

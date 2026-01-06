@@ -63,7 +63,7 @@ pii query(int l, int r){
 // Halla los valores correspondientes de los arrays depth, id y start
 void DFS(int u, int pa){
     start[u] = sz(id); // Marcar en que momento se visito por primera vez
-    id.pb(u); // Insertar cuando se visita el nodo pro primera vez
+    id.pb(u); // Insertar cuando se visita el nodo por primera vez
     for(int v : tree[u]){
         if(v == pa) continue;
         depth[v] = depth[u] + 1;
