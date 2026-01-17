@@ -8,9 +8,14 @@ using namespace std;
 #define se second
 #define lb lower_bound
 #define ub upper_bound
+#define pqueue priority_queue
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<string> vs;
+typedef vector<pii> vii;
 // #include<ext/pb_ds/assoc_container.hpp>
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
