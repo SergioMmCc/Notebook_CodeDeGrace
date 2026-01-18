@@ -20,15 +20,17 @@ typedef vector<pii> vii;
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
-const ll mod = 1e6 + 3;
+// Lucas Theorem para coeficientes binomiales
+// Complejidad O(mod) para el precalculo y O(logmod(n)) por cada llamado a Lucas
+
+const ll mod = 1e6 + 3; // El modulo debe ser primo
 vector<ll> fact(mod);
-// Llamar antes de usar lucas
-void calcFact(){
+void calcFact(){ // Llamar antes de usar lucas
     fact[0] = 1;
     for(int i = 1; i < mod; i++) fact[i] = (fact[i-1] * (ll)i) % mod;
 }
 
-ll lucasBinomial(ll n, ll m){
+ll lucasBinomial(ll n, ll m){ // Coeficientes binomiales
     ll ans = 1;
     while(n > 0 || m > 0){
         ll ni = n % mod;
