@@ -70,8 +70,6 @@ void ans(vii& moves){
 void solver(){
     int n; string s, t; cin>>n>>s>>t;
     vii moves;
-
-    // if(s[n-1] == '0') for(int i = 0; i < n; i++) s[i] = (s[i] == '1' ? '0' : '1'), t[i] = (t[i] == '1' ? '0' : '1');
     
     for(int i = 0; i < n - 3; i += 4){
         string aux = "";
@@ -94,7 +92,6 @@ void solver(){
 
     string aux = "";
     aux += t[n-4]; aux += t[n-3]; aux += t[n-2]; aux += t[n-1];
-    // cout<<"aux -> "<<aux<<endl;
     addMove(aux, n-4, moves, 1);
 
     ans(moves);
