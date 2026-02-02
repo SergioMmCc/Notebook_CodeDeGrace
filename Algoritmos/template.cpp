@@ -15,6 +15,7 @@ typedef pair<int, int> pii;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<string> vs;
+typedef vector<bool> vb;
 typedef vector<pii> vii;
 // #include<ext/pb_ds/assoc_container.hpp>
 // using namespace __gnu_pbds;
