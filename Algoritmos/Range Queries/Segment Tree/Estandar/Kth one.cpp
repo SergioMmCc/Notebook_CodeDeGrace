@@ -1,16 +1,38 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define endl '\n'
-using ll = long long;
-using ld = long double;
 #define pb push_back
-#define sz size()
+#define sz(a) ((int)a.size())
+#define all(a) a.begin(), a.end()
 #define fi first
 #define se second
+#define lb lower_bound
+#define ub upper_bound
+#define pqueue priority_queue
+typedef long long ll;
+typedef long double ld;
 typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<string> vs;
+typedef vector<bool> vb;
+typedef vector<pii> vii;
+// #include<ext/pb_ds/assoc_container.hpp>
+// using namespace __gnu_pbds;
+// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 
 // 0-index
+// - Para este tipo de ejercicios en que se pide hallar en que 
+//   posicion se encuentra algo se utiliza una tecnica que se 
+//   llama walking on segment tree, entonces en las querys no
+//   hago una operacion entre el resultado de los 2 hijos sino
+//   que me dirijo hacia uno de ellos segun alguna condicion.
+//   La condicion de parada tambien cambia, pues ahora se sigue
+//   explorando el arbol no hasta que los parametros de consulta
+//   encajen con los del llamado actual a la funcion, sino hasta
+//   que el nodo que se esta explorando corresponda a un segmento 
+//   de tamaño uno.
 // - Como usar:
 //   Si tengo un array con todo 1s, me va a decir que el 4to uno
 //   esta en la posicion 3. Asi que si me piden que diga el Kth
@@ -22,55 +44,99 @@ typedef pair<int, int> pii;
 //   posiciones, y contestar queries del tipo de cual es la Kth 
 //   posicion encendida
 
-const int maxn = 1e5 + 1;
-vector<pii> tree(4*maxn);
+struct node{ // Change
+    ll val; int idx;
+};
 
-void build(vector<int>& a, int v, int tl, int tr){
-    if(tl == tr) tree[v] = {a[tl], tl};
-    else{
-        int tm = (tl + tr) / 2;
-        build(a, 2*v, tl, tm);
-        build(a, 2*v + 1, tm + 1, tr);
-        tree[v] = {tree[2*v].fi + tree[2*v + 1].fi, 0};
+class segTree {
+private:
+    int size;
+    vector<node> tree;
+
+    node neutro = {LLONG_MAX - 1, INT_MAX - 1}; // Change
+
+    node calcOp(node a, node b){ // Change
+        if(a.val == neutro.val) return b;
+        if(b.val == neutro.val) return a;
+        node ans = {a.val + b.val, 0};
+        return ans;
     }
-}
 
-// Las queries son [l, r]
-int query(int v, int tl, int tr, int k){
-    if(tl == tr) return tree[v].se;
-
-    int tm = (tl + tr) / 2;
-    if(tree[2*v].fi >= k) return query(2*v, tl, tm, k);
-    return query(2*v + 1, tm + 1, tr, k - tree[2*v].fi);
-}
-
-void update(int v, int tl, int tr, int pos, int val){
-    if(tl == tr) tree[v] = {val, pos};
-    else{
+    void update(int pos, ll val, int v, int tl, int tr){ // O(lg(n))
+        if(tr - tl == 1){
+            tree[v] = {val, tl}; // Change
+            assert(tl == pos);
+            return;
+        }
+        
         int tm = (tl + tr) / 2;
-        if(pos <= tm) update(2*v, tl, tm, pos, val);
-        else update(2*v + 1, tm + 1, tr, pos, val);
-        tree[v] = {tree[2*v].fi + tree[2*v + 1].fi, 0};
+        if(pos < tm) update(pos, val, 2*v + 1, tl, tm);
+        else update(pos, val, 2*v + 2, tm, tr);
+        tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
-}
+
+    // O(lg(n))
+    // [l, r)
+    node calc(int l, int r, int v, int tl, int tr, int k){
+        if(tl >= r || l >= tr) return neutro;
+        if(tr - tl == 1) return tree[v];
+
+        int tm = (tl + tr) / 2;
+        if(tree[2*v + 1].val >= k) return calc(l, r, 2*v + 1, tl, tm, k);
+        else return calc(l, r, 2*v + 2, tm, tr, k - tree[2*v + 1].val);
+    }
+
+    void build(vl& a, int v, int tl, int tr){ // O(n)
+        if(tr - tl == 1){
+           if(tl < sz(a)) tree[v] = {a[tl], tl}; // Change
+           return;
+        }
+        int tm = (tr + tl) / 2;
+        build(a, 2*v + 1, tl, tm);
+        build(a, 2*v + 2, tm, tr);
+        tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
+    }
+
+
+public:
+    void init(int n){
+        size = 1;
+        while(size < n) size *= 2;
+        tree.assign(2*size, {0LL});
+        // build(0, 0, size);
+    }
+
+    void update(int pos, ll val){
+        update(pos, val, 0, 0, size);
+    }
+
+    node calc(int l, int r, int k){
+        return calc(l, r, 0, 0, size, k);
+    }
+
+    void build(vl& a){
+        build(a, 0, 0, size);
+    }
+};
 
 void solver(){
     int n, m; cin>>n>>m;
-    vector<int> a(n);
+    vl a(n);
     for(int i = 0; i < n; i++) cin>>a[i];
 
-    build(a, 1, 0, n-1);
+    segTree st; st.init(n);
+    st.build(a);
 
     while(m--){
         int op; cin>>op;
         if(op == 1){
             int i; cin>>i;
             a[i] = 1 ^ a[i];
-            update(1, 0, n-1, i, a[i]);
+            st.update(i, a[i]);
         }
         else{
             int k; cin>>k; k++;
-            cout<<query(1, 0, n-1, k)<<endl;
+            cout<<st.calc(0, n, k).idx<<endl;
         }
     }
 }

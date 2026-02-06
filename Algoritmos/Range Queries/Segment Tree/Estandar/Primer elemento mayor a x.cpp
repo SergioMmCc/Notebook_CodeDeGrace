@@ -1,13 +1,25 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define endl '\n'
-using ll = long long;
-using ld = long double;
 #define pb push_back
-#define sz size()
+#define sz(a) ((int)a.size())
+#define all(a) a.begin(), a.end()
 #define fi first
 #define se second
+#define lb lower_bound
+#define ub upper_bound
+#define pqueue priority_queue
+typedef long long ll;
+typedef long double ld;
 typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<string> vs;
+typedef vector<bool> vb;
+typedef vector<pii> vii;
+// #include<ext/pb_ds/assoc_container.hpp>
+// using namespace __gnu_pbds;
+// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 /* 
    Sirve para hallar el primer j tal que j > l y a[j] > x.
@@ -16,61 +28,104 @@ typedef pair<int, int> pii;
    un valor de l = 0.
 */
 
-const int maxn = 1e5 + 1;
+struct node{ // Change
+    ll val; int idx;
+};
 
-vector<pii> tree(4*maxn);
+class segTree {
+private:
+    int size;
+    vector<node> tree;
 
-void build(vector<int>& a, int v, int tl, int tr){
-    if(tl == tr) tree[v] = {a[tl], tl};
-    else{
+    node neutro = {LLONG_MAX - 1, -1}; // Change
+
+    node calcOp(node a, node b){ // Change
+        if(a.val == neutro.val) return b;
+        if(b.val == neutro.val) return a;
+        node ans;
+        if(a.val >= b.val) ans = a;
+        else ans = b;
+        return ans;
+    }
+
+    void update(int pos, ll val, int v, int tl, int tr){ // O(lg(n))
+        if(tr - tl == 1){
+            tree[v] = {val, tl}; // Change
+            return;
+        }
+        
         int tm = (tl + tr) / 2;
-        build(a, 2*v, tl, tm);
-        build(a, 2*v + 1, tm + 1, tr);
-        tree[v] = max(tree[2*v], tree[2*v + 1]);
-    }
-}
-
-// Las queries son [l, r]
-int query(int v, int tl, int tr, int x, int l){
-    if(l > tr) return -1;
-    if(tl == tr){
-        if(tree[v].fi < x) return -1;
-        return tree[v].se;
+        if(pos < tm) update(pos, val, 2*v + 1, tl, tm);
+        else update(pos, val, 2*v + 2, tm, tr);
+        tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
 
-    int tm = (tl + tr) / 2;
-    int ans = -1;
-    if(tree[2*v].fi >= x) ans = query(2*v, tl, tm, x, l);
-    if(ans == -1 && tree[2*v + 1].fi >= x) ans = query(2*v + 1, tm + 1, tr, x, l);
-    return ans;
-}
+    // O(lg(n))
+    // [l, r)
+    node calc(int l, int r, int v, int tl, int tr, int x){
+        if(tl >= r || l >= tr) return neutro;
+        if(tr - tl == 1){
+            if(tree[v].val < x) return neutro;
+            return tree[v];
+        }
 
-void update(int v, int tl, int tr, int pos, int val){
-    if(tl == tr) tree[v] = {val, pos};
-    else{
         int tm = (tl + tr) / 2;
-        if(pos <= tm) update(2*v, tl, tm, pos, val);
-        else update(2*v + 1, tm + 1, tr, pos, val);
-        tree[v] = max(tree[2*v], tree[2*v + 1]);
+        node ans = neutro;
+        if(tree[2*v + 1].val >= x) ans = calc(l, r, 2*v + 1, tl, tm, x);
+        if(ans.idx == neutro.idx && tree[2*v + 2].val >= x) ans = calc(l, r, 2*v + 2, tm, tr, x);
+        return ans;
     }
-}
+
+    void build(vl& a, int v, int tl, int tr){ // O(n)
+        if(tr - tl == 1){
+           if(tl < sz(a)) tree[v] = {a[tl], tl}; // Change
+           return;
+        }
+        int tm = (tr + tl) / 2;
+        build(a, 2*v + 1, tl, tm);
+        build(a, 2*v + 2, tm, tr);
+        tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
+    }
+
+
+public:
+    void init(int n){
+        size = 1;
+        while(size < n) size *= 2;
+        tree.assign(2*size, {0LL});
+        // build(0, 0, size);
+    }
+
+    void update(int pos, ll val){
+        update(pos, val, 0, 0, size);
+    }
+
+    node calc(int l, int r, int x){
+        return calc(l, r, 0, 0, size, x);
+    }
+
+    void build(vector<ll>& a){
+        build(a, 0, 0, size);
+    }
+};
 
 void solver(){
     int n, m; cin>>n>>m;
-    vector<int> a(n);
+    vector<ll> a(n);
     for(int i = 0; i < n; i++) cin>>a[i];
 
-    build(a, 1, 0, n-1);
+    segTree st; st.init(n);
+    st.build(a);
 
     while(m--){
         int op; cin>>op;
         if(op == 1){
             int i, v; cin>>i>>v;
-            update(1, 0, n-1, i, v);
+            st.update(i, v);
         }
         else{
             int x, l; cin>>x>>l;
-            cout<<query(1, 0, n-1, x, l)<<endl;
+            cout<<st.calc(l, n, x).idx<<endl;
         }
     }
 }
