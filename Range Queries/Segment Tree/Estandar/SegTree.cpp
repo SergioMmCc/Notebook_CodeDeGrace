@@ -8,9 +8,18 @@ using namespace std;
 #define se second
 #define lb lower_bound
 #define ub upper_bound
+#define pqueue priority_queue
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<string> vs;
+typedef vector<bool> vb;
+typedef vector<pii> vii;
+// #include<ext/pb_ds/assoc_container.hpp>
+// using namespace __gnu_pbds;
+// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 // Implementacion con array 0-index
 /*
@@ -20,24 +29,40 @@ typedef pair<int, int> pii;
       operacion que cumpla con la propiedad asociativa.
     - Se pueden contar minimos/maximos utilizando un par que guarde minimo, cantidad 
       de apariciones.
-*/ 
+    - Nested segments:
+      Para contar la cantidad de segmentos contenidos en otro se pueden recorrer los
+      segmentos en order descendente de l, en ese momento se coloca se hace una querie
+      de suma en su rango (ese valor es la cantidad de segmentos contenidos en este) y
+      finalmente se actualiza su valor con 1 en r.
+    - Intersecting Segments:
+      Para hallar la cantidad de segmentos que se intersectan con otro, se recorren
+      los puntos de cada segmento. Al llegar a una l, se marca esta posicion en 1. Al 
+      llegar a r se marca la posicion en l con -1 y en r con 1 y se hace una querie de
+      suma en (l, r) o [l, r], ese valor es la cantidad de segmentos que se intersectan
+      con este.
+*/
+
+struct node{ // Change
+    ll val;
+};
 
 class segTree {
 private:
     int size;
-    vector<ll> tree;
+    vector<node> tree;
 
-    ll neutro = LLONG_MAX - 1;
+    node neutro = {LLONG_MAX - 1}; // Change
 
-    ll calcOp(ll a, ll b){
-        if(a == neutro) return b;
-        if(b == neutro) return a;
-        return a + b;
+    node calcOp(node a, node b){ // Change
+        if(a.val == neutro.val) return b;
+        if(b.val == neutro.val) return a;
+        node ans = {a.val + b.val};
+        return ans;
     }
 
     void update(int pos, ll val, int v, int tl, int tr){ // O(lg(n))
         if(tr - tl == 1){
-            tree[v] = val;
+            tree[v] = {val}; // Change
             return;
         }
         
@@ -49,19 +74,19 @@ private:
 
     // O(lg(n))
     // [l, r)
-    ll calc(int l, int r, int v, int tl, int tr){
+    node calc(int l, int r, int v, int tl, int tr){ // Change si walking on segment tree
         if(tl >= r || l >= tr) return neutro;
-        if(tl >= l && tr <= r) return tree[v];
+        if(tl >= l && tr <= r) return tree[v]; // si walking on seg tree -> tr - tl == 1
 
         int tm = (tl + tr) / 2;
-        ll m1 = calc(l, r, 2*v + 1, tl, tm);
-        ll m2 = calc(l, r, 2*v + 2, tm, tr);
+        node m1 = calc(l, r, 2*v + 1, tl, tm);
+        node m2 = calc(l, r, 2*v + 2, tm, tr);
         return calcOp(m1, m2);
     }
 
-    void build(vector<ll>& a, int v, int tl, int tr){ // O(n)
+    void build(vl& a, int v, int tl, int tr){ // O(n)
         if(tr - tl == 1){
-           if(tl < sz(a)) tree[v] = a[tl];
+           if(tl < sz(a)) tree[v] = {a[tl]}; // Change
            return;
         }
         int tm = (tr + tl) / 2;
@@ -75,7 +100,7 @@ public:
     void init(int n){
         size = 1;
         while(size < n) size *= 2;
-        tree.assign(2*size, 0LL);
+        tree.assign(2*size, {0LL});
         // build(0, 0, size);
     }
 
@@ -83,7 +108,7 @@ public:
         update(pos, val, 0, 0, size);
     }
 
-    ll calc(int l, int r){
+    node calc(int l, int r){
         return calc(l, r, 0, 0, size);
     }
 
@@ -94,7 +119,7 @@ public:
 
 void solver(){
     int n, m; cin>>n>>m;
-    vector<ll> a(n);
+    vl a(n);
     for(int i = 0; i < n; i++) cin>>a[i];
 
     segTree st;
@@ -109,7 +134,7 @@ void solver(){
         }
         else{
             int l, r; cin>>l>>r;
-            cout<<st.calc(l, r)<<endl;
+            cout<<st.calc(l, r).val<<endl;
         }
     }
 }
