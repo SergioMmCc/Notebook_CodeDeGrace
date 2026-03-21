@@ -21,22 +21,40 @@ typedef vector<pii> vii;
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
+int toNum(string s){
+    int ans = 0;
+    ans += 36000 * (int)(s[0] - '0');
+    ans += 3600 * (int)(s[1] - '0');
+    ans += 600 * (int)(s[3] - '0');
+    ans += 60 * (int)(s[4] - '0');
+    ans += 10 * (int)(s[6] - '0');
+    ans += (int)(s[7] - '0');
+    return ans;
+}
+
 void solver(){
-    int n, d; ll x, r; cin>>n>>x>>r>>d;
-    vi a(n+1), cnt(n+1);
-    for(int i = 1; i <= n; i++){
-        cin>>a[i];
-        cnt[i] = cnt[i-1];
-        if(!a[i]) cnt[i]++;
+    int n, m; cin>>n>>m;
+    vi a(n);
+    for(int i = 0; i < n; i++){
+        string aux; cin>>aux;
+        a[i] = toNum(aux);
+    }
+    vi b(m);
+    for(int i = 0; i < m; i++){
+        string aux; cin>>aux;
+        b[i] = toNum(aux);
+    }
+    sort(all(b));
+
+    int slap; cin>>slap;
+    int ans = 1e9;
+    for(int i = 0; i < n; i++){
+        auto it = lb(all(b), a[i] + slap);
+        if(it == b.end()) continue;
+        ans = min(ans, *it - a[i]);
     }
 
-    vl dp(n+2); dp[n] = x; if(a[n]) dp[n] = min(dp[n], r);
-    for(int i = n-1; i > 0; i--){
-        dp[i] = x + dp[i+1];
-        dp[i] = min(dp[i], r + dp[min(i+d, n+1)] + x * (cnt[min(i+d-1, n)] - cnt[i-1]) + (a[i] ? 0 : x));
-    }
-
-    cout<<dp[1]<<endl;
+    cout<<(ans == 1e9 ? -1 : ans)<<endl;
 }
 
 int main(){

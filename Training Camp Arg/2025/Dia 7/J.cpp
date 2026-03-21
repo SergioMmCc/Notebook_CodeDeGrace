@@ -7,21 +7,21 @@ using ld = long double;
 #define sz size()
 #define fi first
 #define se second
-typedef pair<int, ll> pil;
+typedef pair<ll, ll> pil;
 
 const ll mod = 1e9 + 7;
-const int maxn = 100005;
-vector<int> leader(maxn);
+const ll maxn = 100005;
+vector<ll> leader(maxn);
 vector<ll> dep(maxn);
 
-void initDSU(int n){
-    for(int i = 1; i <= n; i++){
+void initDSU(ll n){
+    for(ll i = 1; i <= n; i++){
         leader[i] = i;
         dep[i] = 0;
     }
 }
 
-pil find(int u){
+pil find(ll u){
     if(leader[u] != u){
         pil upd = find(leader[u]);
         leader[u] = upd.fi;
@@ -31,19 +31,19 @@ pil find(int u){
     return {leader[u], dep[u]};
 }
 
-void join(int u, int v, ll w){
+void join(ll u, ll v, ll w){
     leader[v] = u;
     dep[v] = w;
 }
 
 void solver(){
-    int n; cin>>n;
+    ll n; cin>>n;
     initDSU(n);
     ll ans = 0;
-    for(int i = 1; i <= n; i++){
-        int k; cin>>k;
-        for(int j = 0; j < k; j++){
-            int v; ll w; cin>>v>>w;
+    for(ll i = 1; i <= n; i++){
+        ll k; cin>>k;
+        for(ll j = 0; j < k; j++){
+            ll v; ll w; cin>>v>>w;
             w += mod; w %= mod;
             pil cha = find(v);
             ans += (w + cha.se) % mod;
@@ -56,9 +56,9 @@ void solver(){
     cout<<ans<<endl;
 }
 
-int main(){
+ll main(){
     ios_base::sync_with_stdio(0);cin.tie(NULL);
-    int t = 1;
+    ll t = 1;
     // cin>>t;
     while(t--){
         solver();

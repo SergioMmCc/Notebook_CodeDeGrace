@@ -13,9 +13,9 @@ short dp[101][101][10001]; // MLE
 
 void solver(){
     short n, total = 0; cin>>n;
-    for(int k = 0; k <= n; k++){
-        for(int j = 0; j <= n; j++){
-            for(int i = 0; i <= 10000; i++){
+    for(ll k = 0; k <= n; k++){
+        for(ll j = 0; j <= n; j++){
+            for(ll i = 0; i <= 10000; i++){
                 dp[k][j][i] = -1;
             }
         }
@@ -44,7 +44,7 @@ void solver(){
         for(short j = 1; j <= n; j++){
             for(short i = 1; i <= 10000; i++){
                 dp[k][j][i] = max(dp[k-1][j][i], dp[k][j-1][i]);
-                if(i - a[j] >= 0 && dp[k-1][j-1][i-a[j]] != -1) dp[k][j][i] = max((int)dp[k][j][i], (int)dp[k-1][j-1][i-a[j]] + b[j]);
+                if(i - a[j] >= 0 && dp[k-1][j-1][i-a[j]] != -1) dp[k][j][i] = max((ll)dp[k][j][i], (ll)dp[k-1][j-1][i-a[j]] + b[j]);
 
                 if(dp[k][j][i] != -1) ans[k] = max(ans[k], min((float)i, (float)((float)(dp[k][j][i] + total) / 2.0)));
             }
@@ -58,7 +58,7 @@ void solver(){
     // }
 
     // if(ans[1] == 99.0 && n == 100){
-    //     for(int i = n; i >= 0; i--) cout<<a[i]<<' '<<b[i]<<endl;
+    //     for(ll i = n; i >= 0; i--) cout<<a[i]<<' '<<b[i]<<endl;
     //     return;
     // }
     for(short k = 1; k <= n; k++){
@@ -67,9 +67,9 @@ void solver(){
     cout<<endl;
 }
 
-int main(){
+ll main(){
     ios_base::sync_with_stdio(0);cin.tie(NULL);
-    int t = 1;
+    ll t = 1;
     // cin>>t;
     while(t--){
         solver();
