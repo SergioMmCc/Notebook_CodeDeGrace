@@ -27,6 +27,19 @@ typedef vector<bool> vb;
     - Al comprimir cada SCC como un nodo individual, se obtiene un DAG
     - Si de un SCC A hay un camino a otro SCC B, no hay camino de B hacia A
     - Si se invierten todas las aristas, los SCC no cambian
+    - 2-sat:
+        Dada una expresion booleana en CNF (Conjuctive Normal Form), lo cual 
+        es un acocnjucion demultiples clausulas, donde cada clausula tiene
+        exactamente 2 literales, ej: (a v b) ^ (c v d) ^ ... Se debe hallar 
+        un valor para cada variable (True o False) tal que la formula sea True.
+        Para resolverlo se deben crear 2 nodo para cada literal (a y ~a), tomar 
+        cada clausula (a v b) y crear 2 aristas: ~a -> b y ~b -> a. Con eso se 
+        utiliza Tarjan para hallar los SCC, si hay algun literal a tal que los
+        nodos a y ~a hacen parte del mismo SCC, no hay solucion, de lo contrario
+        si la hay. Para hallar una asignacion valida se comprime el grafo 
+        original en un grafo con sus SCC y se realiza un toposort, si en el orden
+        del toposort el SCC de a se encuentra antes que el SCC de ~a, entonces a
+        es False, de lo contrario es True.
 */
 
 void tarjan(int u, vector<vi>& graph, vi&d, vi& low, vi& scc, vi& reps, vb& stacked, stack<int>& s, int& ticks, int& current_scc){
