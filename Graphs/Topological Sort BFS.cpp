@@ -5,17 +5,14 @@ using ll = long long;
 using ld = long double;
 #define pb push_back
 #define sz size()
+typedef vector<int> vi;
 typedef pair<int, int> pii;
-
-const int maxn = 2e5 + 1;
-vector<vector<int>> graph(maxn);
-vector<int> inDegree(maxn);
 
 // Sirve para hallar un "Topological Sort" en un DAG (Directed Acyclic Graph)
 // Un "Topological Sort", es una forma de ordenar los nodos dado que para cada
 // arista dirigida de 'u' a 'v', 'u' aparece antes que 'v' en el orden
 // Esta implementacion se base en un BFS, por ende la complejidad es O(n + m)
-void topoSort(int n, vector<int>& orden){
+void topoSort(int n, vi& orden, vi& inDegree, vector<vi>& graph){
     queue<int> q;
     for(int i = 1; i <= n; i++){
         if(!inDegree[i]){ 
@@ -41,6 +38,10 @@ void topoSort(int n, vector<int>& orden){
 
 void solver(){
     int n, m; cin>>n>>m;
+
+    vi inDegree(n+1);
+    vector<vi> graph(n+1);
+
     for(int i = 0; i < m; i++){
         int u, v; cin>>u>>v;
         graph[u].pb(v);
@@ -48,7 +49,7 @@ void solver(){
     }
 
     vector<int> ans;
-    topoSort(n, ans);
+    topoSort(n, ans, inDegree, graph);
     if(ans.sz < n) cout<<"IMPOSSIBLE"<<endl; 
     // Si el topoSort no contiene todos los nodos, quiere decir que no hay ninguna forma 
     // valida de ordenarlos, es decir, el grafo dado no es un DAG (Contiene algun ciclo)
