@@ -1,33 +1,25 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define endl '\n'
-using ll = long long;
-typedef vector<int> vi;
-typedef vector<bool> vb;
 #define pb push_back
-
-/* 
-    Tarjan’s algorithm for finding strongly connected
-    components.
-    Complexity: O(E + V)
-    - d[i] = Discovery time of node i. (Initialize to -1)
-    - low[i] = Lowest discovery time reachable from node
-      i. (Doesn’t need to be initialized)
-    - scc[i] = Strongly connected component of node i. (Doesn’t
-      need to be initialized) (0-index)
-    - s = Stack used by the algorithm (Initialize to an empty
-      stack)
-    - stacked[i] = True if i was pushed into s. (Initialize to
-      false)
-    - ticks = Clock used for discovery times (Initialize to 0)
-    - current_scc = ID of the current_scc being discovered
-      (Initialize to 0)
-
-    Aplicaciones:
-    - Al comprimir cada SCC como un nodo individual, se obtiene un DAG
-    - Si de un SCC A hay un camino a otro SCC B, no hay camino de B hacia A
-    - Si se invierten todas las aristas, los SCC no cambian
-*/
+#define sz(a) ((int)a.size())
+#define all(a) a.begin(), a.end()
+#define fi first
+#define se second
+#define lb lower_bound
+#define ub upper_bound
+#define pqueue priority_queue
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<string> vs;
+typedef vector<bool> vb;
+typedef vector<pii> vii;
+// #include<ext/pb_ds/assoc_container.hpp>
+// using namespace __gnu_pbds;
+// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 void tarjan(int u, vector<vi>& graph, vi&d, vi& low, vi& scc, vi& reps, vb& stacked, stack<int>& s, int& ticks, int& current_scc){
     d[u] = low[u] = ticks++;
@@ -64,22 +56,22 @@ void solver(){
     stack<int> s;
     int ticks = 0, current_scc = 0;
 
-    for(int i = 1; i <= m; i++){
-        int u, v;cin>>u>>v;
+    for(int i = 0; i < m; i++){
+        int u, v; cin>>u>>v;
         graph[u].pb(v);
     }
 
-    // Hallar los SCC
-    for(int i = 1; i <= n; i++){
-        if(d[i] == -1) 
-            tarjan(i, graph, d, low, scc, reps, stacked, s, ticks, current_scc);
-    }
+    for(int i = 1; i <= n; i++) if(d[i] == -1) tarjan(i, graph, d, low, scc, reps, stacked, s, ticks, current_scc);
 
     cout<<current_scc<<endl;
+    for(int i = 1; i <= n; i++) cout<<(i > 1 ? " " : "")<<scc[i]+1;
+    cout<<endl;
 }
 
 int main(){
-    ios_base::sync_with_stdio(0);cin.tie(NULL);
+    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    // freopen("name.in", "r", stdin);
+	// freopen("name.out", "w", stdout);
     int t = 1;
     // cin>>t;
     while(t--){
