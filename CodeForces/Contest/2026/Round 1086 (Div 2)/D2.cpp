@@ -21,9 +21,43 @@ typedef vector<pii> vii;
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
-int BFS(int n, vii& edj){
+vii ans;
+vector<vi> graph(8000);
+vector<vb> care(8000, vb(8000));
+vb called(8000);
+
+void DFS(int u, int n, vi& orden, vs& a){
+    called[u] = 1;
+    care[u][u] = 1;
+    for(int v : orden){
+        if(!care[u][v] && a[u][v] == '1'){
+            ans.pb({u, v});
+            if(!called[v]) DFS(v, n, orden, a);
+            for(int w : graph[v]) care[u][w] = 1;
+        }
+    }
+}
+
+bool BFS(int s, int n, vs& a, vector<vi>& tree){
+    vb vis(n); vis[s] = 1;
+    queue<int> q; q.push(s);
+
+    while(!q.empty()){
+        int u = q.front(); q.pop();
+        for(int v : tree[u]){
+            if(vis[v]) continue;
+            vis[v] = 1;
+            q.push(v);
+        }
+    }
+
+    for(int i = 0; i < n; i++) if((vis[i] && a[s][i] == '0') || (!vis[i] && a[s][i] == '1')) return 0;
+    return 1;
+}
+
+int BFS2(int n){
     vector<vi> tree(n);
-    for(pii x : edj){
+    for(pii x : ans){
         tree[x.fi].pb(x.se);
         tree[x.se].pb(x.fi);
     }
@@ -45,62 +79,53 @@ int BFS(int n, vii& edj){
 
 void solver(){
     int n; cin>>n;
-    vs a(n);
-    vi cnt(n);
-    queue<int> q;
+
     for(int i = 0; i < n; i++){
-        cin>>a[i];
+        called[i] = 0;
+        graph[i].clear();
         for(int j = 0; j < n; j++){
-            if(i == j) continue;
-            if(a[i][j] == '1') cnt[i]++;
+            care[i][j] = 0;
         }
-        if(!cnt[i]) q.push(i);
     }
-    
-    // Probar casos obvios de imposibilidad
+
+    vs a(n);
+    for(int i = 0; i < n; i++) cin>>a[i];
+
+    vb ind(n);
+    vi outd(n);
     for(int i = 0; i < n; i++){
         if(a[i][i] == '0'){
             cout<<"No"<<endl;
             return;
         }
+
         for(int j = 0; j < n; j++){
             if(i == j || a[i][j] == '0') continue;
-            if(a[i][j] == '1' && a[j][i] == '1'){
+            if(a[j][i] == '1'){
                 cout<<"No"<<endl;
                 return;
             }
-            for(int k = 0; k < n; k++){
-                if(k == i || k == j) continue;
-                if(a[i][j] == '1' && a[j][k] == '1' && a[i][k] == '0'){
-                    cout<<"No"<<endl;
-                    return;
-                }
-            }
+
+            ind[j] = 1;
+            outd[i]++;
+            graph[i].pb(j);
         }
     }
 
-    vii ans;
-    while(!q.empty()){
-        int v = q.front(); q.pop();
-        // cout<<"v -> "<<v<<endl;
-        for(int u = 0; u < n; u++){
-            if(a[u][v] == '0' || u == v) continue;
+    vector<vi> aux(n);
+    for(int i = 0; i < n; i++){
+        aux[outd[i]].pb(i);
+    }
 
-            bool cond = 1;
-            for(int j = 0; cond && j < n; j++){
-                if(a[u][j] == '0' || j == u || j == v) continue;
-                if(a[j][v] == '1'){
-                    cond = 0;
-                    cnt[u]--;
-                }
-            }
-            if(cond){
-                ans.pb({u, v});
-                cnt[u]--;
-                if(!cnt[u]) q.push(u);
-                // a[u][v] = '0';
-            }
+    vi orden;
+    for(int i = n-1; i >= 0; i--){
+        for(int j : aux[i]){
+            orden.pb(j);
         }
+    }
+
+    for(int i = 0; i < n; i++){
+        if(!ind[i]) DFS(i, n, orden, a);
     }
 
     if(sz(ans) != n-1){
@@ -109,10 +134,7 @@ void solver(){
     }
 
     vb vis(n);
-    for(pii x : ans){
-        vis[x.fi] = 1;
-        vis[x.se] = 1;
-    }
+    for(pii x : ans) vis[x.fi] = 1, vis[x.se] = 1;
     for(int i = 0; i < n; i++){
         if(!vis[i]){
             cout<<"No"<<endl;
@@ -120,10 +142,20 @@ void solver(){
         }
     }
 
-    int machetazo = BFS(n, ans);
+    int machetazo = BFS2(n);
     if(machetazo != n){
         cout<<"No"<<endl;
         return;
+    }
+
+    vector<vi> tree(n);
+    for(pii x : ans) tree[x.fi].pb(x.se);
+
+    for(int i = 0; i < n; i++){
+        if(!BFS(i, n, a, tree)){
+            cout<<"No"<<endl;
+            return;
+        }
     }
 
     cout<<"Yes"<<endl;
@@ -137,6 +169,7 @@ int main(){
     int t = 1;
     cin>>t;
     while(t--){
+        ans.clear();
         solver();
     }
 
