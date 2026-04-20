@@ -30,10 +30,16 @@ void solver(){
         a.insert(num);
         sum += num;
     }
-    auto it = a.end(); it--; it--;
+    auto it = a.end(); it--;
+    if(2 * (*it) >= sum){
+        cout<<"IMPOSSIBLE TO WIN"<<endl;
+        return;
+    }
+    it--;
     ll cnt = *it;
 
     int ans = 0;
+    ll use = 0;
     while(!a.empty() && 2*cnt <= sum){
         ll less = *a.begin();
         if(less == cnt){
@@ -41,16 +47,51 @@ void solver(){
             return;
         }
 
-        ll add = 0;
+        ll add = use;
         while(!a.empty() && *a.begin() == less){
             add += less;
             a.erase(a.begin());
         }
 
-        auto aux = a.find(cnt);
-        a.erase(aux);
-        cnt += add;
-        a.insert(cnt);
+        if(2*(cnt + add) > sum){
+            cout<<ans+1<<endl;
+            return;
+        }
+
+        ll idx = 0;
+        ll maxx = 0;
+        for(ll x : a){
+            ll res = idx * (x - maxx);
+            idx++;
+            if(add < res){
+                idx--;
+                assert(idx);
+                maxx += add / idx;
+                add -= idx*(add/idx);
+                break;
+            }
+            else{
+                if(x == cnt){
+                    res = (idx-1) * (x - 1 - maxx);
+                    add -= res;
+                    maxx = x-1;
+                    idx--;
+                    break;
+                }
+                maxx = x;
+                add -= res;
+            }
+        }
+
+        if(2*(cnt + add + idx*maxx) > sum){
+            cout<<ans+2<<endl;
+            return;
+        }
+        assert(idx <= sz(a));
+        for(int i = 1; i <= idx; i++) a.erase(a.begin());
+        for(int i = 1; i <= idx; i++) a.insert(maxx);
+        use = add;
+
         ans++;
     }
 
