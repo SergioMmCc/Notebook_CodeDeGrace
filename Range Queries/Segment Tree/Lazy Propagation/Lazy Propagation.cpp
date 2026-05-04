@@ -38,7 +38,7 @@ typedef pair<int, int> pii;
         
         lazy[2*v + 1].fi = updateOp(lazy[2*v + 1].fi, lazy[v].fi, 1, lazy[v].se);
         if(lazy[2*v + 1].se == -1) lazy[2*v + 1].se = lazy[v].se;
-        else lazy[2*v + 1].se = min(1, lazy[2*v + 1].se + lazy[v].se);
+        else lazy[2*v + 1].se = min(1, lazy[2*v + 1].se + lazy[v].se); // La asignacion prevalece ya que se le suma al valor que se debe asignar
 
         tree[2*v + 1] = updateOp(tree[2*v + 1], lazy[v].fi, tm - tl, lazy[v].se);
 
