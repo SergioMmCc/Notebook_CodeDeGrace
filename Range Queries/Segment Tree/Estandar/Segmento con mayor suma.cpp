@@ -101,21 +101,23 @@ public:
 };
 
 void solver(){
-    int n, m; cin>>n>>m;
+    int n, q; cin>>n>>q;
     vl a(n);
     for(int i = 0; i < n; i++) cin>>a[i];
 
     segTree st; st.init(n);
     st.build(a);
 
-    node ans = st.calc(0, n);
-    cout<<ans.val<<endl;
-
-    while(m--){
-        int idx; ll val; cin>>idx>>val;
-        st.update(idx, val);
-        ans = st.calc(0, n);
-        cout<<ans.val<<endl;
+    while(q--){
+        int op; cin>>op;
+        if(op == 1){ // Update
+            int idx; ll val; cin>>idx>>val;
+            st.update(idx, val);
+        }
+        else{ // Calc
+            int l, r; cin>>l>>r;
+            cout<<st.calc(l, r+1).val<<endl;
+        }
     }
 }
 
