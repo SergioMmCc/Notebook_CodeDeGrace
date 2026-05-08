@@ -96,25 +96,25 @@ private:
         Node m2 = calc(l, r, 2*v + 2, tm, tr);
         return calcOp(m1, m2);
     }
-
-    // void build(int v, int tl, int tr){ // O(n)
-    //     if(tr == tl + 1){
-    //         tree[v] = 1;
-    //         return;
-    //     }
-    //     int tm = (tr + tl) / 2;
-    //     build(2*v + 1, tl, tm);
-    //     build(2*v + 2, tm, tr);
-    //     tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
-    // }
+    
+    void build(vector<ll>& a, int v, int tl, int tr){ // O(n)
+        if(tr == tl + 1){
+            if(tl < sz(a)) tree[v] = {max(0LL, a[tl]), max(0LL, a[tl]), max(0LL, a[tl]), a[tl]};
+            return;
+        }
+        int tm = (tr + tl) / 2;
+        build(a, 2*v + 1, tl, tm);
+        build(a, 2*v + 2, tm, tr);
+        tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
+    }
 
 
 public:
     void init(int n){
         size = 1;
         while(size < n) size *= 2;
-        lazy.assign(2*size, {0LL, 0LL, 0LL, 0LL});
-        tree.assign(2*size, {0LL, 0LL, 0LL, 0LL});
+        lazy.assign(2*size, neutro);
+        tree.assign(2*size, neutro);
         // build(0, 0, size);
     }
 
