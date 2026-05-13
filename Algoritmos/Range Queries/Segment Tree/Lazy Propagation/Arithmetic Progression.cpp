@@ -16,6 +16,13 @@ typedef pair<ll, ll> pll;
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
+/*
+    Updates del tipo l, r, val, inc
+    Basicamente hago a[l] += val, a[l+1] += val + inc, a[l+2] += val + 2*inc, hasta llegar a r-1
+
+    Queries de suma 
+*/
+
 ll gauss(ll n){
     return n <= 0 ? 0 : (n * (n + 1)) >> 1;
 }
@@ -58,9 +65,6 @@ private:
     void propagate(int v, int tl, int tr){
         if(tr - tl == 1) return;
         int tm = (tr + tl) / 2;
-        // Para Update de invertir (cambiar 0s por 1s y viceversa), usar:
-        // lazy[2*v + 1] = !lazy[2*v + 1];
-        // lazy[2*v + 2] = !lazy[2*v + 2];
         applyUpdOpL(lazy[2*v + 1], lazy[v], 0);
         applyUpdOp(tree[2*v + 1], lazy[v], tm - tl);
         applyUpdOpL(lazy[2*v + 2], lazy[v], tm - tl);
@@ -76,7 +80,6 @@ private:
         if(tl >= l && tr <= r){
             applyUpdOpL(lazy[v], {val, inc}, tl - l);
             applyUpdOp(tree[v], {val + inc * (tl - l), inc}, tr - tl);
-            // cout<<"\tl -> "<<l<<" r -> "<<r<<" tl -> "<<tl<<" tr -> "<<tr<<" v -> "<<v<<" vals -> "<<lazy[v].fi<<' '<<lazy[v].se<<' '<<tree[v]<<endl;
             return;
         }
         
@@ -84,7 +87,6 @@ private:
         update(l, r, val, inc, 2*v + 1, tl, tm);
         update(l, r, val, inc, 2*v + 2, tm, tr);
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
-        // cout<<"l -> "<<l<<" r -> "<<r<<" tl -> "<<tl<<" tr -> "<<tr<<" v -> "<<v<<" vals -> "<<lazy[v].fi<<' '<<lazy[v].se<<' '<<tree[v]<<endl;
     }
 
     // O(lg(n))
@@ -136,18 +138,22 @@ public:
 
 void solver(){
     int n, q; cin>>n>>q;
+    vector<ll> a(n);
+    for(int i = 0; i < n; i++) cin>>a[i];
     segTree st;
     st.init(n);
+    st.build(a);
 
     while(q--){
         int op; cin>>op;
         if(op == 1){
-            int l, r; ll val, inc; cin>>l>>r>>val>>inc; l--;
+            int l, r; ll val, inc; cin>>l>>r>>val>>inc; 
+            l--; // Para convertirlo en 0-index
             st.update(l, r, val, inc);
         }
         else{
-            int idx; cin>>idx;
-            cout<<st.calc(idx-1, idx)<<endl;
+            int l, r; cin>>l>>r; l--;
+            cout<<st.calc(l, r)<<endl;
         }
     }
 }

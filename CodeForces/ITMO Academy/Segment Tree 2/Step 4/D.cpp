@@ -88,7 +88,6 @@ private:
         update(l, r, val, 2*v + 1, tl, tm);
         update(l, r, val, 2*v + 2, tm, tr);
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
-        // cout<<" l-> "<<l<<" r -> "<<r<<" tl -> "<<tl<<" tr -> "<<tr<<" tree -> "<<tree[v].fi<<", "<<tree[v].se<<endl;
     }
 
     // O(lg(n))
@@ -101,7 +100,6 @@ private:
         int tm = (tl + tr) / 2;
         pll m1 = calc(l, r, 2*v + 1, tl, tm);
         pll m2 = calc(l, r, 2*v + 2, tm, tr);
-        // cout<<"tl -> "<<tl<<" tr -> "<<tr<<" m1 -> "<<m1.fi<<", "<<m1.se<<" m2 -> "<<m2.fi<<", "<<m2.se<<endl;
         return calcOp(m1, m2);
     }
 
@@ -146,19 +144,11 @@ void solver(){
     segTree st;
     st.init(n+1);
     st.build(a);
-    // for(int i = 1; i <= n; i++){
-    //     pll ans = st.calc(i, i+1);
-    //     cout<<"i -> "<<i<<" fi -> "<<ans.fi<<" se -> "<<ans.se<<endl;
-    // }
     while(m--){
         int op; cin>>op;
         if(op == 1){
             int l, r; ll val; cin>>l>>r>>val;
             st.update(l, r+1, val);
-            // for(int i = 1; i <= n; i++){
-            //     pll ans = st.calc(i, i+1);
-            //     cout<<"i -> "<<i<<" fi -> "<<ans.fi<<" se -> "<<ans.se<<endl;
-            // }
         }
         else{
             int l, r; cin>>l>>r;

@@ -136,18 +136,21 @@ public:
 
 void solver(){
     int n, q; cin>>n>>q;
+    vector<ll> a(n);
+    for(int i = 0; i < n; i++) cin>>a[i];
     segTree st;
     st.init(n);
+    st.build(a);
 
     while(q--){
         int op; cin>>op;
         if(op == 1){
-            int l, r; ll val, inc; cin>>l>>r>>val>>inc; l--;
-            st.update(l, r, val, inc);
+            int l, r; cin>>l>>r; l--;
+            st.update(l, r, 1, 1);
         }
         else{
-            int idx; cin>>idx;
-            cout<<st.calc(idx-1, idx)<<endl;
+            int l, r; cin>>l>>r; l--;
+            cout<<st.calc(l, r)<<endl;
         }
     }
 }
