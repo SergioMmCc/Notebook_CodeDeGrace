@@ -8,49 +8,18 @@ using namespace std;
 #define se second
 #define lb lower_bound
 #define ub upper_bound
+#define pqueue priority_queue
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<string> vs;
+typedef vector<bool> vb;
+typedef vector<pii> vii;
 // #include<ext/pb_ds/assoc_container.hpp>
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
-
-/*
-    Segment Tree Lazy Propagation (ejemplo con update assign y calc suma.)
-    - Es necesario que se cumpla la propiedad asociativa tanto en las operaciones de update como calc.
-    - Es necesario que se cumpla que calcOp(updateOp(a, x), updateOp(b, x)) == updateOp(calcOp(a, b), x),
-    es decir, que updateOp sea distributiva relativa a calcOp, ejemplo, update de multiplicacion, calc
-    suma. En caso de que no se cumpla esa propiedad (update assign, calc suma o update suma, calc suma),
-    se debe ajustar utilizando la longitud del rango en la operacion update. 
-    - Si se llega a pedir update de diferentes tipos, toca tener cuidado con la propagacion. Ejemplo con
-    update de asignacion (1) y de suma (0):
-    Updates:
-    ll updateOp(ll a, ll b, ll len, int op){ // op -> assign, !op -> suma
-        if(op == -1) return neutro;
-        if(b == neutro) return a;
-        if(a == neutro) return b * len;
-        return op ? b * len : a + b * len;
-    }
-    Propagacion:
-    void propagate(int v, int tl, int tr){
-        if(tr - tl == 1 || lazy[v].se == -1) return;
-        int tm = (tr + tl) / 2;
-        
-        lazy[2*v + 1].fi = updateOp(lazy[2*v + 1].fi, lazy[v].fi, 1, lazy[v].se);
-        if(lazy[2*v + 1].se == -1) lazy[2*v + 1].se = lazy[v].se;
-        else lazy[2*v + 1].se = min(1, lazy[2*v + 1].se + lazy[v].se); // La asignacion prevalece ya que se le suma al valor que se debe asignar
-
-        tree[2*v + 1] = updateOp(tree[2*v + 1], lazy[v].fi, tm - tl, lazy[v].se);
-
-
-        lazy[2*v + 2].fi = updateOp(lazy[2*v + 2].fi, lazy[v].fi, 1, lazy[v].se);
-        if(lazy[2*v + 2].se == -1) lazy[2*v + 2].se = lazy[v].se;
-        else lazy[2*v + 2].se = min(1, lazy[2*v + 2].se + lazy[v].se);
-
-        tree[2*v + 2] = updateOp(tree[2*v + 2], lazy[v].fi, tm - tl, lazy[v].se);
-        lazy[v] = {neutro, -1};
-    }
-*/
 
 class segTree {
 private:
@@ -59,46 +28,19 @@ private:
     vector<ll> tree;
 
     ll neutro = LLONG_MAX - 1;
-
-    // Para query suma y update assign
+    
+    // Para query minimo y update suma
     ll updateOp(ll a, ll b, ll len){
         if(b == neutro) return a;
         if(a == neutro) return b;
-        return b * len;
+        return a + b;
     }
 
     ll calcOp(ll a, ll b){
         if(a == neutro) return b;
         if(b == neutro) return a;
-        return a + b;
+        return min(a, b);
     }
-
-    // Para query suma y update suma
-    // ll updateOp(ll a, ll b, ll len){
-    //     if(b == neutro) return a;
-    //     if(a == neutro) return b*len;
-    //     return a + b*len;
-    // }
-
-    // ll calcOp(ll a, ll b){
-    //     if(a == neutro) return b;
-    //     if(b == neutro) return a;
-    //     return a + b;
-    // }
-
-    
-    // Para query minimo y update suma
-    // ll updateOp(ll a, ll b, ll len){
-    //     if(b == neutro) return a;
-    //     if(a == neutro) return b;
-    //     return a + b;
-    // }
-
-    // ll calcOp(ll a, ll b){
-    //     if(a == neutro) return b;
-    //     if(b == neutro) return a;
-    //     return min(a, b);
-    // }
 
     void applyUpdOp(ll &a, ll b, ll len){
         a = updateOp(a, b, len);
@@ -182,21 +124,58 @@ public:
     }
 };
 
+ll gauss(ll n){
+    return (n * (n-1)) >> 1;
+}
+
 void solver(){
-    int n, m; cin>>n>>m;
-    segTree st;
-    st.init(n);
-    while(m--){
-        int op; cin>>op;
-        if(op == 1){
-            int l, r; ll val; cin>>l>>r>>val;
-            st.update(l, r, val);
+    int n; cin>>n;
+    vii a(n);
+    for(int i = 0; i < n; i++) cin>>a[i].fi>>a[i].se;
+    sort(all(a));
+
+    segTree st; st.init(1e5 + 2);
+    st.update(1, a[0].se + 1, 1);
+
+    for(int i = 1; i < n; i++){
+        int h = a[i].fi, k = a[i].se;
+        int pos = h - k + 1;
+        ll val = st.calc(pos, pos+1);
+
+        // Primer idx con a[pos] > a[idx]
+        int l = pos+1, r = 1e5+1;
+        while(l < r){
+            int m = (l+r) / 2;
+            if(st.calc(m, m+1) < val) r = m;
+            else l = m+1;
         }
-        else{
-            int l, r; cin>>l>>r;
-            cout<<st.calc(l, r)<<endl;
+
+        if(r <= 1e5){
+            int tope = min(h, r + k - 1);
+            st.update(r, tope+1, 1);
+
+            k -= tope - r + 1;
+
+            if(!k) continue;
         }
+
+        l = 1, r = pos;
+        while(l < r){
+            int m = (l+r) / 2;
+            if(st.calc(m, m+1) <= val) r = m;
+            else l = m+1;
+        }
+
+        st.update(r, r + k, 1);
     }
+
+    ll ans = 0;
+    for(int i = 1; i <= 1e5; i++){
+        ll val = st.calc(i, i+1);
+        ans += gauss(val);
+    }
+
+    cout<<ans<<endl;
 }
 
 int main(){
