@@ -60,6 +60,7 @@ private:
 
     ll neutro = LLONG_MAX - 1;
 
+    // Para query suma y update assign
     ll updateOp(ll a, ll b, ll len){
         if(b == neutro) return a;
         if(a == neutro) return b;
