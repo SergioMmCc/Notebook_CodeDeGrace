@@ -1,3 +1,6 @@
+// Compeljidad: O(n+m)
+// Implementacion 0-index
+
 // - Si nos dan un arbol rooteado y tenemos que hacer queries de algun tipo sobre
 //   algunos sub arboles (como sumar los valores de cada elemento de algun subarbol)
 //   y tenemos que hacer updates sobre los valores de los nodos, se puede construir
@@ -12,10 +15,13 @@
 //   para hacer una query entre el camino de un nodo hacia la raiz, se hace la query
 //   especificamente sobre el nodo que se pregunta (query individual).
 
-const int maxn = 2e5 + 1;
-vector<vector<int>> tree(maxn);
+// - La posicion de cada nodo i en el arbol aplanado es ran[i].fi
+// - Llamar con DFS(ran, root, -1, cnt(inicializado en 0))
 
-void DFS(vector<pii>& ran, int u, int pa, int &cnt){
+const int maxn = 2e5 + 1;
+vector<vi> tree(maxn);
+
+void DFS(vii& ran, int u, int pa, int &cnt){
     // Se dice que el rango de u inicia en cnt. Ademas ese sera su indice en el array que se contruira.
     ran[u].fi = cnt;
     cnt++; // Se suma 1 para guardar que se ha visitado un nuevo nodo
@@ -27,3 +33,7 @@ void DFS(vector<pii>& ran, int u, int pa, int &cnt){
     // Despues de visitar los nodos que pertenecen al subarbol de u, podemos decir en que indice termina el rango de u
     ran[u].se = cnt;
 }
+
+// Arbol aplanado
+vi orden(n);
+for(int i = 0; i < n; i++) orden[ran[i].fi] = i;
