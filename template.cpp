@@ -12,11 +12,13 @@ using namespace std;
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<string> vs;
 typedef vector<bool> vb;
 typedef vector<pii> vii;
+typedef vector<pll> vll;
 // #include<ext/pb_ds/assoc_container.hpp>
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
