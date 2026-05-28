@@ -116,18 +116,22 @@ void solver(){
     int cnt = 0;
     DFS(ran, 0, -1, cnt);
 
-    segTree s, p;
-    s.init(n); p.init(n);
+    segTree st;
+    st.init(n);
+
+    vector<ll> sum(n);
 
     while(q--){
         int a, b; ll x; cin>>a>>b>>x; a--; b--;
         if(!x){
             if(ran[a].fi < ran[b].fi) swap(a, b);
-            cout<<abs(s.calc(ran[a].fi, ran[a].se) - p.calc(ran[a].fi, ran[a].se))<<endl;
+            cout<<abs(st.calc(ran[a].fi, ran[a].se))<<endl;
         }
         else{
-            s.update(a, x);
-            p.update(b, x);
+            sum[ran[a].fi] += x;
+            st.update(ran[a].fi, sum[ran[a].fi]);
+            sum[ran[b].fi] -= x;
+            st.update(ran[b].fi, sum[ran[b].fi]);
         }
     }
 }
