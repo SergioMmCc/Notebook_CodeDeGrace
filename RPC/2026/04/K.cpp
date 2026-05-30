@@ -21,18 +21,31 @@ typedef vector<pii> vii;
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
+int strToInt(string s){
+    int ans = 0, pot = 1;
+    for(int i = sz(s) - 1; i >= 0; i--){
+        ans += pot * (s[i] - '0');
+        pot *= 10;
+    }
+
+    return ans;
+}
+
 void solver(){
-    int n; cin >> n;
+    int n; cin>>n;
     int mx = 10;
-    for(int i = 0; i < n; ++i){
-        string s; cin >> s;
-        if(s == "/"){
-            cout << mx << endl;
+    for(int i = 0; i < n; i++){
+        string aux; cin>>aux;
+        if(aux == "/"){
+            cout<<mx<<endl;
             continue;
         }
-        int num = stoi(s);
-        mx = max(mx, (num + 10) - (num + 10) % 10);
-        cout << num << endl;
+
+        int val = strToInt(aux);
+        cout<<val<<endl;
+        val = val / 10 + 1;
+        val *= 10;
+        mx = max(mx, val);
     }
 }
 

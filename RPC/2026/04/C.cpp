@@ -12,129 +12,95 @@ using namespace std;
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<string> vs;
 typedef vector<bool> vb;
 typedef vector<pii> vii;
+typedef vector<pll> vll;
 // #include<ext/pb_ds/assoc_container.hpp>
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
-void solver(){
-    string a, b; 
-    string c, d;
-    cin >> a >> c;
-    cin >> b >> d;
-    a += ' ';
-    a += c;
-    b += ' ';
-    b += d;
-    if(a == b){
-        cout << "7 days" << endl;
-        return;
-    } 
-    int mod = 10080;
-    int day = 1440;
-    int hour = 60;
-    int am = 0;
-    int bm = mod;
-    map<string, int> mp = {{"Mon", 0}, {"Tue", 1}, {"Wed", 2}, {"Thu", 3}, {"Fri", 4}, {"Sat", 5}, {"Sun", 6}};
-    string daya = "";
-    daya += a[0];
-    daya += a[1];
-    daya += a[2];
-    string dayb = "";
-    dayb += b[0];
-    dayb += b[1];
-    dayb += b[2];
-    am += day * mp[daya];
-    bm += day * mp[dayb];
-    string houra = "";
-    houra += a[4];
-    houra += a[5];
-    string hourb = "";
-    hourb += b[4];
-    hourb += b[5];
-    am += stoi(houra) * 60;
-    bm += stoi(hourb) * 60;
-    string mina = "";
-    mina += a[7];
-    mina += a[8];
-    string minb = "";
-    minb += b[7];
-    minb += b[8];
-    am += stoi(mina);
-    bm += stoi(minb);
-    int totm = (bm - am) % mod;
-    int days = 0, hours = 0, minutes = 0;
-    days = totm / day;
-    totm %= day;
-    hours = totm / 60;
-    totm %= 60;
-    minutes = totm;
-    if(days > 0){
-        if(days == 1){
-            cout << "1 day";
-        }else{
-            cout << days << " days";
-        }
-        if(hours > 0 && minutes > 0){
-            cout << ", " << hours << " hour";
-            if(hours > 1){
-                cout << "s";
-            }
-            cout << ", " << minutes << " minute";
-            if(minutes > 1){
-                cout << "s";
-            }
-            cout << endl;
-        }else{
-            if(minutes > 0){
-                cout << " and ";
-                cout << minutes << " minute";
-                if(minutes > 1){
-                    cout << "s";
-                }
-                cout << endl;
-            }else if(hours > 0){
-                cout << " and ";
-                cout << hours << " hour";
-                if(hours > 1){
-                    cout << "s";
-                }
-                cout << endl;
-            }else{
-                cout << endl;
-            }
-        }
-    }else{
+map<string, int> T = {{"Mon", 0}, {"Tue", 1}, {"Wed", 2}, {"Thu", 3}, {"Fri", 4}, {"Sat", 5}, {"Sun", 6}};
 
-        if(hours > 0 && minutes > 0){
-            cout << hours << " hour";
-            if(hours > 1){
-                cout << "s";
-            }
-            cout << " and " << minutes << " minute";
-            if(minutes > 1){
-                cout << "s";
-            }
-            cout << endl;
-        }else{
-            if(minutes > 0){
-                cout << minutes << " minute";
-                if(minutes > 1){
-                    cout << "s";
-                }
-                cout << endl;
-            }else if(hours > 0){
-                cout << hours << " hour";
-                if(hours > 1){
-                    cout << "s";
-                }
-                cout << endl;
-            }
-        }
+
+void solver(){
+    string a1, b1, a2, b2; cin>>a1>>b1>>a2>>b2;
+
+    if(a1 == a2 && b1 == b2){
+        cout<<"7 days"<<endl;
+        return;
+    }
+
+    int d1 = T[a1], d2 = T[a2];
+    int h1 = (b1[1] - '0') + 10*(b1[0] - '0'), h2 = (b2[1] - '0') + 10*(b2[0] - '0');
+    int m1 = (b1[4] - '0') + 10*(b1[3] - '0'), m2 = (b2[4] - '0') + 10*(b2[3] - '0');
+    
+    int minWeek = 10080, minDay = 1440, minHour = 60;
+    int c1 = minDay * d1 + minHour * h1 + m1, c2 = minDay * d2 + minHour * h2 + m2;
+    if(c2 < c1) c2 += minWeek;
+
+    int dif = c2 - c1;
+
+    // Diferencia de dias
+    int dd = dif / minDay;
+    dif %= minDay;
+
+    // Diferencia de horas
+    int dh = dif / minHour;
+    dif %= minHour;
+
+    // Diferencia de minutos
+    int dm = dif;
+    
+
+    // Imprimir
+    if(!dd && !dh){
+        cout<<dm<<" minute";
+        if(dm > 1) cout<<'s';
+        cout<<endl;
+    }
+    else if(!dd && !dm){
+        cout<<dh<<" hour";
+        if(dh > 1) cout<<'s';
+        cout<<endl;
+    }
+    else if(!dh && !dm){
+        cout<<dd<<" day";
+        if(dd > 1) cout<<'s';
+        cout<<endl;
+    }
+    else if(!dd){
+        cout<<dh<<" hour";
+        if(dh > 1) cout<<'s';
+        cout<<" and "<<dm<<" minute";
+        if(dm > 1) cout<<'s';
+        cout<<endl;
+    }
+    else if(!dh){
+        cout<<dd<<" day";
+        if(dd > 1) cout<<'s';
+        cout<<" and "<<dm<<" minute";
+        if(dm > 1) cout<<'s';
+        cout<<endl;
+    }
+    else if(!dm){
+        cout<<dd<<" day";
+        if(dd > 1) cout<<'s';
+        cout<<" and "<<dh<<" hour";
+        if(dh > 1) cout<<'s';
+        cout<<endl;
+    }
+    else{
+        cout<<dd<<" day";
+        if(dd > 1) cout<<'s';
+        cout<<", "<<dh<<" hour";
+        if(dh > 1) cout<<'s';
+        cout<<", "<<dm<<" minute";
+        if(dm > 1) cout<<'s';
+        cout<<endl;
     }
 }
 
