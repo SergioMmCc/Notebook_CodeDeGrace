@@ -55,12 +55,6 @@ void solver(){
         }
     }
 
-
-    // for(int x : p0) cout<<x<<' '; cout<<endl;
-    // for(int x : len0) cout<<x<<' '; cout<<endl;
-    // for(int x : p1) cout<<x<<' '; cout<<endl;
-    // for(int x : len1) cout<<x<<' '; cout<<endl;
-
     int m; cin>>m;
     while(m--){
         int idx; cin>>idx;
