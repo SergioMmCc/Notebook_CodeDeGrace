@@ -101,7 +101,7 @@ public:
         size = 1;
         while(size < n) size *= 2;
         tree.assign(2*size, {0LL});
-        // build(0, 0, size);
+        // build(a, 0, 0, size);
     }
 
     void update(int pos, ll val){
