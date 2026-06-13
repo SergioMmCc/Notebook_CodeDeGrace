@@ -23,42 +23,17 @@ typedef vector<pll> vll;
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
-// Para un sliding window de minimos. Complejidad O(n)
-ll sw(int n, int k, ll x, ll a, ll b, ll c){
-    deque<pii> dq;
-    ll last = x;
-    ll ans = 0;
-
-    // Insertar los primeros k-1
-    for(int i = 0; i < k-1; i++){
-        while(!dq.empty() && dq.back().fi >= last) dq.pop_back();
-        dq.pb({last, i});
-
-        last = (((a * last) % c) + b) % c;
-    }
-
-    for(int i = k-1; i < n; i++){
-        if(i - dq.front().se == k) dq.pop_front(); // Elimino el elemento que sale de la ventana
-
-        // Elimino todos los mayores o iguales al nuevo elemento
-        while(!dq.empty() && dq.back().fi >= last) dq.pop_back(); 
-        dq.pb({last, i});
-
-        // Elemento menor en esta ventana
-        ans ^= dq.front().fi;
-
-        last = (((a * last) % c) + b) % c;
-    }
-
-    return ans;
-}
-
 void solver(){
-    int n, k; cin>>n>>k;
-    ll x, a, b, c; cin>>x>>a>>b>>c;
-    a %= c;
-    b %= c;
-    cout<<sw(n, k, x, a, b, c)<<endl;
+    int n; cin>>n;
+    ll mini = 0, ans = -1e16, sum = 0;
+    for(int i = 0; i < n; i++){
+        ll num; cin>>num;
+        sum += num;
+        ans = max(ans, sum - mini);
+        mini = min(mini, sum);
+    }
+
+    cout<<ans<<endl;
 }
 
 int main(){
