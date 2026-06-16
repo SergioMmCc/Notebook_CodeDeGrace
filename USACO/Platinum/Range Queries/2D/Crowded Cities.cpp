@@ -23,10 +23,28 @@ typedef vector<pll> vll;
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
-// Procurar que las dimensiones n, m sean <= 1000, si no, posible MLE
+// Logica correcta, demasiada memoria, solo pasa en casos con n, m <= 1000
 
 struct node{ // Change
-    ll val;
+    ll val; int idx;
+};
+
+struct build{
+    int l, w, h, idx; ll val;
+
+    bool operator<(const build& otro) const{
+        if(h != otro.h) return h < otro.h;
+        if(l != otro.l) return l < otro.l;
+        if(w != otro.w) return w < otro.w;
+        return idx < otro.idx;
+    }
+
+    bool operator>(const build& otro) const{
+        if(h != otro.h) return h > otro.h;
+        if(l != otro.l) return l > otro.l;
+        if(w != otro.w) return w > otro.w;
+        return idx > otro.idx;
+    }
 };
 
 class segTree2D {
@@ -39,15 +57,17 @@ private:
     node calcOp(node a, node b){ // Change
         if(a.val == neutro.val) return b;
         if(b.val == neutro.val) return a;
-        node ans = {a.val + b.val};
+        node ans;
+        if(a.val == b.val) ans = a.idx < b.idx ? a : b;
+        else ans = a.val > b.val ? a : b;
         return ans;
     }
 
 
     // O(lg(n)*lg(m))
-    void update_x(int y, int x, ll val, int yv, int ytl, int ytr, int xv, int xtl, int xtr){
+    void update_x(int y, int x, node val, int yv, int ytl, int ytr, int xv, int xtl, int xtr){
         if(xtr - xtl == 1){
-            if(ytr - ytl == 1) tree[yv][xv] = {val};
+            if(ytr - ytl == 1) tree[yv][xv] = val;
             else tree[yv][xv] = calcOp(tree[2*yv + 1][xv], tree[2*yv + 2][xv]);
         }
         else{
@@ -59,7 +79,7 @@ private:
         }
     }
 
-    void update_y(int y, int x, ll val, int yv, int ytl, int ytr){
+    void update_y(int y, int x, node val, int yv, int ytl, int ytr){
         if(ytr - ytl != 1){
             int ytm = (ytl + ytr) / 2;
             if(y < ytm) update_y(y, x, val, 2*yv + 1, ytl, ytm);
@@ -93,79 +113,66 @@ private:
     }
 
 
-    void build_x(vector<vector<node>>& a, int yv, int ytl, int ytr, int xv, int xtl, int xtr){
-        if(xtr - xtl == 1){
-            if(ytr - ytl == 1){
-                if(ytl < sz(a) && xtl < sz(a[ytl])) tree[yv][xv] = {a[ytl][xtl]};
-            }
-            else tree[yv][xv] = calcOp(tree[2*yv + 1][xv], tree[2*yv + 2][xv]);
-        }
-        else{
-            int xtm = (xtl + xtr) / 2;
-            build_x(a, yv, ytl, ytr, 2*xv + 1, xtl, xtm);
-            build_x(a, yv, ytl, ytr, 2*xv + 2, xtm, xtr);
-
-            tree[yv][xv] = calcOp(tree[yv][2*xv + 1], tree[yv][2*xv + 2]);
-        }
-    }
-
-    void build_y(vector<vector<node>>& a, int yv, int ytl, int ytr){ // O(n)
-        if(ytr - ytl != 1){
-            int ytm = (ytr + ytl) / 2;
-            build_y(a, 2*yv + 1, ytl, ytm);
-            build_y(a, 2*yv + 2, ytm, ytr);
-        }
-        
-        build_x(a, yv, ytl, ytr, 0, 0, size_m);
-    }
-
-
 public:
     void init(int n, int m){
         size_n = 1, size_m = 1;
         while(size_n < n) size_n *= 2;
         while(size_m < m) size_m *= 2;
-        tree.assign(2*size_n, vector<node>(2*size_m, {0}));
+        tree.assign(2*size_n, vector<node>(2*size_m, {0, -1}));
         // build(a, 0, 0, size_n);
     }
 
-    void update(int y, int x, ll val){
+    void update(int y, int x, node val){
         update_y(y, x, val, 0, 0, size_n);
     }
 
     node calc(int yl, int yr, int xl, int xr){
         return calc_y(yl, yr, xl, xr, 0, 0, size_n);
     }
-
-    void build(vector<vector<node>>& a){
-        build_y(a, 0, 0, size_n);
-    }
 };
 
 void solver(){
-    int n, m; cin>>n>>m;
-    vector<vector<node>> a(n, vector<node>(m));
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < m; j++){
-            cin>>a[i][j].val;
-        }
-    }
-    segTree2D st;
-    st.init(n, m);
-    st.build(a);
+    int n; cin>>n;
 
-    int q; cin>>q;
-    while(q--){
-        int op; cin>>op;
-        if(op == 1){ // Update
-            int y, x; ll val; cin>>y>>x>>val;
-            st.update(y, x, val);
-        }
-        else{ // Calc
-            int y1, x1, y2, x2; cin>>y1>>x1>>y2>>x2;
-            cout<<st.calc(y1, y2, x1, x2).val<<endl;
-        }
+    vector<build> a(n);
+    for(int i = 0; i < n; i++){
+        cin>>a[i].l>>a[i].w>>a[i].h>>a[i].val;
+        assert(a[i].l <= 1000 && a[i].w <= 1000);
+        if(a[i].l < a[i].w) swap(a[i].l, a[i].w);
+        a[i].idx = i;
     }
+    sort(all(a), greater<build>());
+    vi change(n);
+    for(int i = 0; i < n; i++) change[a[i].idx] = i;
+
+    segTree2D st;
+    st.init(1001, 1001);
+
+    vi where(n, -1);
+
+    for(build b : a){
+        int y = b.w, x = b.l, idx = b.idx; ll add = b.val;
+        node best = st.calc(y, 1001, x, 1001);
+        add += best.val;
+        where[idx] = best.idx;
+
+        st.update(y, x, {add, idx});
+    }
+
+    node ans = st.calc(0, 1001, 0, 1001);
+    cout<<ans.val<<endl;
+
+    vi b;
+    int u = ans.idx;
+    while(u != -1){
+        b.pb(u);
+        u = where[u];
+    }
+
+    reverse(all(b));
+    cout<<sz(b)<<endl;
+    for(int aux : b) cout<<aux + 1<<' ';
+    cout<<endl;
 }
 
 int main(){
