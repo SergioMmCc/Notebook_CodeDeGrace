@@ -23,6 +23,8 @@ typedef vector<pll> vll;
 // using namespace __gnu_pbds;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
+// Procurar que las dimensiones n, m sean <= 1000, si no, posible MLE
+
 struct node{ // Change
     ll val;
 };
