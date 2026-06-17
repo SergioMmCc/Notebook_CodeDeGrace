@@ -20,6 +20,17 @@ ll mod_inverse(ll a, ll n) {
     return v;
 }
 
+
+/*
+  - Sirve para hallar una solucion a un grupo de ecuaciones de la forma:
+    x = a_1 % m_1
+    x = a_2 % m_2
+    ...
+    x = a_n % m_n
+  - Una vez se halla una solucion se pueden crear infinitas de la forma
+    x + m_1 * m_2 * ... * m_n
+*/
+// Complejidad: O(n*log(n))
 ll chinese_reminder(int len, ll B) {
     ll x = 0;
     //vector<ll> m(len), c(len);

@@ -5,6 +5,7 @@ using ll = long long;
 
 const ll mod = 1e9 + 7;
 
+// O(log(n))
 ll myPow(ll b, ll e){
     ll result = 1;
     while(e > 0){
