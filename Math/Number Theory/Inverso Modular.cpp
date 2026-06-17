@@ -3,6 +3,9 @@ using namespace std;
 #define endl '\n'
 using ll = long long;
 
+// (a * a⁻¹) % mod = 1
+// Para poder hallar a⁻¹ se requiere que a, mod sean coprimos
+// Complejidad: O(log(n))
 ll mod_inverse(ll a, ll mod){
     ll i = mod, v = 0, d = 1;
     while(a > 0){

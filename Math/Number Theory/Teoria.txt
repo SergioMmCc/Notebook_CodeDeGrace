@@ -1,0 +1,53 @@
+Propiedades y teoremas:
+  - Descomposicion prima de un numero n = p_1 ^ a_1 * p_2 ^ a_2 * ... * p_k ^ a_k
+  - El numero de divisores de un numero n es:
+    t(n) = productorio(ai + 1)
+  - La suma de factores de n es_
+    o(n) = productorio( ((pi ^ (ai + 1)) - 1) / (pi - 1) )
+  - El producto de los factores de n es:
+    u(n) = n ^ (t(n) / 2)
+  - Un numero es llamado perfecto si n = o(n) - n, es decir,
+    si la suma de sus factores entre 1 y n-1 es igual a si mismo
+
+  - Euler's totient function y(n) da la cantidad de numeros coprimos con
+    n entre 1 y n. Ej: y(12) = 4, ya que 1, 5, 7 y 11 son coprimos con 12.
+    y(n) = productorio( (pi ^ (ai - 1)) * (pi - 1) )
+
+  - Teorema de Fermat dice que (x ^ (m-1)) % m = 1. Siendo m primo y 
+    x, m coprimos.
+    Además, (x ^ k) % m = (x ^ (k % (m-1))) % m
+  - Y de manera mas general el teorema de Euler dice que (x ^ (y(m))) % m = 1
+    cuando x, m son coprimos.
+
+  - Entre 1 y n hay aproximadamente pi(n) = n / ln(n) numeros primos
+
+  - Si el inverso modular existe se puede calcular usando a⁻¹ = a^(y(m)-1)
+    y si m es primo entonces x⁻¹ = x^(m-2)
+
+  - El teorema de los numeros poligonales de fermat dice que todo numero puede 
+    representarse como la suma de 3 numeros triangulares, 4 numeros cuadrados, 5
+    numeros pentagonales y n numeros n-poligonales.
+  - Teorema de Zeckendorf: Todo numero entero positivo tiene una unica representacion 
+    como una suma de numeros de Fibonacci tal que ningun par de numeros es igual ni
+    son 2 numeros de Fibonacci consecutivos.
+  - Las ternas pitagoricas son ternas (a, b, c) que satisfacen el teorema de pitagoras
+    a² + b² = c², lo cual significa que hay un triangulo rectangulo con lados de
+    longitud a, b y c, ej: 3, 4, 5.
+    Si a, b, c son una terna pitagorica, todas las ternas de la forma (ka, kb, kc),
+    con k > 1, tambien lo son.
+    Una terna pitagorica es primitiva si a, b y c son coprimos (gcd(a, b, c) = 1),
+    todas las ternas pitagoricas pueden ser generadas a partir de estas usando un
+    factor k.
+    La formula de Euclides se puede utilizar para producir todas las ternas pitagoricas
+    primitivas de la forma (n² - m², 2nm, n² + m²), donde 0 < m < n, n y m son copirmos 
+    y al menos uno de los dos es par.
+    La terna pitagorica primitiva mas pequeña es (3, 4, 5).
+  - El teorema de Wilson dice que un numero es primo si y solo si (n - 1)! % n = n - 1
+
+
+Conjeturas (no se han probado):
+  - Goldbach: Todo entero > 2 pueder ser representado como la suma
+    de 2 numeros primos.
+  - Twin prime: Hay un infinito numero de pares {p, p+2} donde ambos
+    son primos.
+  - Legendre: Siempre hay un primo entre n² y (n+1)²
