@@ -54,19 +54,31 @@ ll mod_inverse(ll a){
 
 void solver(){
     int n; cin>>n;
+    vll save(n);
     ll t = 1, t2 = 1, o = 1, num = 1;
+    bool cond = 0;
     for(int i = 0; i < n; i++){
         ll p, a; cin>>p>>a;
-        num = (num * myPow(p, a)) % mod;
+        save[i] = {p, a};
         t = (t * (a + 1)) % mod;
-        t2 = (t2 * (a + 1)) % (mod - 1);
+        if(!cond && (a & 1)){
+            cond = 1;
+            t2 = (t2 * ((a+1)/2)) % (mod - 1);
+        }
+        else t2 = (t2 * (a + 1)) % (mod - 1);
         ll aux = (((myPow(p, a + 1) - 1 + mod) % mod) * mod_inverse(p - 1)) % mod;
         o = (o * aux) % mod;
+        num = (num * myPow(p, a)) % mod;
     }
 
-    // ll u = num
+    if(!cond){
+        num = 1;
+        for(pll x : save) num = (num * myPow(x.fi, x.se / 2)) % mod;
+    }
 
-    cout<<t<<' '<<o<<endl;
+    ll u = myPow(num, t2);
+
+    cout<<t<<' '<<o<<' '<<u<<endl;
 }
 
 int main(){
