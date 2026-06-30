@@ -2,7 +2,8 @@ Propiedades y teoremas:
   - En promedio los numeros tienen n ^ (1 / 3) divisores.
   - Sea d(i) el numero de divisores de i, la sumatoria de d(i) para i entre 1 y n
     es aproximadamente n*ln(n)
-  - La distancia promedio entre primos es 1/ln(n).
+  - Entre 1 y n hay aproximadamente pi(n) = n / ln(n) numeros primos
+  - La distancia promedio entre primos desde 1 hasta n es es ln(n).
     Para todos los enteros hasta 10⁹, la maxima distancia entre primos es 282. 
     Hasta 10¹⁸ es 1442
   - Teorema de Bertrand dice que para todo n >= 2 hay al menos un primo n < p < 2n
@@ -41,8 +42,6 @@ Propiedades y teoremas:
     Además, (x ^ k) % m = (x ^ (k % (m-1))) % m
   - Y de manera mas general el teorema de Euler dice que (x ^ (phi(m))) % m = 1
     cuando x, m son coprimos.
-
-  - Entre 1 y n hay aproximadamente pi(n) = n / ln(n) numeros primos
 
   - Si el inverso modular existe se puede calcular usando a⁻¹ = a^(phi(m)-1)
     y si m es primo entonces x⁻¹ = x^(m-2)
