@@ -14,6 +14,7 @@ nombre.order_of_key(6) // Cuenta la cantidad de elementos menores a 6
 nombre.erase(valor) // Si lo encuentra lo elimina, sino no hace nada
 auto it = nombre.find(valor) // Devuelve un iterador a ese elemento. Si no esta, devuelve un iterador al final
 nombre.count(valor) // Retorna un entero, 1 si valor esta, 0 si no esta
+nombre.swap(nombre2); // Swapea 2 indexed set en O(1). El swap normal (swap(nombre, nombre2)) loa hace en o(n)
 nombre.empty()
 nombre.clear()
 auto it = nombre.begin()
