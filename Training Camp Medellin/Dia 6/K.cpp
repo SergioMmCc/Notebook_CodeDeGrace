@@ -38,55 +38,69 @@ void ans(int x){
 void solver(){
     int n, k; cin>>n>>k;
 
-    if(n % k == 0){
-        int r = 0;
-        for(int i = 1; i <= n; i += k){
-            vi aux;
-            for(int j = i; j < i + k; j++){
-                aux.pb(j);
-            }
-            r ^= ask(aux);
-        }
-
-        ans(r);
-        return;
-    }
-
-    int div = 0, stop = 0;
-    for(int res = n-k; !div && res > 0; res -= k, stop += k){
-        for(int i = k-1; !div && i >= 1; i--){
-            if(res % i == 0 && (res/i) % 2 == 0){
-                // cout<<"i -> "<<i<<" res -> "<<res<<endl;
-                div = i;
-            }
+    vector<vii> graph(n+1);
+    for(int s1 = 0; s1 < n; s1++){
+        int s2 = n - s1;
+        for(int r = 0; r <= k; r++){
+            int l = k - r; // l es la cantidad de unos que voy a tomar
+            int a1 = s1 + r - l;
+            if(l <= s1 && r <= s2 && a1 >= 0 && a1 <= n) graph[s1].pb({a1, l});
         }
     }
 
-    if(!div){
+    queue<int> q;
+    q.push(0);
+    vii pa(n+1, {-1, -1});
+    vb vis(n+1); vis[0] = 1;
+    while(!vis[n] && !q.empty()){
+        int u = q.front(); q.pop();
+        for(pii e : graph[u]){
+            int v = e.fi, l = e.se;
+            if(vis[v]) continue;
+            pa[v] = {u, l};
+            vis[v] = 1;
+            if(v == n) break;
+            q.push(v);
+        }
+    }
+
+    if(!vis[n]){
         cout<<-1<<endl;
         return;
     }
 
-    // cout<<"here"<<endl;
-    // cout<<"div -> "<<div<<" stop -> "<<stop<<endl;
-    int r = 0;
-    for(int i = 1; i <= stop; i += k){
+    stack<pii> st;
+    int aux = n;
+    while(aux != -1){
+        st.push({aux, pa[aux].se});
+        aux = pa[aux].fi;
+    }
+
+    int res = 0;
+    vb grade(n+1);
+    int u = st.top().fi; st.pop();
+    while(!st.empty()){
         vi a;
-        for(int j = i; j < i + k; j++){
-            a.pb(j);
+        int v = st.top().fi, l = st.top().se; st.pop();
+        int r = k - l;
+        for(int i = 1; i <= n; i++){
+            if(grade[i] && l){
+                a.pb(i);
+                l--;
+                grade[i] = 0;
+            }
+            else if(!grade[i] && r){
+                a.pb(i);
+                r--;
+                grade[i] = 1;
+            }
         }
-        r ^= ask(a);
+        res ^= ask(a);
+
+        u = v;
     }
 
-    for(int i = stop + 1; i <= n; i += div){
-        vi a;
-        for(int j = 1; j <= k-div; j++) a.pb(j);
-        for(int j = i; j < i+div; j++) a.pb(j);
-
-        r ^= ask(a);
-    }
-
-    ans(r);
+    ans(res);
 }
 
 int main(){
