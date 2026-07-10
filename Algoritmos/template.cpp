@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define endl '\n'
+#define db(x) cerr<< #x<<" "<<x<<endl
 #define pb push_back
 #define sz(a) ((int)a.size())
 #define all(a) a.begin(), a.end()
