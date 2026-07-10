@@ -30,8 +30,8 @@ typedef pair<int, int> pii;
 	 al que este envia flujo y asi sucesivamente hasta que llegamos a sink.
    - Node-disjoint paths:
 	 Se resuelve de la misma manera que Edge-disjoint paths pero dividiendo los 
-	 nodos en uin (2*u) y uout (2*u + 1) y creando una arista con capacidad 1 
-	 entre ellos. Si hay una arista entre u y v, conectamos uout con vin. 
+	 nodos en u_in (2*u) y u_out (2*u + 1) y creando una arista con capacidad 1 
+	 entre ellos. Si hay una arista entre u y v, conectamos u_out con vin. 
    - Minimum vertex cut
 	 Para hallar el minimum vertex cut tendriamos que llamar Dinic con 2*n + 2
 	 y añadir una arista entre cada 2*i y 2*i + 1 con capacidad de 1, para
@@ -49,24 +49,24 @@ typedef pair<int, int> pii;
 	 a al menos un camino. Un Node-disjoint path cover quiere decir que cada nodo 
 	 debe pertenecer a exactamente un camino.
 	 Para hallar el minimum Node-disjoint path cover podemos crear un grafo bipartito
-	 donde separamos cada nodo u en uin (2*u)(right) y uout (2*u + 1)(left), entonces 
-	 para cada arista u, v conectamos uout con vin. Despues hallamos el matching y 
+	 donde separamos cada nodo u en u_in (2*u)(right) y u_out (2*u + 1)(left), entonces 
+	 para cada arista u, v conectamos u_out con vin. Despues hallamos el matching y 
 	 esas son las aristas que vamos a elegir para armar el Node-disjoint path cover, 
 	 entonces el total de caminos sera n - c, siendo n la cantidad de nodos en el grafo 
 	 original y c la cantidad de aristas en el matching.
 	 Las aristas que se usan en los caminos de la particion son las aristas del matching,
-	 para saber donde empiezan los caminos, tomo los u tal que uin no fue matcheado.
+	 para saber donde empiezan los caminos, tomo los u tal que u_in no fue matcheado.
    - General path cover en un DAG:
      El minimum path cover se puede hallar de manera similar al minimum node-disjoint
-	 path cover, pero esta vez vamos a agregar una arista de uout hacia vin si en el
+	 path cover, pero esta vez vamos a agregar una arista de u_out hacia vin si en el
 	 grafo original se puede llegar desde u hasta v (posiblemente a traves de multiples
 	 aristas).
    - Maximum Antichain:
      Una antichain es un conjunto de nodos de un grafo en el cual ningun nodo tiene un
 	 camino hacia cualquier otro usando las aristas del grafo. En un DAG, la longitud
 	 de la maximum antichain es igual a la longitud del minimum path cover. Para
-	 reconstruirla hallamos el minimum vertex cover M, los nodos tales que uin no
-	 pertenece a M y uout tampoco, pertenecen a la maximum antichain.
+	 reconstruirla hallamos el minimum vertex cover M, los nodos tales que u_in no
+	 pertenece a M y u_out tampoco, pertenecen a la maximum antichain.
    - Maquinas y tareas (problema de asignacion):
      Tengo un conjunto B de tareas que me dan un beneficio B(t), puedo comprar un 
 	 conjunto de maquinas M por un costo M(t). Para realizar la tarea B tengo que comprar
@@ -86,14 +86,15 @@ typedef pair<int, int> pii;
 	 una arista v, T con capacidad w(v) si w(v) > 0, y todas las aristas u, v del grafo original
 	 con capacidad inf. Los nodos elegidos (V') son los alcanzables desde S en la red residual, el 
 	 valor de V' es la suma de los w(v) postivos menos el valor del corte minimo.
-   - Si tengo un problema en el cual elegir determinado nodo hace que no pueda elegir otros, y 
+   - Eleccion con restricciones y pesos:
+     Si tengo un problema en el cual elegir determinado nodo hace que no pueda elegir otros, y 
      quiero elegir un conjunto de nodos que maximice la suma de w(v) para cada v elegido, lo puedo 
 	 resolver separando los nodos en 2 lados U y V (para formar un bipartito) asegurandome que
 	 podria elegir todos los nodos de alguno de los lados sin ningun problema (que los nodos
 	 que pertenezcan al mismo lado no se restringen entre si), agrego aristas S, u con capacidad w(u)
 	 para cada u que pertenezca a U, agrego aristas v, T con capacidad w(v) para cada v que pertenezca
 	 a V, y aristas u, v con capacidad infinita para cada par de nodos tal que si elijo u no puedo 
-	 elegir v y viceversa. La respuesta es la suma w(v) para cada v que pertenece al graof, menos el
+	 elegir v y viceversa. La respuesta es la suma w(v) para cada v que pertenece al grafo, menos el
 	 valor del minimo corte.
 
    Para bipartitos:
@@ -103,27 +104,19 @@ typedef pair<int, int> pii;
 	 original tengan direccion desde su correspondiente nodo en left hacia su 
 	 correspondiente nodo en right y finalmente se calcula el flujo. Las aristas de
 	 left hacia right con flujo = 1 son las	que haran parte del matching.
-   - Minimum vertex cover:
+   - Minimum vertex cover (MVC):
      Es el minimo conjunto de nodos tal que cada arista del grafo tiene al menos 
-	 uno de los sus nodos en dicho conjunto. El tamaño del minimum vertex cover es el mismo
+	 uno de sus nodos en dicho conjunto. El tamaño del minimum vertex cover es el mismo
 	 del maximum matching. Para hallar cuales vertices pertenecen podemos ver entre la lista 
 	 de adyacencia de source cuales nodos hacen parte de right en el corte, ademas revisamos 
 	 para cada vertice de left si este tiene a sink en su lista de adyacencia, estos tambien
 	 hacen parte del minimum vertex cover.
-   - Maximum independent set:
+   - Maximum independent set (MIS):
      Es el mayor conjunto de nodos tal que no hay 2 nodos del conjunto conectados por
 	 una arista. Todos los nodos que no hacen parte del minimum vertex cover hacen parte
 	 del maximum independent set, por lo tanto el tamaño de este es el total de nodos
 	 del grafo menos el tamaño del maximum matching.
 */
-
-struct comp{
-    bool operator() (pii a, pii b){
-        if(a.se == b.se)
-            return a.fi < b.fi;
-        return a.se < b.se;
-    }
-};
 
 struct Dinic {
 	struct Edge {

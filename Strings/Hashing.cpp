@@ -32,7 +32,7 @@ ll compute_hash(string s){
 
 // Sirve para hacer precalculos para hacer queries de la subcadena
 // sl, sl+1, ..., sr
-// Construir el array toma O(n), las queires son O(1)
+// Construir el array toma O(n), las queries son O(1)
 void precalc_hashing(string s, vector<ll>& h, vector<ll>& ph){
     ll p = 31;
     ll m = 1e9 + 9;
