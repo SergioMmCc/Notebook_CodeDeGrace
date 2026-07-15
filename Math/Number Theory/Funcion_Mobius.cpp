@@ -43,14 +43,15 @@ void sieve_mobius(){
 
 // Una forma alternativa es usando la propiedad de inclusion-exclusion
 // Note que el array esta vez tiene que inicializarse en 0
+// Esta forma es O(n log n)
 vi mobius(limite + 1, 0);
 
 void inclusion_mobius(){
     mobius[1] = -1;
-    for (int i = 1; i < limite; i++) {
+    for (int i = 1; i <= limite; i++) {
         if (mobius[i]) {
             mobius[i] = -mobius[i];
-            for (int j = 2 * i; j < limite; j += i) { mobius[j] += mobius[i]; }
+            for (int j = 2 * i; j <= limite; j += i) { mobius[j] += mobius[i]; }
         }
     }
 }
