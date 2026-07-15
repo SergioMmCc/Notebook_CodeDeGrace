@@ -25,7 +25,8 @@ typedef vector<pll> vll;
 // using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 const ll INFL = 1000000000000000001;
-const int INF = 1e9 + 1, MOD = 1e9 + 7;
+const int INF = 1e9 + 1;
+// const ll MOD = 1e9 + 7;
 
 void solver(){
     
