@@ -5,6 +5,8 @@
 #include<ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;
 using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
+// Para ordenar por MAX cambiar less<int> por greater<int>
+// Para multiset cambiar less<int> por less_equal<int>
 
 indexed_set nombre; // Declaracion
 nombre.insert(valor); // Insertar
