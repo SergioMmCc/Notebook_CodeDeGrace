@@ -20,17 +20,16 @@ vl factorial(limite+1);
 
 void precalcular_factorial(){
     factorial[0] = 1;
-    for(long long i=1; i<=limite; i++){
-        factorial[i] = (factorial[i-1]*i) % MOD;
+    for(ll i=1; i<=limite; i++){
+        factorial[i] = (factorial[i-1]*i) % mod;
     }
 }
 
-int calculateBinomial(int n, int k){
+ll calculateBinomial(int n, int k){
     if(k < 0 || k > n) return 0;
-    long long numerator = factorial[n];
-    long long denominador = (factorial[k]*factorial[n-k]) % MOD;
+    ll numerator = factorial[n];
+    ll denominador = (factorial[k]*factorial[n-k]) % mod;
 
-    // Apply when MOD is prime, if mod is not necesary, just divide those numbers normaly
-    return (numerator*binexp(denominador, MOD-2)) % MOD; // Binary exponancio for eficiencia
-    
+    // Apply when mod is prime, if mod is not necesary, just divide those numbers normaly
+    return (numerator * binpow(denominador, mod-2)) % mod; // Binary exponancio for eficiencia
 }
