@@ -60,7 +60,7 @@ private:
         return ans;
     }
 
-    void update(int pos, ll val, int v, int tl, int tr){ // O(lg(n))
+    void update(int pos, ll val, int v, int tl, int tr){
         if(tr - tl == 1){
             tree[v] = {val}; // Change
             return;
@@ -72,7 +72,6 @@ private:
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
 
-    // O(lg(n))
     // [l, r)
     node calc(int l, int r, int v, int tl, int tr){ // Change si walking on segment tree
         if(tl >= r || l >= tr) return neutro;
@@ -84,7 +83,7 @@ private:
         return calcOp(m1, m2);
     }
 
-    void build(vl& a, int v, int tl, int tr){ // O(n)
+    void build(vl& a, int v, int tl, int tr){
         if(tr - tl == 1){
            if(tl < sz(a)) tree[v] = {a[tl]}; // Change
            return;
@@ -95,13 +94,11 @@ private:
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
 
-
 public:
     void init(int n){
         size = 1;
         while(size < n) size *= 2;
         tree.assign(2*size, {0LL});
-        // build(a, 0, 0, size);
     }
 
     void update(int pos, ll val){

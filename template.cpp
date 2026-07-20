@@ -2,6 +2,12 @@
 using namespace std;
 #define endl '\n'
 #define db(x) cerr<< #x<<" "<<x<<endl
+#define for0(i,n) for(int i = 0; i < (int)n; i++)
+#define for1(i,n) for(int i = 1; i <= (int)n; i++)
+#define forlr(i,l,r) for(int i = (int)l; i <= (int)r; i++)
+#define forn1(i,n) for(int i = (int)n; i > 0; i--)
+#define forn0(i,n) for(int i = (int)(n) - 1; i >= 0; i--)
+#define forrl(i,l,r) for(int i = (int)r; i >= (int)l; i--)
 #define pb push_back
 #define sz(a) ((int)a.size())
 #define all(a) a.begin(), a.end()
