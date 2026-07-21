@@ -57,7 +57,7 @@ Con Segmet Tree (compresion):
 
 const int inf = 1e9 + 1;
 
-void solver(){
+void LIS(){
     int n; cin>>n;
     vector<int> a(n+1);
     for(int i = 1; i <= n; i++) cin>>a[i];
@@ -81,15 +81,4 @@ void solver(){
     }
 
     cout<<ans<<endl;
-}
-
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(NULL);
-    int t = 1;
-    // cin>>t;
-    while(t--){
-        solver();
-    }
-
-    return 0;
 }
