@@ -1,16 +1,17 @@
-// Fenwick tree (Binary Indexed Tree), variante "1-indexada":
+#include "../template.h"
 
-// Que guarda cada nodo t[p]: la suma de un rango de posiciones
-// determinado por los bits de p (no es simplemente "el valor en p").
-// Por eso nunca se lee t[p] directamente, siempre a traves de get().
-//
-// Complejidad: O(log N) por update y por get.
-// Soporta operaciones con cualquier operacion asociativa CON INVERSA
-// (poder "deshacer" un update). Ejemplos: suma (inversa = resta), xor
-// (inversa = si mismo), conteo (caso particular de suma).
+/*
+Fenwick tree (Binary Indexed Tree), variante "1-indexada":
 
-// NO soporta min/max con updates arbitrarios (no tienen inversa) -
-// para eso se necesita un segment tree.
+Que guarda cada nodo t[p]: la suma de un rango de posiciones
+determinado por los bits de p (no es simplemente "el valor en p").
+Por eso nunca se lee t[p] directamente, siempre a traves de get().
+
+Complejidad: O(log N) por update y por get.
+Soporta operaciones con cualquier operacion asociativa CON INVERSA
+(poder "deshacer" un update). Ejemplos: suma (inversa = resta), xor
+(inversa = si mismo), conteo (caso particular de suma).
+*/
 
 template<int N> struct FenW {
     ll t[N + 1]; // indices validos: [1, N] (la posicion 0 no se usa)
@@ -45,6 +46,18 @@ template<int N> struct FenW {
 
 // How to use
 int main(){
-  // Puedes crearlo con un valor fijo, o variable constante
-  FenW<10> A;
+    // Puedes crearlo con un valor fijo, o variable constante
+    FenW<10> A;
+
+    // Update
+    int p; ll val; cin>>p>>val;
+    A.update(p, val);
+
+    // Calcular rango
+    int l, r; cin>>l>>r;
+    cout<<A.get(l, r);
+
+    // Calcular prefix
+    int p; cin>>p;
+    cout<<A.get(p);
 }
