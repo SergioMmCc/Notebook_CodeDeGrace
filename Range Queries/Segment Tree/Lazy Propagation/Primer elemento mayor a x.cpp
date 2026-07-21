@@ -1,26 +1,11 @@
-#include<bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-#define pb push_back
-#define sz(a) ((int)a.size())
-#define all(a) a.begin(), a.end()
-#define fi first
-#define se second
-#define lb lower_bound
-#define ub upper_bound
-typedef long long ll;
-typedef long double ld;
-typedef pair<int, int> pii;
-// #include<ext/pb_ds/assoc_container.hpp>
-// using namespace __gnu_pbds;
-// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
+#include "../../../template.h"
 
-// Segment Tree Lazy Propagation
-// - Se hacen querys l, x, donde se retorna el indice (0-index) del primer elemento que cumpla 
-//   i >= l && a[i] >= x.
-// - En esta implemetacion se usan updates de suma.
+/*
+- Se hacen querys l, x, donde se retorna el indice (0-index) del primer elemento que cumpla 
+  i >= l && a[i] >= x.
+- En esta implemetacion se usan updates de suma.
+*/
 
-class segTree {
 private:
     int size;
     vector<ll> lazy;
@@ -44,7 +29,6 @@ private:
         a = updateOp(a, b, len);
     }
 
-    // O(1)
     void propagate(int v, int tl, int tr){
         if(tr - tl == 1) return;
         int tm = (tr + tl) / 2;
@@ -55,7 +39,6 @@ private:
         lazy[v] = neutro;
     }
 
-    // O(lg(n))
     // [l, r)
     void update(int l, int r, ll val, int v, int tl, int tr){
         propagate(v, tl, tr);
@@ -72,7 +55,6 @@ private:
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
 
-    // O(lg(n))
     // [l, r)
     int calc(int l, int r, int v, int tl, int tr, ll x){
         propagate(v, tl, tr);
@@ -88,18 +70,6 @@ private:
         return ans;
     }
 
-    // O(n)
-    // void build(int v, int tl, int tr){ 
-    //     if(tr == tl + 1){
-    //         tree[v] = 1;
-    //         return;
-    //     }
-    //     int tm = (tr + tl) / 2;
-    //     build(2*v + 1, tl, tm);
-    //     build(2*v + 2, tm, tr);
-    //     tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
-    // }
-
 
 public:
     void init(int n){
@@ -107,44 +77,4 @@ public:
         while(size < n) size *= 2;
         lazy.assign(2*size, 0LL);
         tree.assign(2*size, 0LL);
-        // build(0, 0, size);
     }
-
-    void update(int l, int r, ll val){
-        update(l, r, val, 0, 0, size);
-    }
-
-    int calc(int l, int r, ll x){
-        return calc(l, r, 0, 0, size, x);
-    }
-};
-
-void solver(){
-    int n, m; cin>>n>>m;
-    segTree st;
-    st.init(n);
-    while(m--){
-        int op; cin>>op;
-        if(op == 1){
-            int l, r; ll val; cin>>l>>r>>val;
-            st.update(l, r, val);
-        }
-        else{
-            ll x; int l; cin>>x>>l;
-            cout<<st.calc(l, n, x)<<endl;
-        }
-    }
-}
-
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    // freopen("name.in", "r", stdin);
-	// freopen("name.out", "w", stdout);
-    int t = 1;
-    // cin>>t;
-    while(t--){
-        solver();
-    }
-
-    return 0;
-}

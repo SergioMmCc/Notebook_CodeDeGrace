@@ -1,29 +1,14 @@
-#include<bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-#define pb push_back
-#define sz(a) ((int)a.size())
-#define all(a) a.begin(), a.end()
-#define fi first
-#define se second
-#define lb lower_bound
-#define ub upper_bound
-typedef long long ll;
-typedef long double ld;
-typedef pair<int, int> pii;
-// #include<ext/pb_ds/assoc_container.hpp>
-// using namespace __gnu_pbds;
-// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
+#include "../../../template.h"
 
 /*
-    Segment Tree Lazy Propagation (ejemplo con update assign y calc suma.)
-    - Es necesario que se cumpla la propiedad asociativa tanto en las operaciones de update como calc.
-    - Es necesario que se cumpla que calcOp(updateOp(a, x), updateOp(b, x)) == updateOp(calcOp(a, b), x),
-    es decir, que updateOp sea distributiva relativa a calcOp, ejemplo, update de multiplicacion, calc
-    suma. En caso de que no se cumpla esa propiedad (update assign, calc suma o update suma, calc suma),
-    se debe ajustar utilizando la longitud del rango en la operacion update. 
-    - Si se llega a pedir update de diferentes tipos, toca tener cuidado con la propagacion. Ejemplo con
-    update de asignacion (1) y de suma (0):
+Segment Tree Lazy Propagation (ejemplo con update assign y calc suma).
+- Es necesario que se cumpla la propiedad asociativa tanto en las operaciones de update como calc.
+- Es necesario que se cumpla que calcOp(updateOp(a, x), updateOp(b, x)) == updateOp(calcOp(a, b), x),
+  es decir, que updateOp sea distributiva relativa a calcOp, ejemplo, update de multiplicacion, calc
+  suma. En caso de que no se cumpla esa propiedad (update assign, calc suma o update suma, calc suma),
+  se debe ajustar utilizando la longitud del rango en la operacion update. 
+- Si se llega a pedir update de diferentes tipos, toca tener cuidado con la propagacion. Ejemplo con
+  update de asignacion (operacion identificada con 1) y de suma (operacion identificada con 0):
     Updates:
     ll updateOp(ll a, ll b, ll len, int op){ // op -> assign, !op -> suma
         if(op == -1) return neutro;
@@ -66,7 +51,6 @@ private:
         if(a == neutro) return b;
         return b * len;
     }
-
     ll calcOp(ll a, ll b){
         if(a == neutro) return b;
         if(b == neutro) return a;
@@ -79,21 +63,18 @@ private:
     //     if(a == neutro) return b*len;
     //     return a + b*len;
     // }
-
     // ll calcOp(ll a, ll b){
     //     if(a == neutro) return b;
     //     if(b == neutro) return a;
     //     return a + b;
     // }
 
-    
     // Para query minimo y update suma
     // ll updateOp(ll a, ll b, ll len){
     //     if(b == neutro) return a;
     //     if(a == neutro) return b;
     //     return a + b;
     // }
-
     // ll calcOp(ll a, ll b){
     //     if(a == neutro) return b;
     //     if(b == neutro) return a;
@@ -104,7 +85,6 @@ private:
         a = updateOp(a, b, len);
     }
 
-    // O(1)
     void propagate(int v, int tl, int tr){
         if(tr - tl == 1) return;
         int tm = (tr + tl) / 2;
@@ -118,7 +98,6 @@ private:
         lazy[v] = neutro;
     }
 
-    // O(lg(n))
     // [l, r)
     void update(int l, int r, ll val, int v, int tl, int tr){
         propagate(v, tl, tr);
@@ -135,7 +114,6 @@ private:
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
 
-    // O(lg(n))
     // [l, r)
     ll calc(int l, int r, int v, int tl, int tr){
         propagate(v, tl, tr);
@@ -148,7 +126,6 @@ private:
         return calcOp(m1, m2);
     }
 
-    // O(n)
     void build(vector<ll>& a, int v, int tl, int tr){ 
         if(tr == tl + 1){
             if(tl < sz(a)) tree[v] = a[tl];
@@ -184,30 +161,18 @@ public:
 
 void solver(){
     int n, m; cin>>n>>m;
-    segTree st;
-    st.init(n);
-    while(m--){
-        int op; cin>>op;
-        if(op == 1){
-            int l, r; ll val; cin>>l>>r>>val;
-            st.update(l, r, val);
-        }
-        else{
-            int l, r; cin>>l>>r;
-            cout<<st.calc(l, r)<<endl;
-        }
-    }
-}
+    vl a(n);
+    for0(i,n) cin>>a[i];
 
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    // freopen("name.in", "r", stdin);
-	// freopen("name.out", "w", stdout);
-    int t = 1;
-    // cin>>t;
-    while(t--){
-        solver();
-    }
+    // Inicializar
+    segTree st; st.init(n);
+    st.build(a);
+    
+    // Updates
+    int l, r; ll val; cin>>l>>r>>val;
+    st.update(l, r, val);
 
-    return 0;
+    // Calcular
+    int l, r; cin>>l>>r;
+    cout<<st.calc(l, r)<<endl;
 }
