@@ -1,31 +1,10 @@
-#include<bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-#define pb push_back
-#define sz(a) ((int)a.size())
-#define all(a) a.begin(), a.end()
-#define fi first
-#define se second
-#define lb lower_bound
-#define ub upper_bound
-#define pqueue priority_queue
-typedef long long ll;
-typedef long double ld;
-typedef pair<int, int> pii;
-typedef vector<int> vi;
-typedef vector<ll> vl;
-typedef vector<string> vs;
-typedef vector<bool> vb;
-typedef vector<pii> vii;
-// #include<ext/pb_ds/assoc_container.hpp>
-// using namespace __gnu_pbds;
-// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
+#include "../../../template.h"
 
 struct node{
     ll val, pre, suf, sum;
 };
 
-class segTree {
+
 private:
     int size;
     vector<node> tree;
@@ -83,51 +62,5 @@ public:
     void init(int n){
         size = 1;
         while(size < n) size *= 2;
-        tree.assign(2*size, {0LL});
-        // build(0, 0, size);
+        tree.assign(2*size, {0LL, 0LL, 0LL, 0LL});
     }
-
-    void update(int pos, ll val){
-        update(pos, val, 0, 0, size);
-    }
-
-    node calc(int l, int r){
-        return calc(l, r, 0, 0, size);
-    }
-
-    void build(vl& a){
-        build(a, 0, 0, size);
-    }
-};
-
-void solver(){
-    int n, q; cin>>n>>q;
-    vl a(n);
-    for(int i = 0; i < n; i++) cin>>a[i];
-
-    segTree st; st.init(n);
-    st.build(a);
-
-    while(q--){
-        int op; cin>>op;
-        if(op == 1){ // Update
-            int idx; ll val; cin>>idx>>val;
-            st.update(idx, val);
-        }
-        else{ // Calc
-            int l, r; cin>>l>>r;
-            cout<<st.calc(l, r+1).val<<endl;
-        }
-    }
-}
-
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(NULL);
-    int t = 1;
-    // cin>>t;
-    while(t--){
-        solver();
-    }
-
-    return 0;
-}

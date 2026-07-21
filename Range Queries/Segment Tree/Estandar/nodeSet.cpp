@@ -1,25 +1,4 @@
-#include<bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-#define pb push_back
-#define sz(a) ((int)a.size())
-#define all(a) a.begin(), a.end()
-#define fi first
-#define se second
-#define lb lower_bound
-#define ub upper_bound
-#define pqueue priority_queue
-typedef long long ll;
-typedef long double ld;
-typedef pair<int, int> pii;
-typedef vector<int> vi;
-typedef vector<ll> vl;
-typedef vector<string> vs;
-typedef vector<bool> vb;
-typedef vector<pii> vii;
-// #include<ext/pb_ds/assoc_container.hpp>
-// using namespace __gnu_pbds;
-// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
+#include "../../../template.h"
 
 /*
     Para problemas en los cuales se necesite que cada nodo sea una estructura
@@ -38,7 +17,6 @@ struct node{ // Change
     set<ll> val;
 };
 
-class segTree {
 private:
     int size;
     vector<node> tree;
@@ -87,57 +65,9 @@ private:
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
 
-
 public:
     void init(int n){
         size = 1;
         while(size < n) size *= 2;
         tree.assign(2*size, {{}});
-        // build(0, 0, size);
     }
-
-    void update(int pos, ll val){
-        update(pos, val, 0, 0, size);
-    }
-
-    node calc(int l, int r){
-        return calc(l, r, 0, 0, size);
-    }
-
-    void build(vector<ll>& a){
-        build(a, 0, 0, size);
-    }
-};
-
-void solver(){
-    int n, m; cin>>n>>m;
-    vl a(n);
-    for(int i = 0; i < n; i++) cin>>a[i];
-
-    segTree st;
-    st.init(n);
-    st.build(a);
-
-    while(m--){
-        int op; cin>>op;
-        if(op == 1){
-            int i; ll v; cin>>i>>v;
-            st.update(i, v);
-        }
-        else{
-            int l, r; cin>>l>>r;
-            node ans = st.calc(l, r);
-        }
-    }
-}
-
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(NULL);
-    int t = 1;
-    // cin>>t;
-    while(t--){
-        solver();
-    }
-
-    return 0;
-}
