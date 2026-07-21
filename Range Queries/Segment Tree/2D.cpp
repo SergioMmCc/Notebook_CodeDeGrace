@@ -1,29 +1,7 @@
-#include<bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-#define pb push_back
-#define sz(a) ((int)a.size())
-#define all(a) a.begin(), a.end()
-#define fi first
-#define se second
-#define lb lower_bound
-#define ub upper_bound
-#define pqueue priority_queue
-typedef long long ll;
-typedef long double ld;
-typedef pair<int, int> pii;
-typedef pair<ll, ll> pll;
-typedef vector<int> vi;
-typedef vector<ll> vl;
-typedef vector<string> vs;
-typedef vector<bool> vb;
-typedef vector<pii> vii;
-typedef vector<pll> vll;
-// #include<ext/pb_ds/assoc_container.hpp>
-// using namespace __gnu_pbds;
-// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
+#include "../../template.h"
 
-// Procurar que las dimensiones n, m sean <= 1000, si no, posible MLE
+// Procurar que las dimensiones n, m sean <= 1000, si no, posible 
+// MLE ya que la memoria es logm * logn * m * n
 
 struct node{ // Change
     ll val;
@@ -150,31 +128,17 @@ void solver(){
             cin>>a[i][j].val;
         }
     }
+
+    // Inicializar
     segTree2D st;
     st.init(n, m);
     st.build(a);
 
-    int q; cin>>q;
-    while(q--){
-        int op; cin>>op;
-        if(op == 1){ // Update
-            int y, x; ll val; cin>>y>>x>>val;
-            st.update(y, x, val);
-        }
-        else{ // Calc
-            int y1, x1, y2, x2; cin>>y1>>x1>>y2>>x2;
-            cout<<st.calc(y1, y2, x1, x2).val<<endl;
-        }
-    }
-}
+    // Updates
+    int y, x; ll val; cin>>y>>x>>val;
+    st.update(y, x, val);
 
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(NULL);
-    int t = 1;
-    // cin>>t;
-    while(t--){
-        solver();
-    }
-
-    return 0;
+    // Calcular
+    int y1, x1, y2, x2; cin>>y1>>x1>>y2>>x2;
+    cout<<st.calc(y1, y2, x1, x2).val<<endl;
 }
