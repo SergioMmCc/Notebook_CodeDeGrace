@@ -123,8 +123,8 @@ public:
 void solver(){
     int n, m; cin>>n>>m;
     vector<vector<node>> a(n, vector<node>(m));
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < m; j++){
+    for0(i,n){
+        for0(j,m){
             cin>>a[i][j].val;
         }
     }
