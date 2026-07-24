@@ -2,6 +2,7 @@
 
 // 0-index
 // Implementacion ejemplo con suma
+// Recordar que si los indices son muy grandes, cambiar SZ, L, R por ll
 
 const int SZ = 1 << 17; // Techo del log2 del maximo indice
 
