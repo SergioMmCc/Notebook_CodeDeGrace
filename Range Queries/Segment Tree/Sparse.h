@@ -3,6 +3,9 @@
 // 0-index
 // Implementacion ejemplo con suma
 // Recordar que si los indices son muy grandes, cambiar SZ, L, R por ll
+// Tener cuidado con el valor neutro ya que es comun que este sea el retorno en algunas calc
+// Complejidad temporal: O(lg(SZ)) para updates y calcs.
+// Complejidad espacial: O(n*lg(SZ)) 
 
 const int SZ = 1 << 17; // Techo del log2 del maximo indice
 
@@ -22,6 +25,7 @@ template<class T> struct node {
 	T val = neutro<T>(); 
     node<T>* c[2];
 	node() { c[0] = c[1] = NULL; }
+
 	void upd(int ind, T v, int L = 0, int R = SZ-1){ // asignar v
 		if(L == ind && R == ind){ 
             val = v; 
@@ -45,6 +49,7 @@ template<class T> struct node {
 	T calc(int lo, int hi, int L = 0, int R = SZ-1){
 		if(hi < L || R < lo) return neutro<T>();
 		if(lo <= L && R <= hi) return val;
+		
 		int M = (L+R) / 2;
         T lv = c[0] ? c[0]->calc(lo, hi, L, M) : neutro<T>();
         T rv = c[1] ? c[1]->calc(lo, hi, M+1, R) : neutro<T>();

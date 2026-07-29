@@ -49,6 +49,7 @@ Propiedades y teoremas:
   - El teorema de los numeros poligonales de fermat dice que todo numero puede 
     representarse como la suma de 3 numeros triangulares, 4 numeros cuadrados, 5
     numeros pentagonales y n numeros n-poligonales.
+
   - Las ternas pitagoricas son ternas (a, b, c) que satisfacen el teorema de pitagoras
     a² + b² = c², lo cual significa que hay un triangulo rectangulo con lados de
     longitud a, b y c, ej: 3, 4, 5.
@@ -58,9 +59,10 @@ Propiedades y teoremas:
     todas las ternas pitagoricas pueden ser generadas a partir de estas usando un
     factor k.
     La formula de Euclides se puede utilizar para producir todas las ternas pitagoricas
-    primitivas de la forma (n² - m², 2nm, n² + m²), donde 0 < m < n, n y m son copirmos 
+    primitivas de la forma (n² - m², 2nm, n² + m²), donde 0 < m < n, n y m son coprimos 
     y al menos uno de los dos es par.
     La terna pitagorica primitiva mas pequeña es (3, 4, 5).
+    
   - El teorema de Wilson dice que un numero es primo si y solo si (n - 1)! % n = n - 1
 
   Fibonacci:
