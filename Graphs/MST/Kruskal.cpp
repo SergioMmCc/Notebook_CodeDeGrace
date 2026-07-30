@@ -7,7 +7,22 @@ using ld = long double;
 #define sz size()
 typedef pair<int, int> pii;
 
-// Estructura para almacenar todas las aristas
+
+/*
+- Complejidad O(n*lg(n)) por el ordenamiento de las aristas
+- Arista esta en ningun, alguno o todos los MST:
+  Para decidir que aristas pueden hacer parte del MST se procesan las
+  aristas por grupos del mismo peso. Para cada grupo nueevo inicialmente
+  se revisa si los vertices que conecta una arista ya hacen parte del
+  mismo componente y en caso de que si quiere decir que esa arista no hace
+  parte de ningun MST, en caso contrario si hace parte de al menos un 
+  posible MST.
+  Para saber si una arista esta en todos los posibles MST se toma por cada
+  grupo las aristas que si hacen parte de algun MST y con estas y los
+  componentes que se procesaron en los grupos anteriores se arma un grafo
+  (el cual va a ser disconexo) y se hallan los puentes. Entonces los puentes
+  son aristas que estan en todos los MST.
+*/
 struct edge {
     int u, v; ll w;
 
@@ -17,7 +32,6 @@ struct edge {
     }
 };
 
-// Implementacion DSU
 const int maxn = 200005;
 int components;
 vector<int> leader(maxn), sizen(maxn);
@@ -47,9 +61,6 @@ void join(int u, int v){
     }
 }
 
-// Algoritmo de Kruskal para hallar el Minimal Spanning Tree
-// Complejidad O(m * lg(m))
-// En grafos densos m ≈ n²
 ll kruskal(vector<edge>& edges, int n){
     ll total = 0;
     sort(edges.begin(), edges.end());
