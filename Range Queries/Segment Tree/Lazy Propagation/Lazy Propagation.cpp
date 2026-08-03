@@ -7,6 +7,8 @@ Segment Tree Lazy Propagation (ejemplo con update assign y calc suma).
   es decir, que updateOp sea distributiva relativa a calcOp, ejemplo, update de multiplicacion, calc
   suma. En caso de que no se cumpla esa propiedad (update assign, calc suma o update suma, calc suma),
   se debe ajustar utilizando la longitud del rango en la operacion update. 
+- Tambien se pueden hacer updates donde cada valor a_i se lleva al minimo entre x y a_i (o maximo) y
+  hacer consultas de elementos.
 - Si se llega a pedir update de diferentes tipos, toca tener cuidado con la propagacion. Ejemplo con
   update de asignacion (operacion identificada con 1) y de suma (operacion identificada con 0):
     Updates:
