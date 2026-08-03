@@ -10,6 +10,11 @@ void compressArr(vi& a){
     sort(all(comp));
     comp.erase(unique(all(comp)), comp.end());
     for0(i,sz(a)) a[i] = lb(all(comp), a[i]) - comp.begin();
+    
+    /* En caso de requerir hallar la compresion de algun 
+    valor k, sin que se necesite guardar en el array:
+    k = lb(all(comp), k) - comp.begin();
+    Usar lb o ub segun sea el caso.*/
 }
 
 // Comprimir queries para segtree
