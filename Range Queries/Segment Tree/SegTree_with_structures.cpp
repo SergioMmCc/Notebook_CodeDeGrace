@@ -1,25 +1,25 @@
-#include "../../../template.h"
+#include "../../template.h"
 
 /*
-- Para problemas en los cuales se necesite que cada nodo sea una estructura
-  se puede tomar esta implementacion como base. La complejidad es la misma
+- Para problemas en los cuales se necesite que cada nodo sea una estructura se 
+  puede tomar esta implementacion como base. La complejidad es casi la misma
   que la de un segment tree normal agregando un factor segun la complejidad 
   de las operaciones de insert y erase de la estructura utilizada. 
-- Este ejemplo usando set tiene una complejidad de O(n*lg(n)) para build
-  y O(lg(n)²) para update.
+- Este ejemplo usando set tiene una complejidad temporal de O(n*lg(n)) para build
+  y O(lg(n)²) para update. La complejidad espacial tambien es O(n*lg(n)).
 - Segun esa informacion que se necesite se debe hacer binary search, acceder a
   la clase del mapa, etc. Entonces la complejidad de calculos es variable, pero
   suele ser O(lg(n)²).
-- Puede servir para problemas como hallar la frecuencia de un numero en
-  especifico en un rango (en este caso tocaria usar map) o hallar si todos
-  los numeros en un rango son diferentes (si bien existen formas mas eficientes
-  de resolver este problema).
+- Normalmente se usa para problemas similares a los que se pueden resolver usando
+  merge sort tree, pero que requieren updates. Si bien la complejidad es la misma
+  el factor constante es un poco mas alto.
 */
 
 struct node{ // Change
     set<ll> val;
 };
 
+class segTree{
 private:
     int size;
     vector<node> tree;
@@ -47,10 +47,18 @@ private:
     }
 
     // [l, r)
-    ll calc(int l, int r, int v, int tl, int tr){ // Change si walking on segment tree
-        // Para los calculos se deben usar cosas como 
-        // el tamaño del set, binary search sobre el set, 
-        // etc.
+    ll calc(int l, int r, int v, int tl, int tr){
+        if(tl >= r || l >= tr) return 0;
+        if(tl >= l && tr <= r){
+            // Para los calculos se deben usar cosas como 
+            // el tamaño del set, binary search sobre el set, 
+            // etc.
+        }
+
+        int tm = (tl + tr) / 2;
+        ll m1 = calc(l, r, 2*v + 1, tl, tm);
+        ll m2 = calc(l, r, 2*v + 2, tm, tr);
+        return m1 + m2;
     }
 
     void build(vl& a, int v, int tl, int tr){ // O(n)
@@ -70,3 +78,7 @@ public:
         while(size < n) size *= 2;
         tree.assign(2*size, {{}});
     }
+    void update(int pos, ll val){update(pos, val, 0, 0, size);}
+    ll calc(int l, int r){return calc(l, r, 0, 0, size);}
+    void build(vector<ll>& a){build(a, 0, 0, size);}
+};
