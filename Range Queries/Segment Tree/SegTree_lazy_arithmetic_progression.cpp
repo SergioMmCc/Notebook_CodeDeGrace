@@ -1,8 +1,8 @@
-#include "../../../template.h"
+#include "../../template.h"
 
 /*
 - Updates del tipo l, r, val, inc
-  Basicamente hago a[l] += val, a[l+1] += val + inc, a[l+2] += val + 2*inc, hasta llegar a r-1.
+  Hago a[l] += val, a[l+1] += val + inc, a[l+2] += val + 2*inc, hasta llegar a r-1.
 - Queries de suma.
 */
 
@@ -10,6 +10,7 @@ ll gauss(ll n){
     return n <= 0 ? 0 : (n * (n + 1)) >> 1;
 }
 
+class segTee{
 private:
     int size;
     vector<pll> lazy;
@@ -100,3 +101,7 @@ public:
         lazy.assign(2*size, {neutro, 0});
         tree.assign(2*size, 0LL);
     }
+    void update(int l, int r, ll val, ll inc){update(l, r, val, inc, 0, 0, size);}
+    ll calc(int l, int r){return calc(l, r, 0, 0, size);}
+    void build(vector<ll>& a){build(a, 0, 0, size);}
+};

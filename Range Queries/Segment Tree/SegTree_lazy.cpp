@@ -1,4 +1,4 @@
-#include "../../../template.h"
+#include "../../template.h"
 
 /*
 Segment Tree Lazy Propagation (ejemplo con update assign y calc suma).
@@ -9,35 +9,7 @@ Segment Tree Lazy Propagation (ejemplo con update assign y calc suma).
   se debe ajustar utilizando la longitud del rango en la operacion update. 
 - Tambien se pueden hacer updates donde cada valor a_i se lleva al minimo entre x y a_i (o maximo) y
   hacer consultas de elementos.
-- Si se llega a pedir update de diferentes tipos, toca tener cuidado con la propagacion. Ejemplo con
-  update de asignacion (operacion identificada con 1) y de suma (operacion identificada con 0):
-    Updates:
-    ll updateOp(ll a, ll b, ll len, int op){ // op -> assign, !op -> suma
-        if(op == -1) return neutro;
-        if(b == neutro) return a;
-        if(a == neutro) return b * len;
-        return op ? b * len : a + b * len;
-    }
-    Propagacion:
-    void propagate(int v, int tl, int tr){
-        if(tr - tl == 1 || lazy[v].se == -1) return;
-        int tm = (tr + tl) / 2;
-        
-        lazy[2*v + 1].fi = updateOp(lazy[2*v + 1].fi, lazy[v].fi, 1, lazy[v].se);
-        if(lazy[2*v + 1].se == -1) lazy[2*v + 1].se = lazy[v].se;
-        else lazy[2*v + 1].se = min(1, lazy[2*v + 1].se + lazy[v].se); // La asignacion prevalece ya que se le suma al valor que se debe asignar
-
-        tree[2*v + 1] = updateOp(tree[2*v + 1], lazy[v].fi, tm - tl, lazy[v].se);
-
-
-        lazy[2*v + 2].fi = updateOp(lazy[2*v + 2].fi, lazy[v].fi, 1, lazy[v].se);
-        if(lazy[2*v + 2].se == -1) lazy[2*v + 2].se = lazy[v].se;
-        else lazy[2*v + 2].se = min(1, lazy[2*v + 2].se + lazy[v].se);
-
-        tree[2*v + 2] = updateOp(tree[2*v + 2], lazy[v].fi, tm - tl, lazy[v].se);
-        lazy[v] = {neutro, -1};
-    }
-*/
+*/ 
 
 class segTree {
 private:
@@ -59,30 +31,6 @@ private:
         return a + b;
     }
 
-    // Para query suma y update suma
-    // ll updateOp(ll a, ll b, ll len){
-    //     if(b == neutro) return a;
-    //     if(a == neutro) return b*len;
-    //     return a + b*len;
-    // }
-    // ll calcOp(ll a, ll b){
-    //     if(a == neutro) return b;
-    //     if(b == neutro) return a;
-    //     return a + b;
-    // }
-
-    // Para query minimo y update suma
-    // ll updateOp(ll a, ll b, ll len){
-    //     if(b == neutro) return a;
-    //     if(a == neutro) return b;
-    //     return a + b;
-    // }
-    // ll calcOp(ll a, ll b){
-    //     if(a == neutro) return b;
-    //     if(b == neutro) return a;
-    //     return min(a, b);
-    // }
-
     void applyUpdOp(ll &a, ll b, ll len){
         a = updateOp(a, b, len);
     }
@@ -90,9 +38,6 @@ private:
     void propagate(int v, int tl, int tr){
         if(tr - tl == 1) return;
         int tm = (tr + tl) / 2;
-        // Para Update de invertir (cambiar 0s por 1s y viceversa), usar:
-        // lazy[2*v + 1] = !lazy[2*v + 1];
-        // lazy[2*v + 2] = !lazy[2*v + 2];
         applyUpdOp(lazy[2*v + 1], lazy[v], 1);
         applyUpdOp(tree[2*v + 1], lazy[v], tm - tl);
         applyUpdOp(lazy[2*v + 2], lazy[v], 1);
@@ -139,7 +84,6 @@ private:
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
 
-
 public:
     void init(int n){
         size = 1;
@@ -147,18 +91,9 @@ public:
         lazy.assign(2*size, neutro);
         tree.assign(2*size, 0LL);
     }
-
-    void update(int l, int r, ll val){
-        update(l, r, val, 0, 0, size);
-    }
-
-    ll calc(int l, int r){
-        return calc(l, r, 0, 0, size);
-    }
-
-    void build(vector<ll>& a){
-        build(a, 0, 0, size);
-    }
+    void update(int l, int r, ll val){update(l, r, val, 0, 0, size);}
+    ll calc(int l, int r){return calc(l, r, 0, 0, size);}
+    void build(vector<ll>& a){build(a, 0, 0, size);}
 };
 
 void solver(){

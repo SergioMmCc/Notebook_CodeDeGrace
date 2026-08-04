@@ -1,33 +1,34 @@
-#include "../../../template.h"
+#include "../../template.h"
 
 // Update de asignacion, query de segmento con mayor suma
-// La respuesta se guarda en .seg
+// La respuesta se guarda en .val
 
-struct Node{
-    ll seg, pref, suf, sum;
+struct node{
+    ll val, pref, suf, sum;
 };
 
+class segTree{
 private:
     int size;
-    vector<Node> lazy;
-    vector<Node> tree;
+    vector<node> lazy;
+    vector<node> tree;
 
-    Node neutro = {0LL, 0LL, 0LL, LLONG_MAX - 1};
+    node neutro = {0LL, 0LL, 0LL, LLONG_MAX - 1};
 
-    Node updateOp(Node a, Node b, ll len){
+    node updateOp(node a, node b, ll len){
         if(b.sum == neutro.sum) return a;
-        Node ans = {0LL, 0LL, 0LL, 0LL};
+        node ans = {0LL, 0LL, 0LL, 0LL};
         ans.sum = b.sum * len;
-        if(b.sum > 0LL) ans.seg = ans.suf = ans.pref = ans.sum;
+        if(b.sum > 0LL) ans.val = ans.suf = ans.pref = ans.sum;
 
         return ans;
     }
 
-    Node calcOp(Node a, Node b){
+    node calcOp(node a, node b){
         if(a.sum == neutro.sum) return b;
         if(b.sum == neutro.sum) return a;
-        Node ans;
-        ans.seg = max(0LL, max(max(a.seg, b.seg), a.suf + b.pref));
+        node ans;
+        ans.val = max(0LL, max(max(a.val, b.val), a.suf + b.pref));
         ans.pref = max(0LL, max(a.pref, a.sum + b.pref));
         ans.suf = max(0LL, max(b.suf, b.sum + a.suf));
         ans.sum = a.sum + b.sum;
@@ -35,7 +36,7 @@ private:
         return ans;
     }
 
-    void applyUpdOp(Node &a, Node b, ll len){
+    void applyUpdOp(node &a, node b, ll len){
         a = updateOp(a, b, len);
     }
 
@@ -54,7 +55,7 @@ private:
         propagate(v, tl, tr);
         if(tl >= r || l >= tr) return;
         if(tl >= l && tr <= r){
-            Node x = {0LL, 0LL, 0LL, val};
+            node x = {0LL, 0LL, 0LL, val};
             applyUpdOp(lazy[v], x, 1);
             applyUpdOp(tree[v], x, tr - tl);
             return;
@@ -67,17 +68,27 @@ private:
     }
 
     // [l, r)
-    Node calc(int l, int r, int v, int tl, int tr){
+    node calc(int l, int r, int v, int tl, int tr){
         propagate(v, tl, tr);
         if(tl >= r || l >= tr) return neutro;
         if(tl >= l && tr <= r) return tree[v];
 
         int tm = (tl + tr) / 2;
-        Node m1 = calc(l, r, 2*v + 1, tl, tm);
-        Node m2 = calc(l, r, 2*v + 2, tm, tr);
+        node m1 = calc(l, r, 2*v + 1, tl, tm);
+        node m2 = calc(l, r, 2*v + 2, tm, tr);
         return calcOp(m1, m2);
     }
 
+    void build(vector<ll>& a, int v, int tl, int tr){ 
+        if(tr == tl + 1){
+            if(tl < sz(a)) tree[v] = tree[v] = {max(0LL, a[tl]), max(0LL, a[tl]), max(0LL, a[tl]), a[tl]};
+            return;
+        }
+        int tm = (tr + tl) / 2;
+        build(a, 2*v + 1, tl, tm);
+        build(a, 2*v + 2, tm, tr);
+        tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
+    }
 
 public:
     void init(int n){
@@ -86,3 +97,7 @@ public:
         lazy.assign(2*size, neutro);
         tree.assign(2*size, neutro);
     }
+    void update(int l, int r, ll val){update(l, r, val, 0, 0, size);}
+    node calc(int l, int r){return calc(l, r, 0, 0, size);}
+    void build(vector<ll>& a){build(a, 0, 0, size);}
+};

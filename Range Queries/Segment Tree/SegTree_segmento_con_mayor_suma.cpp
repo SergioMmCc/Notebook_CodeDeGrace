@@ -1,10 +1,10 @@
-#include "../../../template.h"
+#include "../../template.h"
 
 struct node{
     ll val, pre, suf, sum;
 };
 
-
+class segTree{
 private:
     int size;
     vector<node> tree;
@@ -64,3 +64,7 @@ public:
         while(size < n) size *= 2;
         tree.assign(2*size, {0LL, 0LL, 0LL, 0LL});
     }
+    void update(int pos, ll val){update(pos, val, 0, 0, size);}
+    node calc(int l, int r){return calc(l, r, 0, 0, size);}
+    void build(vector<ll>& a){build(a, 0, 0, size);}
+};

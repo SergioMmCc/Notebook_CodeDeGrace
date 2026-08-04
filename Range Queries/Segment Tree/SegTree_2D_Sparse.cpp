@@ -1,4 +1,4 @@
-#include "./Sparse.h"
+#include "./SegTree_sparse.h"
 
 // 0-index
 // Copiar el segtree Sparse
