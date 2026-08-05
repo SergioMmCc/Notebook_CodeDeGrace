@@ -18,11 +18,11 @@ la cantidad de intersecciones.
 
 /***************************************************************************
 kth one:
-En un array de 1s y 0s, hallar la kth posicion donde hay un 1. Sirve para ejericicios
-donde me pidan activar y desactivar posiciones.
+En un array de 1s y 0s, hallar la kth posicion donde hay un 1. Sirve para ejercicios
+donde me pidan activar y desactivar posiciones. Consultas sobre el array completo.
 Tambien se puede usar un enfoque similar para hallar el kth elemento mayor o igual a x
-(pero las queries deben ser sobre el array general y no sobre rangos especificos, de lo
-contrario usar persistente).
+(pero las queries deben ser sobre el array completo y no sobre rangos especificos, de
+lo contrario usar persistente).
 Usar operacion de sumas y: */
 int calc(int l, int r, int k, int v, int tl, int tr){
     // propagate(v, tl, tr); // Si es lazy
@@ -42,7 +42,7 @@ int calc(int l, int r, int k, int v, int tl, int tr){
 int calc(int l, int r, ll x, int v, int tl, int tr){ // Change si walking on segment tree
     // propagate(v, tl, tr); // Si es lazy
     if(tl >= r || l >= tr) return -1; // No hay ninguno
-    if(tr - tl == 1) return tl;
+    if(tr - tl == 1) return tree[v].val >= x ? tl : -1;
 
     int tm = (tl + tr) / 2;
     int ans = -1;
