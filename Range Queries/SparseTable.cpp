@@ -1,40 +1,35 @@
 #include "../template.h"
 
 /* 
-Complejidad:
-- Queries O(1)
-- Creacion O(n * lg(n))
-*/
-/*  
-- Implemetacion 0-index.
-- En esta implementacion tambien se calcula el indice en el cual se encuentra
-  el elemento mas pequeño, se puede eliminar simplemente dejando el primer elemento
-  del par.
+- 0-index.
+- Para cualquier operacion asociativa e idempotente (oper(a,a) == a), 
+  como min, max, and, or, gcd.
+- Cuidado con el neutro.
+- Complejidad: calc: 0(1), build(nlog(n))
 */
 
-typedef pair<ll, int> pli;
+struct rmq {
+    ll neutro = LLONG_MAX - 1; // Change
+    int n, lgn;
+    vector<vl> st;
+    inline ll oper(ll a, ll b){ return a < b ? a : b; } // Change
 
-// Llenar sparse table
-void fillRMQ(vector<ll>& a, vector<vector<pli>>& rmq){ // O(nlg(n))
-    int n = sz(a); rmq.resize(n);
-    int lgn = 31 - __builtin_clz(n); // Piso del log2 de n
-
-    for0(i,n){
-        rmq[i].resize(lgn + 1);
-        rmq[i][0] = {a[i], i};
+    void build(const vl& a){
+        n = sz(a);
+        lgn = 32 - __builtin_clz(n); // floor(log2(n))
+        st.assign(lgn, vl(n));
+        st[0] = a;
+        for1(j,lgn) 
+            for(int i = 0; i + (1 << j) - 1 < n; i++) 
+                st[j][i] = oper(st[j-1][i], st[j-1][i + (1 << (j-1))]);
     }
 
-    for1(j,lgn){
-        for(int i = 0; i + (1 << j) - 1 < n; i++)
-            rmq[i][j] = max(rmq[i][j - 1], rmq[i + (1 << (j - 1))][j - 1]);
+    ll calc(int l, int r){ // [l, r]
+        if(l > r) return neutro;
+        int j = 31 - __builtin_clz(r-l+1); // floor(log2(r-l+1))
+        return oper(st[j][l], st[j][r - (1 << j) + 1]);
     }
-}
-
-// [l, r]
-pli query(int l, int r, vector<vector<pli>>& rmq){ // O(1)
-    int lg = 31 - __builtin_clz(r - l + 1); // Piso del Log2 del tamaño del rango
-    return max(rmq[l][lg], rmq[r - (1 << lg) + 1][lg]);
-}
+};
 
 void solver(){
     int n; cin>>n;
@@ -42,14 +37,10 @@ void solver(){
     for0(i,n) cin>>a[i];
 
     // Inicializar
-    vector<vector<pli>> rmq;
-    fillRMQ(a, rmq);
+    rmq st; 
+    st.build(a);
 
-    // Queries
-    int q; cin>>q;
-    while(q--){
-        int l, r; cin>>l>>r;
-        pli maxi = query(l, r, rmq); // [l, r]
-        cout<<"El mayor numero entre "<<l<<" y "<<r<<" es: "<<maxi.first<<", y se encuentra en la posicion: "<<maxi.second<<endl;
-    }
+    // Calc
+    int l, r; cin>>l>>r;
+    cout<<st.calc(l, r)<<endl;
 }
