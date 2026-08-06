@@ -14,15 +14,14 @@ Segment Tree Lazy Propagation (ejemplo con update assign y calc suma).
 class segTree {
 private:
     int size;
-    vector<ll> lazy;
-    vector<ll> tree;
+    vl lazy;
+    vl tree;
 
     ll neutro = LLONG_MAX - 1;
 
     // Para query suma y update assign
     ll updateOp(ll a, ll b, ll len){
         if(b == neutro) return a;
-        if(a == neutro) return b;
         return b * len;
     }
     ll calcOp(ll a, ll b){
@@ -73,7 +72,7 @@ private:
         return calcOp(m1, m2);
     }
 
-    void build(vector<ll>& a, int v, int tl, int tr){ 
+    void build(vl& a, int v, int tl, int tr){ 
         if(tr == tl + 1){
             if(tl < sz(a)) tree[v] = a[tl];
             return;
@@ -89,11 +88,11 @@ public:
         size = 1;
         while(size < n) size *= 2;
         lazy.assign(2*size, neutro);
-        tree.assign(2*size, 0LL);
+        tree.assign(2*size, 0LL); // Change
     }
     void update(int l, int r, ll val){update(l, r, val, 0, 0, size);}
     ll calc(int l, int r){return calc(l, r, 0, 0, size);}
-    void build(vector<ll>& a){build(a, 0, 0, size);}
+    void build(vl& a){build(a, 0, 0, size);}
 };
 
 void solver(){

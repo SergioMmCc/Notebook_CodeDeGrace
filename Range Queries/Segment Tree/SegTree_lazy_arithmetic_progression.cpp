@@ -13,8 +13,8 @@ ll gauss(ll n){
 class segTee{
 private:
     int size;
-    vector<pll> lazy;
-    vector<ll> tree;
+    vll lazy;
+    vl tree;
 
     ll neutro = LLONG_MAX - 1;
 
@@ -82,7 +82,7 @@ private:
         return calcOp(m1, m2);
     }
 
-    void build(vector<ll>& a, int v, int tl, int tr){ 
+    void build(vl& a, int v, int tl, int tr){ 
         if(tr == tl + 1){
             if(tl < sz(a)) tree[v] = a[tl];
             return;
@@ -103,5 +103,5 @@ public:
     }
     void update(int l, int r, ll val, ll inc){update(l, r, val, inc, 0, 0, size);}
     ll calc(int l, int r){return calc(l, r, 0, 0, size);}
-    void build(vector<ll>& a){build(a, 0, 0, size);}
+    void build(vl& a){build(a, 0, 0, size);}
 };

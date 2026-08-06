@@ -46,7 +46,7 @@ private:
         return calcOp(m1, m2);
     }
 
-    void build(vector<ll>& a, int v, int tl, int tr){ // O(n)
+    void build(vl& a, int v, int tl, int tr){ // O(n)
         if(tr - tl == 1){
            if(tl < sz(a)) tree[v] = {max(0LL, a[tl]), max(0LL, a[tl]), max(0LL, a[tl]), a[tl]};
            return;
@@ -66,5 +66,5 @@ public:
     }
     void update(int pos, ll val){update(pos, val, 0, 0, size);}
     node calc(int l, int r){return calc(l, r, 0, 0, size);}
-    void build(vector<ll>& a){build(a, 0, 0, size);}
+    void build(vl& a){build(a, 0, 0, size);}
 };
