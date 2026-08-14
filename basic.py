@@ -1,7 +1,6 @@
 # Es importante tener en cuenta que python es aproximadamente 40 veces mas lento que C++
 
 import array as arr # Para trabajar con arrays
-import numpy as np
 
 def main ():
     # Leer una linea completa, separar los elementos por los espacios y almacenarlos en una lista
