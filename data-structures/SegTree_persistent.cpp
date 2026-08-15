@@ -1,4 +1,4 @@
-#include "../../template.h"
+#include "../template.h"
 
 /*
 - 0-index. Implementacion de sumas.

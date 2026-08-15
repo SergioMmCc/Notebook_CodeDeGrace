@@ -1,4 +1,4 @@
-#include "../../template.h"
+#include "../template.h"
 
 /*
 - Para problemas en los cuales no hay updates y se necesiten cosas como contar 

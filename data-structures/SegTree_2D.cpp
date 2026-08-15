@@ -1,4 +1,4 @@
-#include "../../template.h"
+#include "../template.h"
 
 // Procurar que las dimensiones n, m sean <= 1000, si no, posible 
 // MLE ya que la memoria es logm * logn * m * n

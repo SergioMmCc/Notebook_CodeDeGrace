@@ -1,4 +1,4 @@
-#include "../../template.h"
+#include "../template.h"
 
 /*
 - Updates del tipo l, r, val, inc

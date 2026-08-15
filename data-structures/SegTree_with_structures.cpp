@@ -1,4 +1,4 @@
-#include "../../template.h"
+#include "../template.h"
 
 /*
 - Para problemas en los cuales se necesite que cada nodo sea una estructura se 

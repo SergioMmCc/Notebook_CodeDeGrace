@@ -1,4 +1,4 @@
-#include "../../template.h"
+#include "../template.h"
 
 // Update de asignacion, query de segmento con mayor suma
 // La respuesta se guarda en .val

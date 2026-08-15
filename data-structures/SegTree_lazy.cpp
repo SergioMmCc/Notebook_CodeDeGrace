@@ -1,4 +1,4 @@
-#include "../../template.h"
+#include "../template.h"
 
 /*
 Segment Tree Lazy Propagation (ejemplo con update assign y calc suma).

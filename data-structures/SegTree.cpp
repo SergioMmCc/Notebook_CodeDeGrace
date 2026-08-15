@@ -1,4 +1,4 @@
-#include "../../template.h"
+#include "../template.h"
 
 // Implementacion con array 0-index
 /*
