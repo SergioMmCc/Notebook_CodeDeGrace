@@ -8,6 +8,6 @@ struct comparator {
 }
 
 // Usar en:
-sort(vec.begin(), vec.end(), comparator());
-priority_queue<pii, vector<pii>, comparator> pq;
+sort(all(vec), comparator());
+pqueue<pii, vector<pii>, comparator> pq;
 set<pii, comparator> mySet;

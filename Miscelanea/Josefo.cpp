@@ -14,6 +14,6 @@
 // n <= 1e6, p <= 2^31 - 1
 int josefo(int n, int p){
     int ans = 0;
-    for(int i = 2; i <= n; i++) ans = (ans + p) % i;
+    forlr(i,2,n) ans = (ans + p) % i;
     return ans + 1; // Suma para circulo de 1 a n
 }
