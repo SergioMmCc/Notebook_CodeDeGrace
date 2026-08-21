@@ -16,6 +16,8 @@
   opcion ya que no aumenta la complejidad. Esto debido a que
   las updates son O(1) y las consultas O(sqrt(n)), y al ser
   q consultas, se mantiene el factor de q*sqrt(n).
+- Hallar el MEX en rango se puede hacer con Mo + SQRT (si
+  bien tambien se ppuede resolver con segTree).
 - Se puede variar con que los bloques se definan por r en 
   lugar de l, que en el lado que se extiende solo se agregue
   y nunca se quite (siempre ++r o --l), que en el lado del
