@@ -2,29 +2,24 @@
 
 /*
 LCA usando Euler Tour Technique.
-- Consiste en utilizar un DFS para marcar la primera vez que se 
-  visita cada nodo (start), su profundidad (depth) y tener un 
-  array (id) en el que se inserta un valor u cada que dicho nodo 
-  es visitado en el DFS, es decir, cuando se visita por primera 
-  vez y cuando se termina de visitar un hijo, lo cual nos dice 
-  que cada nodo sera agregado 1 vez por cada hijo que tiene mas 
-  una por si mismo, por tanto el array id tendra 2*n - 1 elementos.
+- La sparse table se rellenara con los pares 
+  {depth[id[i]], id[i]}, para 0 <= i < sz(id).
 - Para hacer las queries de LCA(u, v) se necesita hallar el nodo 
   con menor profundidad en el intervalo [start[u], start[v]], 
   con start[u] <= start[v], lo cual se hara con una sparse table 
-  de minimos. La sparse table se rellenara con los pares 
-  {depth[id[i]], id[i]}, para 0 <= i < sz(id). Cada query halla el 
-  nodo con menor profundidad en ese intervalo en O(1).
-- Para hallar la distancia entre 2 nodos del arbol se puede usar 
-  la siguiente formula: 
+  de minimos. Cada query halla el nodo con menor profundidad en 
+  ese intervalo en O(1).
+- Para hallar la distancia entre 2 nodos u,v del arbol:
   distancia(u, v) = depth[u] + depth[v] - 2*depth[LCA(u, v)]
 */
+
+// AGREGAR SPARSE TABLE DE PARES Y MINIMOS
 
 const int maxn = 2e5 + 1;
 vector<vi> tree(maxn);
 vi id, depth(maxn), start(maxn);
 
-// Halla los valores correspondientes de los arrays depth, id y start
+// Llenar los arrays depth, id y start
 void DFS(int u, int pa){
     start[u] = sz(id); // Marcar en que momento se visito por primera vez
     id.pb(u); // Insertar cuando se visita el nodo por primera vez
@@ -36,11 +31,10 @@ void DFS(int u, int pa){
     }
 }
 
-// Halla el LCA entre 2 nodos
 // O(1)
-int LCA(int a, int b){
-    if(start[a] > start[b]) swap(a, b); // Se asegura que start[a] corresponda a l y start[b] a r
-    return query(start[a], start[b]).se; // Query a la sparse table
+int LCA(int a, int b, rmq& st){
+    if(start[a] > start[b]) swap(a, b); // Asegura que start[a] sea l y start[b] sea r
+    return st.calc(start[a], start[b]).se; // Query a la sparse table
 }
 
 void solver(){
@@ -55,8 +49,10 @@ void solver(){
     DFS(0, -1);
 
     // Llamar sparse table
-
+    vii a;
+    for0(i,sz(id)) a.pb({depth[id[i]], id[i]});
+    rmq st; st.build(a);
     
     // Hallar LCA
-    cout<<LCA(u,v)<<endl;
+    cout<<LCA(u, v, st)<<endl;
 }
