@@ -4,15 +4,15 @@ map<int, int> T;
 // Recorrer por valor o referencia
 T[key]; // Accede al valor de key
 for(const auto& par : T){
-    key = par.first;
-    valor = par.second;
+    key = par.fi;
+    valor = par.se;
 }
 
 // Por puntero o iterador
 auto it = T.find(key);
 if(it != T.end()){
-    key = it->first;
-    valor = ir->second;
+    key = it->fi;
+    valor = ir->se
 }
 
 // lower_bound y upper_bound en set y map

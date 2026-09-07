@@ -11,7 +11,6 @@
 #define llpc(x) __builtin_popcountll(x)
 #define ipc(x) __builtin_popcount(x)
 
-
 // Some useful equations
 a|b = a^b + a&b
 a^(a&b) = (a|b)^b
