@@ -68,6 +68,8 @@ es igual a la cantidad de formas en que se pueden dividir $n$ elementos en subco
 
 - $$(a_1 + ... + a_k)^n = \sum_{n_1+...+n_k=n, n_i>=0}^{} \binom{n}{n_1, ..., n_k}a_1^{n_1}...a_k^{n_k}$$
 
+La cantidad de permutaciones que se pueden obtener a partir de un multiset de $n$ elementos con valores de $1$ a $k$, esta dada por: $\binom{n}{freq_1, freq_2, ..., freq_k}$
+
 
 # Números Catalanes
 
@@ -108,12 +110,12 @@ La cantidad de derangements de $n$ números, expresada como $D_n$, es la cantida
 Partiendo desde $D_0$, los primeros $D_i$ son: 1, 0, 1, 2, 9, 44, 265, 1854, 14833
 
 - **Calculando con inclusión-exclusión:** $D_n = n!\sum_{k=0}^{n}\frac{(-1)^k}{k!}$
-- **Calculando con DP:** $D_0 = 1, \quad D_1 = 0, \quad D_n = (n-1)\left(D_{n-1} + D_{n-2}\right)$
+- **Calculando con DP:** $D_0 = 1, \quad D_1 = 0, \quad D_i = (i-1)\left(D_{i-1} + D_{i-2}\right)$
 
 La cantidad de permutaciones con exactamente $k$ indices donde $p_i = i$ es: $\binom{n}{k}D_{n-k}$
 
 
-## Sumatorias
+# Sumatorias
 
 $$\sum_{k=0}^{n} k = \frac{n(n+1)}{2}$$
 
@@ -132,3 +134,29 @@ $$\sum_{k=0}^{n} x^k = \frac{x^{n+1}-1}{x-1} \quad \text{(válida solo para } x 
 $$\sum_{k=0}^{n} kx^k = \frac{x-(n+1)x^{n+1}+nx^{n+2}}{(x-1)^2}$$
 
 $$1+x+x^2+\cdots = \frac{1}{1-x} \quad \text{(válida solo para } |x|<1\text{)}$$
+
+
+# Lema de Burnside
+
+Cuenta la cantidad de representaciones (o clases) de un objeto que posee $n$ elementos de los cuales cada uno puede ser pintado con $k$ colores diferentes. Además, dicho objeto puede tener ciertos movimientos, como rotaciones o reflexiones, que hacen que algunas combinaciones de colores diferentes realmente sean iguales (y que por lo tanto, se deben contar solo una vez). Con cada combinación de movimientos (incluyendo el no hacer ningún movimiento) se generan permutaciones $g$ que componen el conjunto $G$, se dice que $g_i$ es igual a la posición que ocupa el elemento $i$ después de hacer esa combinación de movimientos.
+
+$$|Classes| = \frac{1}{|G|}\sum_{g \in G} k^{c(g)}$$
+
+donde $c(g)$ es la cantidad de ciclos que hay en la permutación $g$.
+
+## Ejemplo: collar de 4 cuentas, 3 colores posibles, al collar se le pueden hacer rotaciones
+
+$G=\{e,r,r^2,r^3\}$ Donde $e$ representa la permutación que se obtiene al no hacer ninguna rotación, $r$ es al rotar una posición y $r^x$ es al rotar $x$ posiciones. Solo nos interesa rotar hasta 3 posiciones ya que rotar 4, 5, 6, ... sería equivalente a rotar 0, 1, 2, ..., posiciones. 
+En este caso, la cantidad de ciclos que tiene cada permutación se obtiene con el $gcd(x, 4)$
+
+$$c(e)=\gcd(0,4)=4,\quad c(r)=\gcd(1,4)=1,\quad c(r^2)=\gcd(2,4)=2,\quad c(r^3)=\gcd(3,4)=1$$
+
+$$|Classes| = \frac{1}{4}\left(3^4+3^1+3^2+3^1\right) = \frac{1}{4}(81+3+9+3) = \frac{96}{4} = 24$$
+
+## Ejemplo: grid de $n \times n$, colores blanco y negro, con rotaciones
+
+$G = \{e, r, r^2, r^3\}$ donde: $e$: no rotar (rotación de $0°$), $r$: rotar $90°$, $r^2$: rotar $180°$ y $r^3$: rotar $270°$
+
+$$|Classes| = \frac{1}{|G|}\sum_{g \in G} k^{c(g)} = \frac{1}{4}\left(2^{c(e)} + 2^{c(r)} + 2^{c(r^2)} + 2^{c(r^3)}\right)$$
+
+Con un poco de observación y matemática se puede hallar la cantidad de ciclos que hay en la permutación que forma cada rotación.
