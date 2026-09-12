@@ -160,3 +160,34 @@ $G = \{e, r, r^2, r^3\}$ donde: $e$: no rotar (rotación de $0°$), $r$: rotar $
 $$|Classes| = \frac{1}{|G|}\sum_{g \in G} k^{c(g)} = \frac{1}{4}\left(2^{c(e)} + 2^{c(r)} + 2^{c(r^2)} + 2^{c(r^3)}\right)$$
 
 Con un poco de observación y matemática se puede hallar la cantidad de ciclos que hay en la permutación que forma cada rotación.
+
+
+# Fórmula de Cayley
+
+La cantidad de árboles etiquetados (que cada vertice tiene su respectivo número) distintos que se pueden formar con $n$ vértices
+
+$$T(n) = n^{n-2}$$
+
+## Código de Prüfer
+
+El código de Prüfer es una forma de codificar un árbol etiquetado de $n$ vértices como una secuencia de $n-2$ números. Cada árbol tiene una codificación única.
+
+### Cómo hallar el código a partir del árbol
+
+Se repite $n-2$ veces:
+
+1. Buscar la **hoja con la menor etiqueta** entre las hojas actuales del árbol.
+2. Anotar en la secuencia el único nodo al que está conectada esa hoja.
+3. Eliminar esa hoja del árbol (y su arista).
+
+Al terminar las $n-2$ repeticiones, quedan exactamente 2 vértices, que ya no se
+anotan.
+
+### Cómo reconstruir el árbol a partir del código
+
+1. Calcular el **grado** de cada vértice $v$: veces que $v$ aparece en la secuencia.
+2. Se repite $n-2$ veces:
+   - Buscar el vértice de **menor etiqueta** que tenga grado $0$ (es decir, una hoja disponible) y que aún no haya sido usado.
+   - Conectar con el **primer elemento restante** de la secuencia de Prüfer.
+   - Se disminuye en $1$ el grado de ambos (la hoja usada y el vértice de la secuencia), y se elimina ese primer elemento de la secuencia.
+3. Al final quedan exactamente 2 vértices con grado $0$ los cuales se conectan entre sí con la última arista.
