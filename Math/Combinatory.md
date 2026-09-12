@@ -191,3 +191,20 @@ anotan.
    - Conectar con el **primer elemento restante** de la secuencia de Prüfer.
    - Se disminuye en $1$ el grado de ambos (la hoja usada y el vértice de la secuencia), y se elimina ese primer elemento de la secuencia.
 3. Al final quedan exactamente 2 vértices con grado $0$ los cuales se conectan entre sí con la última arista.
+
+
+# Número de grafos etiquetados
+
+Dado un grafo con n vertices, el número de grafos etiquetados, con aristas no dirigidas, sin aristas loop ni aristas multiples
+
+$$G_n = 2^\frac{n(n-1)}{2}$$
+
+### Número de grafos etiquetados conexos
+
+$$C_n = G_n - \sum_{k=1}^{n-1}\binom{n-1}{k-1}C_{k}G_{n-k}$$
+
+### Número de grafos etiquetados con k componentes
+
+Se calcula $D[i][j]$ - el número de grafos etiquetados con $i$ vertices y $j$ componentes, para $0 \leq i \leq n$ y $0 \leq j \leq k$. Con $D[0][0] = 1$.
+
+$$D[n][k] = \sum_{s=1}^{n}\binom{n-1}{s-1}C_sD[n-s][k-1]$$
