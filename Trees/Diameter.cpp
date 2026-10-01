@@ -5,10 +5,10 @@
 - Si se tiene que el diametro de un arbol es la distancia entre dos
   vertices u, v, entonces podemos asumir que la mayor distancia para 
   un nodo x hacia cualquier nodo del arbol es  d(x, u) o d(x, v).
-- Si el diametro d es par, todo posible camino que forma un diametro
-  comparte al menos el nodo que se encuentra en mitad del camino.
-  Si el diametro es impar, todo posible camino que forma un diametro 
-  comparte al menos la arista que se encuentra en mitad del camino.
+- Si el diametro d es par, el nodo que se encuentra en mitad del 
+  camino es el nodo central de cada posible diametro.
+  Si el diametro es impar, la arista que se encuentra en mitad del 
+  camino es la arista central de cada posible diametro.
 - Aristas en al menos un camino que forma un diametro:
   Para una arista u, v (con depth[u] < depth[v]), si la suma entre
   la mayor distancia de v a cualquier nodo en su subarbol, la mayor
