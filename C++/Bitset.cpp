@@ -31,5 +31,5 @@ i = b._Find_next(i); // Retorna el indice del primer bit en 1 DESPUES de i
 b1 | b2;
 b1 ^ b2;
 b1 & b2;
-b >>= cnt; // Modifica cada bit i como bit i - cnt (Desplazamiento a la derecha)
+b <<= cnt; // Modifica cada bit i como bit i - cnt (Desplazamiento a la derecha)
 b |= (b << add); // Hace que para bit i en 1, el bit i + add tambien sea 1
