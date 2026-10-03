@@ -2,7 +2,8 @@
 
 /*
 - Complejidad: O(n*log(n))
-- Retorna los puntos que hacen parte del convex hull.
+- Retorna los puntos que hacen parte del convex hull (no 
+  necesariamente ordenados).
 - Si se permite colinealidad es posible que se repitan algunos puntos.
 - Si todas las coordenadas son enteras se pueden usar enteros y eliminar 
   los epsilon.
