@@ -1,3 +1,5 @@
+#include "../template.h"
+
 /**************************************************************************
 Nested segments:
 Para contar la cantidad de segmentos contenidos en otro se pueden recorrer los

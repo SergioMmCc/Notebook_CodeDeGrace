@@ -16,36 +16,34 @@ Soporta operaciones con cualquier operacion asociativa CON INVERSA
 template<int N> struct FenW {
     ll t[N + 1]; // indices validos: [1, N] (la posicion 0 no se usa)
 
-    FenW() {
+    FenW(){
         fill(t + 1, t + N + 1, 0ll);
     }
 
     // Suma x en la posicion p (point update).
-    void update(int p, ll x) {
-        for (; p <= N; p += p & (-p)) {
+    void update(int p, ll x){
+        for(; p <= N; p += p & (-p)){
             t[p] += x;
         }
     }
  
     // Suma acumulada de las posiciones [1, p] (prefix query).
     // get(0) = 0;
-    ll get(int p) {
+    ll get(int p){
         ll ret = 0;
-        for (; p > 0; p -= p & (-p)) {
+        for(; p > 0; p -= p & (-p)){
             ret += t[p];
         }
         return ret;
     }
 
     // Suma acumulada de las posiciones [l, r] (range query).
-    ll get(int l, int r) {
-        return get(r) - get(l - 1);
-    }
+    ll get(int l, int r){ return get(r) - get(l - 1); }
 };
 
 
 // How to use
-int main(){
+void solver(){
     // Puedes crearlo con un valor fijo, o variable constante
     FenW<10> A;
 

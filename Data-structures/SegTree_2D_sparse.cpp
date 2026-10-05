@@ -1,10 +1,13 @@
 #include "./SegTree_sparse.h"
 
-// 0-index
-// Copiar el segtree Sparse
-// Para cambiar la operacion modificar el sparse
-// Complejidad temporal: O(log²(SZ)) para updates y calcs
-// Complejidad espacial: O(n*log²(SZ)) (Puede ser necesario comprimir ambas coordenadas)
+/*
+- 0-index
+- Copiar el segtree Sparse
+- Para cambiar la operacion modificar el sparse
+- Update de asignacion
+- Complejidad temporal: O(log²(SZ)) para updates y calcs
+- Complejidad espacial: O(n*log²(SZ)) (Puede ser necesario comprimir ambas coordenadas)
+*/
 
 template<class T> struct Node {
 	node<T> seg; 

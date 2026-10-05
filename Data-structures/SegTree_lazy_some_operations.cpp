@@ -1,3 +1,5 @@
+#include "../template.h"
+
 /***********************************************************************************************
 Para query suma y update suma */
     ll updateOp(ll a, ll b, ll len){

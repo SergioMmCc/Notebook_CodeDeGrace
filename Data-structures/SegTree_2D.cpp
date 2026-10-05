@@ -1,8 +1,10 @@
 #include "../template.h"
 
-// Procurar que las dimensiones n, m sean <= 1000, si no, posible 
-// MLE ya que la memoria es logm * logn * m * n
-// En ese caso, usar Sparse2D
+/*
+- Procurar que las dimensiones n, m sean <= 1000, si no, posible MLE 
+  ya que la memoria es logm * logn * m * n. En ese caso, usar Sparse2D.
+- Update de asignacion.
+*/
 
 struct node{ // Change
     ll val;
