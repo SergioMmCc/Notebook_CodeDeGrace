@@ -1,14 +1,16 @@
-/* Metodos bitset
-Cuando se requiere un vector de bool, un bitset logra la misma funcion
-pero mucho mas eficiente ya que se pueden usar operaciones de bits.
-Internamente se hacen estas operaciones en bloques de 64 (o 32, 
-dependiendo de la arquitectura), asi que la complejidad de lo que sea 
-que se este haciendo se ve reducida en un vector de 64. Por ejemplo en
-un knapsack donde solo quiero saber si puedo lograr cierto valor, la
-complejidad pasaria de ser O(n^2) a ser O(n^2 / 64)
+#include "../template.h"
+
+/*
+- Cuando se requiere un vector de bool, un bitset logra la misma funcion
+  pero mucho mas eficiente ya que se pueden usar operaciones de bits.
+- Internamente se hacen estas operaciones en bloques de 64 (o 32, 
+  dependiendo de la arquitectura), asi que la complejidad de lo que sea 
+  que se este haciendo se ve reducida en un vector de 64. Por ejemplo en
+  un knapsack donde solo quiero saber si puedo lograr cierto valor, la
+  complejidad pasaria de ser O(n^2) a ser O(n^2 / 64)
 */
 
-bitset<MAXN> b; // Dentro de "<>" se debe poner una constante que corresponde a la longitud del bitset
+bitset<MAXN> b; // MAXN debe ser una constante
 b.test(pos), b[pos] // Retorna si el bit pos es 1
 b[pos1] = 1, b[pos2] = 0;
 b.set() // Pone todos los bits en 1

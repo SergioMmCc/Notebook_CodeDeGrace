@@ -1,3 +1,5 @@
+#include "../template.h"
+
 // En este caso se ordena revisando cual de los second es menor y si son iguales
 // se revisa cual de los first es menor
 struct comparator {

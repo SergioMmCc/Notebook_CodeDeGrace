@@ -1,3 +1,5 @@
+#include "../template.h"
+
 // Tomado del template de Jiangly
 using u128 = unsigned __int128;
 using i128 = __int128;

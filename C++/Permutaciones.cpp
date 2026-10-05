@@ -1,3 +1,5 @@
+#include "../template.h"
+
 // Entrego una permutacion y me devuelve la siguiente o la anterior.
 // Cuando ya no hay mas, devuelve false.
 // Complejidad por llamado O(n)

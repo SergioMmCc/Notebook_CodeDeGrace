@@ -1,3 +1,5 @@
+#include "../template.h"
+
 /* A partir de estas funciones se pueden simular listas ascendentes,
    circulares, enlazadas y doblemente enlazadas */
 

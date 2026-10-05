@@ -1,6 +1,8 @@
+#include "../template.h"
+
 // Set indexado
 // Sin elementos repetidos
-// Se puedes simular elementos repetidos usando pii
+// Se puede simular elementos repetidos usando pii
 
 #include<ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;

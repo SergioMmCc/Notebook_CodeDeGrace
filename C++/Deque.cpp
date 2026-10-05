@@ -1,4 +1,4 @@
-/* Metodos deque */
+#include "../template.h"
 
 deque<int> dq;
 dq.push_front(1);

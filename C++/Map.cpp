@@ -1,3 +1,5 @@
+#include "../template.h"
+
 // Como acceder a los elementos de un mapa
 map<int, int> T;
 
