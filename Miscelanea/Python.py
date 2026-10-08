@@ -91,8 +91,7 @@ def main ():
     ans = Decimal("0.0") # Inicializar un numero decimal
     val += Decimal("1") # Para constantes usar Decimal tambien
     val += Decimal("1") / r # Se puede dividir por un entero sin problema
-    
-    print(f"{ans:.6f}")
+    print(f"{ans:.6f}") # Imprimir con 6 decimales
 
 
     # Convertir un numero base x (guardado como cadena) en un entero base 10
