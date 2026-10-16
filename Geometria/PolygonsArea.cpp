@@ -1,5 +1,4 @@
-#include <bits/stdc++.h>
-using namespace std;
+#include "../template.h"
 
 struct Point {
     double x, y;
@@ -10,8 +9,8 @@ struct Point {
 };
 
 /**
- * Calcula el área de un polígono simple mediante la fórmula de Gauss / Shoelace:
- * 
+ * Calcula el área de un polígono simple ordenado mediante la fórmula de 
+ * Gauss / Shoelace:
  *                    | n-1                     
  *    Área(P) = 1/2 * | SUM (Pi x P((i+1)%n)    
  *                    | i=0                     
@@ -24,6 +23,7 @@ double polygonArea(vector<Point>& poly) {
     for (int i = 0; i < n; ++i) {
         cross_sum += poly[i].cross(poly[(i + 1) % n]);
     }
-
+    // abs porque dependiendo si esta ordenado clockwise o anticlockwise 
+    // retornaria positivo o negativo
     return abs(cross_sum) / 2.0;
 }

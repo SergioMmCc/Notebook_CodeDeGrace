@@ -1,27 +1,4 @@
-#include<bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-#define pb push_back
-#define sz(a) ((int)a.size())
-#define all(a) a.begin(), a.end()
-#define fi first
-#define se second
-#define lb lower_bound
-#define ub upper_bound
-#define pqueue priority_queue
-typedef long long ll;
-typedef long double ld;
-typedef pair<int, int> pii;
-typedef pair<ll, ll> pll;
-typedef vector<int> vi;
-typedef vector<ll> vl;
-typedef vector<string> vs;
-typedef vector<bool> vb;
-typedef vector<pii> vii;
-typedef vector<pll> vll;
-// #include<ext/pb_ds/assoc_container.hpp>
-// using namespace __gnu_pbds;
-// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
+#include "../template.h"
 
 /*
   Retorna si el punto (x, y) esta dentro (o en el borde) de la caja definida por los puntos
@@ -67,17 +44,4 @@ bool segmentIntersection(int x1, int y1, int x2, int y2, int x3, int y3, int x4,
 void solver(){
     int x1, y1, x2, y2, x3, y3, x4, y4; cin>>x1>>y1>>x2>>y2>>x3>>y3>>x4>>y4;
     cout<<segmentIntersection(x1, y1, x2, y2, x3, y3, x4, y4)<<endl;
-}
-
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    // freopen("name.in", "r", stdin);
-	// freopen("name.out", "w", stdout);
-    int t = 1;
-    // cin>>t;
-    while(t--){
-        solver();
-    }
-
-    return 0;
 }
