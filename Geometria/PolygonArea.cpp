@@ -32,14 +32,23 @@ struct Point {
     }
 };
 
+ll cross(const Point &a, const Point &b) {
+    return a.x*b.y - a.y*b.x;
+}
+
+
+/*
+ *                    | n-1                     
+ *    Área(P) = 1/2 * | SUM (Pi x P((i+1)%n)    
+ *                    | i=0          
+*/
 //P es un polígono ordenado anticlockwise.
 //Si es clockwise, retorna el area negativa.
 //P[0] != P[n-1]
 ld PolygonArea(const vector<Point> &p){
     ld r = 0.0;
     for (ll i=0; i<p.size(); ++i){
-        ll j = (i+1) % p.size();
-        r += p[i].x*p[j].y - p[j].x*p[i].y;
+        r += cross(p[i], p[(i+1) % p.size()]);
     }
     return r/2.0;
 }
