@@ -7,7 +7,7 @@ struct comparator {
         if(a.se == b.se) return a.fi < b.fi;
         return a.se < b.se;
     }
-}
+};
 
 // Usar en:
 sort(all(vec), comparator());

@@ -14,7 +14,8 @@
   trabajo. Se halla el menor costo para realizar todos los trabajos.
 */
 
-int ckmin(int &a, int b) { return a > b ? ((a = b), true) : false; }
+// Si los costos son grandes cambiar por ll
+int ckmin(int &a, int b){ return a > b ? ((a = b), true) : false;}l
 
 /**
  * return the jobs of each worker in the optimal assignment,
@@ -23,7 +24,7 @@ int ckmin(int &a, int b) { return a > b ? ((a = b), true) : false; }
 template <class T> vi hungarian(const vector<vector<T>> &C){
 	int J = C.size();
 	int W = C[0].size();
-	assert(J <= W); // Verifica que el lado izquierdo (W) sea mayor o igual al lado derecho (J)
+	assert(J <= W); // Verifica que el lado izquierdo (W) sea >= al lado derecho (J)
 
 	// job[w] = job assigned to w-th worker, or -1 if no job assigned
 	// note: a W-th worker was added for convenience
