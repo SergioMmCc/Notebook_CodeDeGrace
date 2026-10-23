@@ -37,6 +37,8 @@ Aplicaciones tipicas:
   la resta entre versiones es > k y se va hacia ese hijo o de lo 
   contrario se va hacia el hijo derecho, hasta que finalmente el tamaño
   del rango sea == 1 y se retorna tl.
+- Cantidad de elementos >= x en un rango (no updates) (tambien se puede
+  hacer con merge sort tree). Si hay updates se debe usar Treap.
 */
 
 struct node{
