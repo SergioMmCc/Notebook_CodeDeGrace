@@ -5,7 +5,7 @@
 - Para hacer queries conmutativas y updates en caminos de un arbol y en subarboles.
 - Si los valores van en las aristas ve = 1, si van en los nodos ve = 0.
 - Ajustar el segtree segun el tipo de update y el tipo de queries, teniendo en cuenta que para suma de valores en un camino
-  normalmente se puede hacer simplemente con Euler Tour.
+  y updates normales (no lazy) normalmente se puede hacer simplemente con Euler Tour.
 - Esta escrito para segtree lazy, ajustar si se quiere normal.
 - Si las updates se dan con el indice de las aristas toca almacenar el indice de la arista que conecta u con su padre.
 - Construccion: O(n), hallar los rangos del path: O(log n), update y query path: O(log²n), update y query subtree: O(log n).
