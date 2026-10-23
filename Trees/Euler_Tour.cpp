@@ -19,6 +19,8 @@
   es decir, el valor de un nodo se le actualiza a todo su correspondiente subarbol, 
   y para hacer una query entre el camino de un nodo hacia la raiz, se hace la query
   especificamente sobre el nodo que se pregunta (query individual).
+- Si se pide la suma de valores en un camino se puede usar la misma tecnica de 
+  arriba así: calc(u) + calc(v) - 2*calc(LCA(u, v)) + val[LCA(u, v)].
 */
 
 const int maxn = 2e5 + 1;
@@ -41,9 +43,12 @@ void solver(){
     // Llamar el DFS para hallar los rangos de cada subarbol
     vii ran(n+1);
     int cnt = 1;
-    DFS(ran, 1, -1, cnt);
+    DFS(ran, root, -1, cnt);
 
     // Arbol aplanado
     vi orden(n+1);
     for1(i,n) orden[ran[i].fi] = i; // El vertice i se encuentra en la posicion ran[i].fi
+
+    // Rango del subarbol de cada nodo [l, r]
+    for1(i,n) cout<<"i -> "<<i<<" l -> "<<ran[i].fi<<" r -> "<<ran[i].se<<endl;
 }
