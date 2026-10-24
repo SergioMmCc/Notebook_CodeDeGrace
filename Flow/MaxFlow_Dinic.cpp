@@ -3,6 +3,7 @@
 /*
 - Aplicado en grafos de flujo, dirigidos, con capacidades en las aristas.
 - Complejidad O(v^2 * E).
+- Solo se puede tirar el calculo una vez.
 - Para grafos de red unitaria (cada arista tiene capacidad 1 y para cada nodo
   excepto s y t el grado de salida o entrada es de maximo uno): O(sqrt(V) * E).
 - Para grafos de red de capacidad unitaria (todas las aristas tienen 
