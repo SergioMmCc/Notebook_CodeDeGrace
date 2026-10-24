@@ -49,14 +49,3 @@ void solver(){
     DFS(1, -1); // En este caso elegimos 1 como la raiz
     cout<<min(dp[1][0], dp[1][1])<<endl;
 }
-
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(NULL);
-    int t = 1;
-    // cin>>t;
-    while(t--){
-        solver();
-    }
-
-    return 0;
-}
