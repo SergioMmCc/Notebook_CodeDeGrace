@@ -1,35 +1,19 @@
-#include<bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-#define pb push_back
-#define sz(a) ((int)a.size())
-#define all(a) a.begin(), a.end()
-#define fi first
-#define se second
-#define lb lower_bound
-#define ub upper_bound
-#define pqueue priority_queue
-typedef long long ll;
-typedef long double ld;
-typedef pair<int, int> pii;
-typedef vector<int> vi;
-typedef vector<ll> vl;
-typedef vector<string> vs;
-typedef vector<bool> vb;
-typedef vector<pii> vii;
-// #include<ext/pb_ds/assoc_container.hpp>
-// using namespace __gnu_pbds;
-// using indexed_set = tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>;
+#include "../template.h"
 
 /*
-    Sirve para hallar cuantos pasos hay que dar desde un nodo a hasta un nodo b.
-    Complejidad: O(n * log(n))
-    - isCicle marca si un nodo hace parte de un ciclo o no
-    - liderCicle guarda el lider de cada ciclo
-    - stCicle guarda la distancia desde un nodo de un ciclo hasta su lider
-    - lenCicle dice la distancia del ciclo del cual un nodo es lider
-    - distCicle guarda la distancia de un nodo cualquiera a un ciclo
-    - whereCicle guarda cpara cada nodo fuera de un ciclo cual es el primer ciclo al cual llega
+- Sirve para contestar queries sobre la cantidad de pasos que hay 
+  que dar desde un nodo 'a' para llegar a un nodo 'b'.
+- Complejidad: O(n * log(n)) del precalculo, O(log(n)) por query.
+
+- isCicle marca si un nodo hace parte de un ciclo o no.
+- liderCicle guarda el lider de cada ciclo.
+- stCicle guarda la distancia desde un nodo de un ciclo hasta su 
+  lider.
+- lenCicle[i] si el nodo 'i' es lider de un ciclo dice la longitud
+  de este, si no dice 0.
+- distCicle guarda la distancia de un nodo cualquiera a un ciclo.
+- whereCicle guarda para cada nodo fuera de un ciclo cual es el 
+  nodo mas cercano que esta en un ciclo.
 */
 
 int LOG_N = 18; // techo del log2 del maximo valor de k que me puedan dar en las queries
@@ -37,23 +21,15 @@ const int maxn = 2e5 + 1;
 int n;
 vi func(maxn), liderCicle(maxn), stCicle(maxn), lenCicle(maxn), distCicle(maxn), whereCicle(maxn);
 vb vis(maxn), isCicle(maxn);
-vector<vi> succ(LOG_N, vi(maxn));
+vector<vi> succ(LOG_N, vi(maxn)); // TAMBIEN COPIAR "GRAFO FUNCIONAL KTH STEP"
 
-// Se usa para verificar aquellas queries donde a y b no hacen parte de ciclo
 void calcSucc(){
-    for(int i = 1; i <= n; i++) succ[0][i] = func[i];
-    for(int bit = 1; bit < LOG_N; bit++){
-        for(int i = 1; i <= n; i++){
-            succ[bit][i] = succ[bit-1][succ[bit-1][i]];
-        }
-    }
+    for1(i,n) succ[0][i] = func[i];
+    for1(bit,LOG_N-1) for1(i,n) succ[bit][i] = succ[bit-1][succ[bit-1][i]];
 }
 
 int kSucc(int s, int k){
-    for(int bit = 0; bit < LOG_N; bit++){
-        if(k & (1 << bit)) s = succ[bit][s];
-    }
-
+    for0(bit,LOG_N) if(k & (1 << bit)) s = succ[bit][s];
     return s;
 }
 
@@ -75,6 +51,7 @@ void floyd(int x){
         a = func[a];
         b = func[b];
     }
+    if(isCicle[b]) return; // Ya fue procesado este ciclo
 
     int lider = b;
     liderCicle[lider] = b; // Se guarda el lider
@@ -113,17 +90,17 @@ void DFS(int u){
 }
 
 void solver(){
-    int q; cin>>n>>q;
+    int q; cin>>n>>q; // n se declaro global
     vi inDegree(n+1);
-    for(int i = 1; i <= n; i++){
+    for1(i,n){
         cin>>func[i];
         inDegree[func[i]]++;
     }
     calcSucc();
 
-    for(int i = 1; i <= n; i++) if(!vis[i]) floyd(i);
+    for1(i,n) if(!vis[i]) floyd(i);
 
-    for(int i = 1; i <= n; i++){
+    for1(i,n){
         if(inDegree[i]) continue;
         DFS(i);
     }
@@ -142,8 +119,8 @@ void solver(){
         }
 
         // Si ninguno hace parte de ciclo se verifica si hacen parte de la misma rama (usando whereCicle), despues se usa
-        // distCicle para calcular dif (a que distancia deberia estar a de b) y si es positiva se usa kSucc para verificar que
-        // al dar dif pasos desde a se llega hasta b
+        // distCicle para calcular dif (a que distancia deberia estar 'a' de 'b') y si es positiva se usa kSucc para verificar que
+        // al dar dif pasos desde 'a' se llega hasta 'b' (ya que estas ramas son arboles y se requiere que 'b' sea ancestro de 'a').
         else if(!isCicle[a] && !isCicle[b]){
             if(whereCicle[a] != whereCicle[b]) cout<<-1<<endl;
             else{
@@ -156,7 +133,7 @@ void solver(){
             }
         }
 
-        // Si a no esta en ciclo pero b si, se revisa si a llega al mismo ciclo que b (usando whereCicle) y en caso de que si se
+        // Si 'a' no esta en ciclo pero 'b' si, se revisa si 'a' llega al ciclo de 'b' (usando whereCicle) y en caso de que si se
         // suma la distancia de a hasta un ciclo y se usa whereCicle[a] y stCicle para calcular cuanto se tarda desde whereCicle[a] hasta b
         else if(!isCicle[a] && isCicle[b]){
             if(liderCicle[whereCicle[a]] != liderCicle[b]) cout<<-1<<endl;
@@ -166,17 +143,4 @@ void solver(){
         // Si a esta en un ciclo y b no, no se puede
         else cout<<-1<<endl;
     }
-}
-
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    // freopen("name.in", "r", stdin);
-	// freopen("name.out", "w", stdout);
-    int t = 1;
-    // cin>>t;
-    while(t--){
-        solver();
-    }
-
-    return 0;
 }

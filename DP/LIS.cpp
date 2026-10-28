@@ -1,6 +1,7 @@
 #include "../template.h"
 
-// Complejidad: O(n * log(n))
+// Complejidad: O(n * log(n)).
+// Se recibe un array 1-index.
 /*
 - LIS:
   es un array a donde para cada i, j con i < j, a[i] < a[j].
@@ -55,17 +56,15 @@ Con Segmet Tree (compresion):
   representa la cantidad de LIS que terminan en a[i].
 */
 
-const int inf = 1e9 + 1;
-
 void LIS(){
     int n; cin>>n;
-    vector<int> a(n+1);
-    for(int i = 1; i <= n; i++) cin>>a[i];
+    vi a(n+1);
+    for1(i,n) cin>>a[i];
 
-    vector<int> d(n+1, inf); d[0] = -inf;
+    vi d(n+1, INF); d[0] = -INF;
 
-    for(int i = 1; i <= n; i++){
-        auto it = ub(d.begin(), d.end(), a[i]);
+    for1(i,n){
+        auto it = ub(all(d), a[i]);
         if(it == d.end()) continue;
 
         int index = distance(d.begin(), it);
@@ -76,9 +75,7 @@ void LIS(){
     }
 
     int ans = 0;
-    for(int i = 1; i <= n; i++){
-        if(d[i] < inf) ans = i;
-    }
+    for1(i,n) if(d[i] < INF) ans = i;
 
     cout<<ans<<endl;
 }

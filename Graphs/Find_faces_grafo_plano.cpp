@@ -1,11 +1,36 @@
-#include<bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-using ll = long long;
-using ld = long double;
-#define pb push_back
+#include "../template.h"
 
-// Estructura Point con campos "x" y "y" y operaciones entre puntos
+/*
+- Complejidad: O(E * log(E))
+- Encuentra las caras de un grafo plano.
+- Un grafo plano es uno en el cual cada vertice tiene unas
+  coordenadas 'x', 'y' y las aristas que hay entre estos vertices
+  jamas se intersectan (excepto en sus extremos).
+- Debe ser un grafo conexo.
+- Las caras de un grafo plano son las regiones en las que sus
+  aristas dividen el plano. Cada region es minima, es decir,
+  ninguna arista la atraviesa. La region exterior a todas las 
+  aristas tambien es una cara.
+- faces[0] es la cara exterior.
+- En cada cara los vertices estan odenados en sentido antihorario, 
+  excepto la exterior que se guarda en sentido horario.
+- La cantidad de caras es: F = E - V + 2.
+- Un grafo conexo sin ciclos (un arbol) tiene una sola cara, la
+  exterior.
+
+Ejemplo:
+A=(0,0)  B=(1,0)  C=(1,1)  D=(0,1)
+D ------- C
+|       / |
+|     /   |
+|   /     |
+A ------- B
+Tiene 3 caras:
+    1. Triangulo A-B-C
+    2. Triangulo A-C-D
+    3. Cara exterior (region infinita), borde A-B-C-D
+*/
+
 struct Point {
     ll x, y;
 
@@ -19,7 +44,7 @@ struct Point {
         return Point(x - p.x, y - p.y);
     }
 
-    ll cross (const Point & p) const {
+    ll cross (const Point & p) const { // Ciudado con el overflow
         return x * p.y - y * p.x;
     }
 
@@ -32,65 +57,61 @@ struct Point {
     }
 };
 
-//Hallar las caras de un grafo plano
-vector<vector<ll>> find_faces(vector<Point> vertices, vector<vector<ll>> adj) {
+// Hallar las caras de un grafo plano
+vector<vl> find_faces(vector<Point> vertices, vector<vl> adj){
     ll n = vertices.size();
     vector<vector<char>> used(n);
-    for (ll i = 0; i < n; i++) {
-        used[i].resize(adj[i].size());
-        used[i].assign(adj[i].size(), 0);
-        auto compare = [&](ll l, ll r) {
+    for0(i,n){
+        used[i].assign(sz(adj[i]), 0);
+        auto compare = [&](ll l, ll r){
             Point pl = vertices[l] - vertices[i];
             Point pr = vertices[r] - vertices[i];
-            if (pl.half() != pr.half())
+            if(pl.half() != pr.half())
                 return pl.half() < pr.half();
             return pl.cross(pr) > 0;
         };
-        sort(adj[i].begin(), adj[i].end(), compare);
+        sort(all(adj[i]), compare);
     }
-    vector<vector<ll>> faces;
-    for (ll i = 0; i < n; i++) {
-        for (ll edge_id = 0; edge_id < adj[i].size(); edge_id++) {
-            if (used[i][edge_id]) {
-                continue;
-            }
-            vector<ll> face;
-            ll v = i;
-            ll e = edge_id;
-            while (!used[v][e]) {
-                used[v][e] = true;
-                face.push_back(v);
+    vector<vl> faces;
+    for0(i,n){
+        for(ll edge_id = 0; edge_id < sz(adj[i]); edge_id++){
+            if(used[i][edge_id]) continue;
+            vl face;
+            ll v = i, e = edge_id;
+            while(!used[v][e]){
+                used[v][e] = 1;
+                face.pb(v);
                 ll u = adj[v][e];
-                ll e1 = lower_bound(adj[u].begin(), adj[u].end(), v, [&](ll l, ll r) {
+                ll e1 = lower_bound(all(adj[u]), v, [&](ll l, ll r) {
                     Point pl = vertices[l] - vertices[u];
                     Point pr = vertices[r] - vertices[u];
-                    if (pl.half() != pr.half())
+                    if(pl.half() != pr.half())
                         return pl.half() < pr.half();
                     return pl.cross(pr) > 0;
                 }) - adj[u].begin() + 1;
-                if (e1 == adj[u].size()) {
+                if(e1 == sz(adj[u])){
                     e1 = 0;
                 }
                 v = u;
                 e = e1;
             }
-            reverse(face.begin(), face.end());
+            reverse(all(face));
             ll sign = 0;
-            for (ll j = 0; j < face.size(); j++) {
-                ll j1 = (j + 1) % face.size();
-                ll j2 = (j + 2) % face.size();
+            for(ll j = 0; j < sz(face); j++){
+                ll j1 = (j + 1) % sz(face);
+                ll j2 = (j + 2) % sz(face);
                 ll val = vertices[face[j]].cross(vertices[face[j1]], vertices[face[j2]]);
-                if (val > 0) {
+                if(val > 0){
                     sign = 1;
                     break;
-                } else if (val < 0) {
+                }else if(val < 0){
                     sign = -1;
                     break;
                 }
             }
-            if (sign <= 0) {
+            if(sign <= 0){
                 faces.insert(faces.begin(), face);
-            } else {
+            } else{
                 faces.emplace_back(face);
             }
         }
@@ -98,16 +119,14 @@ vector<vector<ll>> find_faces(vector<Point> vertices, vector<vector<ll>> adj) {
     return faces;
 }
 
-int main(){
-	ios_base::sync_with_stdio(0);cin.tie(NULL);
-
-    // Nos van a dar n aristas
-	ll n; cin>>n;
+void solver(){
+	int n; cin>>n; // Nos van a dar n aristas
 
     // Almacenamiento de vertices y aristas para llamar el algoritmo de findFaces
     vector<Point> vertices;
     vector<vector<ll>> adj;
     map<Point, ll> appear;
+    // Si pueden haber aristas duplicadas o loops tocaria eliminarlas
 	for(ll i = 0; i < n; i++){
         ll x1, y1, x2, y2;
         cin>>x1>>y1>>x2>>y2;
@@ -117,7 +136,7 @@ int main(){
         it1 = appear.find(save1);
         it2 = appear.find(save2);
         if(it1 == appear.end()) {
-            index1 = appear[save1] = vertices.size();
+            index1 = appear[save1] = sz(vertices);
             vertices.pb(save1);
             adj.emplace_back();
         }
@@ -125,7 +144,7 @@ int main(){
             index1 = it1->second;
 
         if(it2 == appear.end()) {
-            index2 = appear[save2] = vertices.size();
+            index2 = appear[save2] = sz(vertices);
             vertices.pb(save2);
             adj.emplace_back();
         }
@@ -136,6 +155,5 @@ int main(){
         adj[index2].pb(index1);
     }
 
-    vector<vector<ll>> faces = find_faces(vertices, adj);
-	return 0;
+    vector<vl> faces = find_faces(vertices, adj);
 }
