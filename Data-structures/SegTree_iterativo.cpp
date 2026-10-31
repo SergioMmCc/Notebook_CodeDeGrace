@@ -3,6 +3,8 @@
 /*
 - 0-index, se usa exactamente igual que el recursivo.
 - Un poco más eficiente que el recursivo.
+- El vector que se mande en el build debe tener tamaño igual al
+  parametro que se manda en el init.
 - Usar para consultas simples como sum, min, max, xor, gcd, etc.
 */
 
