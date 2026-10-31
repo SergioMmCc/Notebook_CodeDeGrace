@@ -1,33 +1,40 @@
-#include <bits/stdc++.h>
-using namespace std;
+#include "../template.h"
 
-set<long long> getDivisors(long long n) {
-    set<long long> divisors;
-    for (long long i = 1; i * i <= n; ++i)
-        if (n % i == 0)
-            divisors.insert({i, n / i});
-    return divisors;
-}
+/* 
+- Halla si un numero 'n' es practico.
+- Complejidad: O(sqrt(n)) pero en la practica suele ser mejor.
+  (Se puede mejorar con pollard rho).
+- Un numero practico es un entero positivo 'n' tal que todo numero
+  entero entre '1' y 'n' puede escribirse como suma de distintos
+  divisores de 'n'.
+Propiedades:
+- El unico impar que es numero practico es el 1.
+- Todas las potencias de '2' son practicas.
+- Todos los numeros perfectos pares son practicos.
+- Todo practico mayor que '2' es divisible por '4' o por '6'.
+- El producto de dos numeros practicos es practico.
+*/
 
-bool isPractical (long long n) {
-    set<long long> divisors = getDivisors(n);
-    long long sum = 0;
-    for (long long divisor : divisors) {
-        if (divisor > sum + 1)
-            return false;
-        sum += divisor;
+bool isPractical(ll n){
+    if(n == 1) return 1;
+    if(n & 1) return 0;
+
+    ll sigma = 1;                       // σ de la parte ya procesada
+    for(ll p = 2; p * p <= n && p <= sigma + 1; ++p){
+        if(n % p) continue;
+        ll pk = 1, term = 1;            // term = 1 + p + ... + p^a
+        while(n % p == 0){
+            n /= p;
+            pk *= p;
+            term += pk;
+        }
+        sigma *= term;
     }
-    return true;
+    if(n > 1 && n > sigma + 1) return 0;
+    return 1;
 }
 
-int main() {
-    long long m;
-    int t; cin >> t;
-    while (t--) {
-        cin >> m;
-        cout << (isPractical(m) ? "Yes" : "No") << endl;
-    }
+void solver(){
+    ll n; cin>>n;
+    cout<<(isPractical(n) ? "Yes" : "No")<<endl;
 }
-
-/* Cabe resaltar que todos los multiplos de 6 son número prácticos, además
-de que el único impar que es número práctico es el 1 */
