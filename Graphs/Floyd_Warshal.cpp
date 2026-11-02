@@ -18,7 +18,7 @@ void floyd(int n){
         for1(i,n){
             for1(j,n){
                 // Este if solo es necesario en caso de hayan pesos negativos
-                if (d[i][k] < INF && d[k][j] < INF)
+                if(d[i][k] < INF && d[k][j] < INF)
                     d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
             }
         }
@@ -32,11 +32,7 @@ void solver(){
     // - Si i == j, la distancia es 0
     // - Si hay una arista entre i y j, la distancia toma ese valor
     // - De lo contrario inicializamos la distancia como infinito
-    for1(i,n-1){
-        forlr(j,i+1,n){
-            d[i][j] = d[j][i] = INF;
-        }
-    }
+    for1(i,n-1) forlr(j,i+1,n) d[i][j] = d[j][i] = INF;
     for0(i,m){
         int u, v, w; cin>>u>>v>>w;
         if(d[u][v] > w) d[u][v] = d[v][u] = w; // Cambiar en caso de grafo dirigido

@@ -15,7 +15,7 @@
 */
 
 // Si los costos son grandes cambiar por ll
-int ckmin(int &a, int b){ return a > b ? ((a = b), true) : false;}l
+int ckmin(int &a, int b){ return a > b ? ((a = b), true) : false;}
 
 /**
  * return the jobs of each worker in the optimal assignment,
