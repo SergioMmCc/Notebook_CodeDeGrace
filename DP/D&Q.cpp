@@ -28,15 +28,9 @@ DP con divide and conquer optimization.
   para todo l<=r, C(l-1,r) - C(l,r) <= C(l-1,r+1) - C(l,r+1).
 MAXIMIZAR:
 - Si en lugar de minimizar se quiere maximizar:
-  * if(aux > best) best = aux, opt = m;
-  * Se cambian los INFL por -INFL.
-  * 'C' ahora deberia estar compuesta por pesos negativos, en caso 
-    de que no se debe tener cuidado ya que con C positivo, -INFL + C 
-    deja de ser exactamente -INFL, y un estado inalcanzable podria 
-    confundirse con uno valido.
-  * Ahora la desigualdad es al reves:
-    C(a,c) + C(b,d) >= C(a,d) + C(b,c).
-
+  Para toda la tabla C hacer C[i][j]*= -1. Esta tabla C negada es 
+  la que debe cumplir la desigualdad del cuadrilatero.
+  El resultado final tambien hacerle *= -1.
 APLICACIONES:
 - Tipico en problemas de partir un arreglo en 'k' segmentos 
   minimizando la suma de costos como suma de cuadrados, distancia
