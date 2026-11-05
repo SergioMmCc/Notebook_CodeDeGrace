@@ -25,12 +25,17 @@ DP con divide and conquer optimization.
   Una forma de reformular esta desigualdad es:
   cuando se incrementa el punto 'r' del rango, decrementar el punto 
   'l' hace que sea mas costoso. Formalmente:
-  para todo l<=r, C(l−1,r) - C(l,r) <= C(l−1,r+1) - C(l,r+1).
+  para todo l<=r, C(l-1,r) - C(l,r) <= C(l-1,r+1) - C(l,r+1).
 MAXIMIZAR:
 - Si en lugar de minimizar se quiere maximizar:
   * if(aux > best) best = aux, opt = m;
   * Se cambian los INFL por -INFL.
-  * 'C' ahora deberia estar compuesta por pesos negativos.
+  * 'C' ahora deberia estar compuesta por pesos negativos, en caso 
+    de que no se debe tener cuidado ya que con C positivo, -INFL + C 
+    deja de ser exactamente -INFL, y un estado inalcanzable podria 
+    confundirse con uno valido.
+  * Ahora la desigualdad es al reves:
+    C(a,c) + C(b,d) >= C(a,d) + C(b,c).
 
 APLICACIONES:
 - Tipico en problemas de partir un arreglo en 'k' segmentos 
@@ -44,9 +49,9 @@ ll dp[maxk][maxn];
 
 void compute(int k, int l, int r, int optl, int optr){
     if(l > r) return;
-    int mid = (l+r) >> 1, opt = -1, best = INF;
+    int mid = (l+r) >> 1, opt = -1; ll best = INFL;
     for(int m = optl; m <= min(mid, optr); m++){
-        int aux = dp[k-1][m-1] + C[m][mid];
+        ll aux = dp[k-1][m-1] + C[m][mid];
         if(aux < best) best = aux, opt = m; // Desempata el menor m 
     }
     dp[k][mid] = best;
