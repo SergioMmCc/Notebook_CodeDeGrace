@@ -7,7 +7,7 @@ typedef long double ld;
 // TEMPLATE DE GEOMETRIA 2D (C++17)
 //
 //  1. Basicos ............ EPS, sgn, Point/Vector, distancias, orient
-//  2. Rectas y segmentos .. proyeccion, distancias, interseccion de rectas y segmentos
+//  2. Rectas y segmentos .. proyeccion, distancias, interseccion de rectas y segmentos, struct Segment
 //  3. Circulos ............ struct Circle, intersecciones, tangentes, areas, circulo minimo
 //  4. Triangulos .......... struct Triangle, puntos notables, colision de triangulos
 //  5. Poligonos ........... area, punto en poligono, convex hull, semiplanos, Minkowski, etc.
@@ -133,63 +133,114 @@ ld safe_acos(ld x) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // 2. RECTAS Y SEGMENTOS
+//    Un segmento se representa con Segment (extremos a y b). Cuando una funcion habla de una
+//    RECTA tambien recibe un Segment: la recta infinita que pasa por sus dos extremos.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Declaraciones adelantadas (las definiciones estan mas abajo)
+template<typename T> struct Segment;
+template<typename T> bool on_segment(const Point<T>& p, const Segment<T>& s);
+template<typename T> bool segments_intersect(const Segment<T>& s, const Segment<T>& t);
+template<typename T> vector<pt> segment_intersection_points(const Segment<T>& s, const Segment<T>& t);
+template<typename T> ld dist_point_segment(const Point<T>& p, const Segment<T>& s);
+
+template<typename T = ld>
+struct Segment {
+    Point<T> a, b;   // extremo inicial y final
+
+    Segment() : a(), b() {}
+    Segment(Point<T> _a, Point<T> _b) : a(_a), b(_b) {}
+    Segment(T x1, T y1, T x2, T y2) : a(x1, y1), b(x2, y2) {}
+
+    // Vector direccion a -> b
+    Vector<T> dir() const { return b - a; }
+
+    // Longitud (y su cuadrado, exacto con enteros)
+    ld length() const { return dist(a, b); }
+    T length2() const { return dist2(a, b); }
+
+    // Punto medio
+    Point<ld> midpoint() const {
+        return Point<ld>((ld)(a.x + b.x) / 2, (ld)(a.y + b.y) / 2);
+    }
+
+    // Lado en que cae p respecto a la recta a->b: 1 izquierda, -1 derecha, 0 sobre la recta
+    int side(const Point<T>& p) const { return sgn(orient(a, b, p)); }
+
+    // Atajos a las funciones de abajo (se pueden usar de cualquiera de las dos formas)
+    bool contains(const Point<T>& p) const { return on_segment(p, *this); }
+    bool intersects(const Segment& s) const { return segments_intersect(*this, s); }
+    vector<pt> intersection_points(const Segment& s) const { return segment_intersection_points(*this, s); }
+    ld dist_to(const Point<T>& p) const { return dist_point_segment(p, *this); }
+
+    friend istream& operator>>(istream& is, Segment& s) { return is >> s.a >> s.b; }
+    friend ostream& operator<<(ostream& os, const Segment& s) { return os << "[" << s.a << "] -> [" << s.b << "]"; }
+};
+
+using seg = Segment<ld>;
+using segll = Segment<ll>;
 
 // Proyeccion del vector v sobre el vector u
 pt proj_vec(const pt& v, const pt& u) {
     return u * (v.dot(u) / u.sq());
 }
 
-// Proyeccion del punto p sobre la recta ab (pie de la perpendicular)
-pt proj_point_line(const pt& p, const pt& a, const pt& b) {
-    pt ab = b - a;
-    return a + ab * ((p - a).dot(ab) / ab.sq());
+// Proyeccion del punto p sobre la recta l (pie de la perpendicular)
+pt proj_point_line(const pt& p, const seg& l) {
+    pt ab = l.dir();
+    return l.a + ab * ((p - l.a).dot(ab) / ab.sq());
 }
 
-// Reflexion (simetrico) del punto p respecto a la recta ab
-pt reflect_point_line(const pt& p, const pt& a, const pt& b) {
-    return proj_point_line(p, a, b) * 2 - p;
+// Reflexion (simetrico) del punto p respecto a la recta l
+pt reflect_point_line(const pt& p, const seg& l) {
+    return proj_point_line(p, l) * 2 - p;
 }
 
-// Distancia de p a la recta infinita ab
-ld dist_point_line(const pt& p, const pt& a, const pt& b) {
-    return fabsl(orient(a, b, p)) / dist(a, b);
+// Distancia de p a la recta infinita l
+ld dist_point_line(const pt& p, const seg& l) {
+    return fabsl(orient(l.a, l.b, p)) / l.length();
 }
 
-// Distancia de p al segmento cerrado ab (funciona aunque a == b)
-ld dist_point_segment(const pt& p, const pt& a, const pt& b) {
-    pt ab = b - a;
-    ld t = ab.dot(p - a);
-    if (t <= 0) return dist(p, a);          // el punto mas cercano es el extremo a
-    if (t >= ab.sq()) return dist(p, b);    // el punto mas cercano es el extremo b
-    return dist_point_line(p, a, b);        // cae dentro del segmento
-}
-
-// Verifica si p pertenece al segmento cerrado ab (colineal y entre los extremos)
+// Distancia de p al segmento cerrado s (funciona aunque s sea un punto)
 template<typename T>
-bool on_segment(const Point<T>& p, const Point<T>& a, const Point<T>& b) {
-    return sgn(orient(a, b, p)) == 0 && sgn((a - p).dot(b - p)) <= 0;
+ld dist_point_segment(const Point<T>& p, const Segment<T>& s) {
+    pt q(p.x, p.y), a(s.a.x, s.a.y), b(s.b.x, s.b.y);
+    pt ab = b - a;
+    ld t = ab.dot(q - a);
+    if (t <= 0) return dist(q, a);              // el punto mas cercano es el extremo a
+    if (t >= ab.sq()) return dist(q, b);        // el punto mas cercano es el extremo b
+    return dist_point_line(q, seg(a, b));       // cae dentro del segmento
 }
 
-// Verifica si los segmentos cerrados ab y cd tienen al menos un punto en comun
+// Verifica si p pertenece al segmento cerrado s (colineal y entre los extremos)
 template<typename T>
-bool segments_intersect(const Point<T>& a, const Point<T>& b, const Point<T>& c, const Point<T>& d) {
-    int o1 = sgn(orient(a, b, c));
-    int o2 = sgn(orient(a, b, d));
-    int o3 = sgn(orient(c, d, a));
-    int o4 = sgn(orient(c, d, b));
+bool on_segment(const Point<T>& p, const Segment<T>& s) {
+    return sgn(orient(s.a, s.b, p)) == 0 && sgn((s.a - p).dot(s.b - p)) <= 0;
+}
+
+// Verifica si los segmentos cerrados s y t tienen al menos un punto en comun
+template<typename T>
+bool segments_intersect(const Segment<T>& s, const Segment<T>& t) {
+    int o1 = sgn(orient(s.a, s.b, t.a));
+    int o2 = sgn(orient(s.a, s.b, t.b));
+    int o3 = sgn(orient(t.a, t.b, s.a));
+    int o4 = sgn(orient(t.a, t.b, s.b));
 
     // Cruce propio: los extremos de cada segmento quedan a lados opuestos del otro
     if (o1 * o2 < 0 && o3 * o4 < 0) return true;
 
     // Casos de borde: un extremo toca al otro segmento (incluye colineales)
-    return on_segment(c, a, b) || on_segment(d, a, b) ||
-           on_segment(a, c, d) || on_segment(b, c, d);
+    return on_segment(t.a, s) || on_segment(t.b, s) ||
+           on_segment(s.a, t) || on_segment(s.b, t);
 }
 
-// Puntos de interseccion de los segmentos ab y cd:
+// Puntos de interseccion de los segmentos s y t:
 //   0 puntos (no se tocan), 1 punto, o 2 puntos (segmentos colineales solapados: extremos del solape)
-vector<pt> segment_intersection_points(const pt& a, const pt& b, const pt& c, const pt& d) {
+template<typename T>
+vector<pt> segment_intersection_points(const Segment<T>& s, const Segment<T>& t) {
+    pt a(s.a.x, s.a.y), b(s.b.x, s.b.y), c(t.a.x, t.a.y), d(t.b.x, t.b.y);
+    seg ab(a, b), cd(c, d);
+
     ld oa = orient(c, d, a), ob = orient(c, d, b);
     ld oc = orient(a, b, c), od = orient(a, b, d);
 
@@ -200,24 +251,31 @@ vector<pt> segment_intersection_points(const pt& a, const pt& b, const pt& c, co
 
     // Caso degenerado: recolectar extremos que caen sobre el otro segmento
     vector<pt> res;
-    if (on_segment(c, a, b)) res.push_back(c);
-    if (on_segment(d, a, b)) res.push_back(d);
-    if (on_segment(a, c, d)) res.push_back(a);
-    if (on_segment(b, c, d)) res.push_back(b);
+    if (on_segment(c, ab)) res.push_back(c);
+    if (on_segment(d, ab)) res.push_back(d);
+    if (on_segment(a, cd)) res.push_back(a);
+    if (on_segment(b, cd)) res.push_back(b);
     sort(res.begin(), res.end());
     res.erase(unique(res.begin(), res.end()), res.end());
     return res;
 }
 
-// Interseccion de las RECTAS ab y cd. Devuelve false si son paralelas; si no, guarda el punto en res
-bool intersect_lines(const pt& a, const pt& b, const pt& c, const pt& d, pt& res) {
-    ld cp = (b - a).cross(d - c);
+// Interseccion de las RECTAS l1 y l2. Devuelve false si son paralelas; si no, guarda el punto en res
+bool intersect_lines(const seg& l1, const seg& l2, pt& res) {
+    ld cp = l1.dir().cross(l2.dir());
     if (sgn(cp) == 0) return false;
-    ld t = (c - a).cross(d - c) / cp;
-    res = a + (b - a) * t;
+    ld t = (l2.a - l1.a).cross(l2.dir()) / cp;
+    res = l1.a + l1.dir() * t;
     return true;
 }
 
+// Distancia minima entre dos segmentos (0 si se tocan)
+ld dist_segment_segment(const seg& s, const seg& t) {
+    if (s.intersects(t)) return 0;
+    // Si no se cruzan, la distancia minima siempre ocurre en algun extremo
+    return min(min(s.dist_to(t.a), s.dist_to(t.b)),
+               min(t.dist_to(s.a), t.dist_to(s.b)));
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // 3. CIRCULOS
@@ -240,14 +298,23 @@ struct Circle {
     ld segment_area(ld theta) const { return 0.5 * r * r * (theta - sinl(theta)); } // segmento circular
 };
 
-// Interseccion recta ab - circulo: devuelve 0, 1 o 2 puntos
-vector<pt> intersect_circle_line(const Circle& c, const pt& a, const pt& b) {
-    pt p = proj_point_line(c.o, a, b);          // pie de la perpendicular desde el centro
+// Interseccion RECTA l - circulo: devuelve 0, 1 o 2 puntos
+vector<pt> intersect_circle_line(const Circle& c, const seg& l) {
+    pt p = proj_point_line(c.o, l);             // pie de la perpendicular desde el centro
     ld h2 = c.r * c.r - (p - c.o).sq();         // (semicuerda)^2
     if (sgn(h2) < 0) return {};                 // la recta no toca el circulo
     if (sgn(h2) == 0) return {p};               // tangente
-    pt u = (b - a).unit() * sqrtl(h2);
+    pt u = l.dir().unit() * sqrtl(h2);
     return {p - u, p + u};
+}
+
+// Interseccion SEGMENTO - circulo: devuelve 0, 1 o 2 puntos (solo los que caen dentro del segmento)
+vector<pt> intersect_circle_segment(const Circle& c, const seg& s) {
+    vector<pt> res;
+    for (auto& p : intersect_circle_line(c, s)) {
+        if (s.contains(p)) res.push_back(p);
+    }
+    return res;
 }
 
 // Interseccion circulo - circulo: devuelve 0, 1 o 2 puntos (vacio si son concentricos)
@@ -280,9 +347,9 @@ ld circle_circle_intersection_area(const Circle& c1, const Circle& c2) {
     return c1.r * c1.r * (a - sinl(2 * a) / 2) + c2.r * c2.r * (b - sinl(2 * b) / 2);
 }
 
-// Tangentes comunes a dos circulos. Devuelve pares {punto en c1, punto en c2}.
+// Tangentes comunes a dos circulos. Cada tangente es un segmento {a = punto de contacto en c1, b = punto de contacto en c2}.
 //   inner = false: tangentes EXTERNAS (hasta 2)      inner = true: tangentes INTERNAS (hasta 2)
-vector<pair<pt, pt>> tangents_circle_circle(const Circle& c1, const Circle& c2, bool inner = false) {
+vector<seg> tangents_circle_circle(const Circle& c1, const Circle& c2, bool inner = false) {
     ld r2 = inner ? -c2.r : c2.r;       // truco: radio negativo da las tangentes internas
     pt d = c2.o - c1.o;
     ld dr = c1.r - r2;
@@ -290,10 +357,10 @@ vector<pair<pt, pt>> tangents_circle_circle(const Circle& c1, const Circle& c2, 
     ld h2 = d2 - dr * dr;
     if (sgn(d2) == 0 || sgn(h2) < 0) return {};
 
-    vector<pair<pt, pt>> res;
+    vector<seg> res;
     for (ld s : {-1, 1}) {
         pt v = (d * dr + d.perp() * sqrtl(max((ld)0, h2)) * s) / d2;
-        res.push_back({c1.o + v * c1.r, c2.o + v * r2});
+        res.push_back(seg(c1.o + v * c1.r, c2.o + v * r2));
     }
     if (sgn(h2) == 0) res.pop_back();   // las dos tangentes coinciden
     return res;
@@ -302,7 +369,7 @@ vector<pair<pt, pt>> tangents_circle_circle(const Circle& c1, const Circle& c2, 
 // Puntos de contacto de las tangentes desde un punto p al circulo c (0 si p esta dentro, 1 si en el borde, 2 si fuera)
 vector<pt> tangents_point_circle(const pt& p, const Circle& c) {
     vector<pt> res;
-    for (auto& t : tangents_circle_circle(Circle(p, 0), c)) res.push_back(t.second);
+    for (auto& t : tangents_circle_circle(Circle(p, 0), c)) res.push_back(t.b);
     return res;
 }
 
@@ -450,7 +517,9 @@ bool triangles_intersect(const Triangle<T>& t1, const Triangle<T>& t2) {
     // 1. Alguna arista de t1 toca alguna arista de t2 (9 pares)
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            if (segments_intersect(p1[i], p1[(i + 1) % 3], p2[j], p2[(j + 1) % 3])) return true;
+            Segment<T> e1(p1[i], p1[(i + 1) % 3]);
+            Segment<T> e2(p2[j], p2[(j + 1) % 3]);
+            if (segments_intersect(e1, e2)) return true;
         }
     }
 
@@ -494,10 +563,10 @@ int point_in_polygon(const Point<T>& p, const vector<Point<T>>& poly) {
     int n = poly.size();
     bool inside = false;
     for (int i = 0; i < n; i++) {
-        Point<T> a = poly[i], b = poly[(i + 1) % n];
-        if (on_segment(p, a, b)) return 0;
+        Segment<T> edge(poly[i], poly[(i + 1) % n]);
+        if (edge.contains(p)) return 0;
         // Rayo horizontal desde p: se cuenta cada arista que cruza hacia la derecha de p
-        if (((p.y < a.y) - (p.y < b.y)) * orient(p, a, b) > 0) inside = !inside;
+        if (((p.y < edge.a.y) - (p.y < edge.b.y)) * orient(p, edge.a, edge.b) > 0) inside = !inside;
     }
     return inside ? 1 : -1;
 }
@@ -577,13 +646,13 @@ void polar_sort(vector<Point<T>>& pts) {
     });
 }
 
-// Recorta un poligono CONVEXO conservando solo la parte a la izquierda de la recta a->b
-vector<pt> cut_convex_polygon(const vector<pt>& poly, const pt& a, const pt& b) {
+// Recorta un poligono CONVEXO conservando solo la parte a la izquierda de la recta l (dirigida a->b)
+vector<pt> cut_convex_polygon(const vector<pt>& poly, const seg& l) {
     vector<pt> res;
     int n = poly.size();
     for (int i = 0; i < n; i++) {
         pt c = poly[i], d = poly[(i + 1) % n];
-        ld sc = orient(a, b, c), sd = orient(a, b, d);
+        ld sc = orient(l.a, l.b, c), sd = orient(l.a, l.b, d);
         if (sgn(sc) >= 0) res.push_back(c);                              // c se queda
         if (sgn(sc) * sgn(sd) < 0) res.push_back(c + (d - c) * (sc / (sc - sd)));  // la arista cruza la recta
     }
@@ -596,6 +665,7 @@ struct HalfPlane {
     ld ang;     // angulo de la direccion (para ordenar)
 
     HalfPlane(const pt& a, const pt& b) : p(a), d(b - a), ang(atan2l(d.y, d.x)) {}
+    HalfPlane(const seg& l) : HalfPlane(l.a, l.b) {}    // izquierda de la recta que va de l.a a l.b
 
     // true si q queda estrictamente fuera (a la derecha)
     bool out(const pt& q) const { return sgn(d.cross(q - p)) < 0; }
