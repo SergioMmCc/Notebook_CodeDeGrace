@@ -7,6 +7,12 @@ DP con optimizacion de Knuth, pasa de O(n^3) a O(n^2).
   * dp[l][r] = C[l][r] + min(dp[l][i] + dp[i+1][r]), 
   * con l <= i < r.
   * 'C' es una funcion de costos.
+- Tener en cuenta que no son puntos desde 'l' hasta 
+  'r' sino los rangos desde 'l' hasta 'r', donde por
+  ejemplo el rango 'l' abarca una serie de puntos 
+  [left, right]. Entonces dp[l][r] busca el valor 
+  minimo para el conjunto de rangos 
+  l, l+1, l+2, ..., r-2, r-1, r.
 CONDICION:
 - Sea opt[l][r] el menor valor de 'i' que minimiza 
   dp[l][r], se debe cumplir que: 
@@ -34,8 +40,9 @@ void solver(){
     int n; cin>>n;
     
     // LEER O PRECALCULAR C
-    
-    for0(i,n) dp[i][i] = 0, opt[i][i] = i; // Rangos de tamaño 1
+
+    // Rangos individuales, tener en cuenta que no siempre dp[i][i] tiene porque ser '0'
+    for0(i,n) dp[i][i] = 0, opt[i][i] = i;
     
     forlr(len,2,n){
         forlr(l,0,n-len){
@@ -53,5 +60,4 @@ void solver(){
         }
     }
     cout<<dp[0][n-1]<<endl;
-}
 }
