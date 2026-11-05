@@ -25,11 +25,10 @@ DP con divide and conquer optimization.
   Una forma de reformular esta desigualdad es:
   cuando se incrementa el punto 'r' del rango, decrementar el punto 
   'l' hace que sea mas costoso. Formalmente:
-  para todo l<=r, C(l−1,r) − C(l,r) <= C(l−1,r+1) − C(l,r+1).
+  para todo l<=r, C(l−1,r) - C(l,r) <= C(l−1,r+1) - C(l,r+1).
 MAXIMIZAR:
 - Si en lugar de minimizar se quiere maximizar:
-  * best = max(best, {dp[k-1][m-1] + C[m][mid], m}); teniendo en 
-    cuenta que ahora el desempate seria por mayor 'm'.
+  * if(aux > best) best = aux, opt = m;
   * Se cambian los INFL por -INFL.
   * 'C' ahora deberia estar compuesta por pesos negativos.
 
@@ -45,11 +44,12 @@ ll dp[maxk][maxn];
 
 void compute(int k, int l, int r, int optl, int optr){
     if(l > r) return;
-    int mid = (l+r) >> 1, opt;
-    pll best = {INFL, -1};
-    for(int m = optl; m <= min(mid, optr); m++)
-        best = min(best, {dp[k-1][m-1] + C[m][mid], m}); // Desempata hacia el menor 'm'
-    tie(dp[k][mid], opt) = best;
+    int mid = (l+r) >> 1, opt = -1, best = INF;
+    for(int m = optl; m <= min(mid, optr); m++){
+        int aux = dp[k-1][m-1] + C[m][mid];
+        if(aux < best) best = aux, opt = m; // Desempata el menor m 
+    }
+    dp[k][mid] = best;
     compute(k, l,     mid-1, optl, opt);  // j menores: opt a la izquierda
     compute(k, mid+1, r,     opt,  optr); // j mayores: opt a la derecha
 }
