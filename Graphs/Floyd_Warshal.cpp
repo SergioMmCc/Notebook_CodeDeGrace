@@ -14,6 +14,8 @@ const int maxn = 501;
 int d[maxn][maxn]; // d[i][j] = Longitud de la ruta mas corta desde i hasta j
 
 void floyd(int n){
+    // Cada ciclo hasta k = x halla los costos minimos entre cada par de nodos 
+    // usando como nodos intermedios solo los primeros 'x' nodos.
     for1(k,n){
         for1(i,n){
             for1(j,n){

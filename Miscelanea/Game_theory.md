@@ -109,6 +109,7 @@ $$g(G_1 + G_2 + \cdots + G_k) = g(G_1) \oplus g(G_2) \oplus \cdots \oplus g(G_k)
 
 Cada subjuego se comporta como una pila de Nim cuyo tamaño es su Grundy, así que la estrategia es la misma de Nim: si el XOR es $s \neq 0$, se busca el subjuego $i$ donde $g_i \oplus s < g_i$ y se mueve a un estado de ese subjuego con Grundy $g_i \oplus s$. Siempre existe, porque desde un estado con Grundy $g_i$ se alcanzan todos los valores menores.
 
+
 ## Variantes de la suma de juegos
 
 Si cambia la regla de qué se puede mover en un turno, ya no se usa el XOR. Sean $g_1, \ldots, g_K$ los números de Grundy de la posición actual de cada subjuego:
@@ -117,6 +118,17 @@ Si cambia la regla de qué se puede mover en un turno, ya no se usa el XOR. Sean
 
 - **Se eligen algunos subjuegos (al menos uno, pero no todos) y se mueve en todos los elegidos:** el estado es perdedor si y solo si
 $$g_1 = g_2 = \cdots = g_K$$
+
+
+## Gana el primero en ganar un componente
+
+Si se tiene un juego que consiste en varios componentes independientes, donde el ganador global es el primero que logre ganar un componente (hace el movimiento que lleva a un estado sin movimientos validos):
+
+- Si en algun componente el jugador que inicia puede llegar a un estado terminal en un solo movimiento, gana inmediatamente.
+
+- Se recorta cada componente: se construye cada componente eliminando los estados terminales y los estados desde los cuales se puede llegar a un estado terminal en un movimiento. En cada componente recortado se hallan los numeros de grundy (los movimientos a estados eliminados no se tienen en cuenta).
+
+- Se halla el xor de todos los componentes y si este es mayor a 0 gana el jugador que inicia, de lo contrario pierde.
 
 
 # Juegos que se parten en subjuegos

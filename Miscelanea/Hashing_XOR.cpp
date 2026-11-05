@@ -1,3 +1,5 @@
+#include "../template.h"
+
 /* El hashing map sirve para almacenar elementos en un conjunto especifico
 Consiste en leer un numero a para almacenar cierto dato en un vector, entonces
 al número que tenemos en la posicion a de nuestro vector le hacemos xor con un
@@ -27,41 +29,23 @@ al inicio del ejercicio.*/
 Para una explicación mas detallada de la logica detrás de está colución, dirigirse
 a la editorial, la cual se puede encontrar en el link adjunto*/
 
-
-#include <bits/stdc++.h>
-using namespace std;
-#define endl '\n'
-
 // "rng" genera un número random de 64 bits
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
-void solver() {
-    int n, m, a, b;
-    long long r;
-    cin>>n>>m;
-    vector<long long> D(n);
-    while(m--) {
-        cin>>a>>b;
-        r = rng();
+void solver(){
+    int n, m; cin>>n>>m;
+    vl D(n);
+    while(m--){
+        int a, b; cin>>a>>b;
+        ll r = rng();
         D[a-1] ^= r;
         D[b-1] ^= r;
     }
     
-    unordered_map<long long, int> conjuntos;
+    unordered_map<ll, int> conjuntos;
     int fixAns = 0;
-    long long save = 0;
-    for(long long diag : D)
-        fixAns = max(fixAns, conjuntos[save^=diag]++);
+    ll save = 0;
+    for(ll diag : D) fixAns = max(fixAns, conjuntos[save^=diag]++);
         
     cout<<n-fixAns-1<<endl;
-}
-
-int main() {
-    ios_base::sync_with_stdio(0);cin.tie(NULL);
-    int t;cin>>t;
-    while(t--) {
-        solver();
-    }
-
-    return 0;
 }

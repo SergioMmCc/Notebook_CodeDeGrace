@@ -8,6 +8,10 @@
   derecho, se requiere n >= m, es decir, deben haber igual o mas 
   workers que jobs.
 - Minimo costo para el maximum matching de un bipartito ponderado.
+- Para maximo costo se puede guardar los costos en negativo y despues
+  negar la respuesta.
+- Si el costo total es el producto de cada asignacion, pasar los 
+  costos a algun logaritmo antes de tirar el matching.
 - Para explicar el algoritmo se documenta utilizando worker (W) como L
   y job (J) como R. Cada trabajador cobra cierta cantidad por realizar
   cierto trabajo sin embargo cada trabajador solo puede realizar un 

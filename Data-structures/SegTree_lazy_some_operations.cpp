@@ -29,7 +29,7 @@ Para query minimo y update suma */
 /**********************************************************************************************/
 
 /***********************************************************************************************
-Para arrays de 1s y 0s y updates de invertir los valores */
+Para arrays de 1s y 0s y updates de invertir los valores (calc de suma) */
     int updateOp(int a, int len){
         return len - a;
     }
