@@ -28,7 +28,7 @@ DP con divide and conquer optimization.
   para todo l<=r, C(l-1,r) - C(l,r) <= C(l-1,r+1) - C(l,r+1).
 MAXIMIZAR:
 - Si en lugar de minimizar se quiere maximizar:
-  Para toda la tabla C hacer C[i][j]*= -1. Esta tabla C negada es 
+  Para toda la tabla C hacer C[i][j] *= -1. Esta tabla C negada es 
   la que debe cumplir la desigualdad del cuadrilatero.
   El resultado final tambien hacerle *= -1.
 APLICACIONES:
