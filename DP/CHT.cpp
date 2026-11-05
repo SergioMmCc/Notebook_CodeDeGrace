@@ -17,7 +17,6 @@ max	        ascendentes	    (m, b)	    get_max(x)
 min	        descendentes	(−m, −b)	-get_max(x)
 max	        descendentes	(−m, b)	    get_max(−x)
 min	        ascendentes	    (m, −b)	    -get_max(−x)
-(b corresponde a dp).
 
 - Las queries no necesitan estar en orden.
 - Como respuesta se toma el valor mayor (o menor) de todas las 
