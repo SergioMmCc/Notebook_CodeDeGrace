@@ -1,5 +1,7 @@
 #include "../template.h"
 
+// 1-index.
+// Complejidad: o(n^2).
 const int maxn = 1001;
 int a[maxn][maxn];
 ll s[maxn][maxn];
@@ -17,8 +19,7 @@ void solver(){
     }
 
     // Para consultar cada rectangulo:
-    // (y1, x1) es la esquina superior izquierda
-    // (y2, x2) es la esquina inferior derecha
+    // y2 >= y1, x2 >= x1.
     // rectangulo = S[y2​][x2​] − S[y1​−1][x2​] − S[y2​][x1​−1] + S[y1​−1][x1​−1]
     int q; cin>>q;
     while(q--){
