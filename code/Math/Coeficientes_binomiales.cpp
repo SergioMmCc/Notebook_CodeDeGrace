@@ -1,6 +1,6 @@
 #include "../template.h"
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////
 // Complejidad O(n ^ 2).
 // binom[i][j] = (i!) / (j! * (i - j)!)
 // Usar si N es pequeño y, el modulo no es primo (no se puede dividir) 
@@ -18,7 +18,7 @@ void calcBinom(){
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////
 // Si el modulo es primo, se puede obtener en O(n + logk).
 // Primero se precalcula el factorial hasta maxn
 ll calculateBinomial(int n, int k){
@@ -30,7 +30,7 @@ ll calculateBinomial(int n, int k){
     return (numerator * binpow(denominador, mod-2)) % mod; // Binary exponancion for eficiencia
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////
 /* 
 Coeficiente binomial modulo mod = p ^ b, siendo p un numero primo:
 - Si p > max(k, n-k) se puede usar el metodo de siempre.
@@ -84,7 +84,7 @@ void solver(){
     cout<<binomial(n, k, p, b, mod, phimod, g, c);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 /*
 Coeficiente binomial con un modulo mod arbitrario:
 - Se halla la factorizacion prima: mod = p_1 ^ b_1 * p_2 ^ b_2 * ... * p_h ^ b_h.
@@ -99,7 +99,7 @@ Coeficiente binomial con un modulo mod arbitrario:
   ans % mod_h = r_h % mod_h
 */
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////
 /*
 Coeficiente binomial cuando n es muy grande y mod no tanto (mod tiene que ser primo):
 - Complejidad: O(mod) del precalculo del factorial, mas O(log_mod(n)) por query.
@@ -125,7 +125,7 @@ ll lucasBinomial(ll n, ll k){ // Coeficientes binomiales
     return ans;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////
 /*
 Coeficiente binomial cuando n es muy grande y mod no tanto (mod tiene que ser square free, es decir,
 en su descomposicion prima: mod = p_1 ^ e_1 * p_2 ^ e_2 * ... * p_h ^ e_h, cada e_i es igual a 1):

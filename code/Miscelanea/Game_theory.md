@@ -17,7 +17,7 @@ $$v \text{ es ganador} \iff \exists\, u \text{ con } v \to u \text{ y } u \text{
 
 - **Estado perdedor:** el jugador que mueve pierde si el rival juega bien.
 $$v \text{ es perdedor} \iff \forall\, u \text{ con } v \to u,\; u \text{ es ganador}$$
- 
+
 Tener en cuenta que un estado terminal es perdedor (no existe ningún $u$, así que la condición se cumple vacíamente). Con estas dos reglas se clasifican todos los estados empezando desde los terminales. Es una recursión: un estado es ganador si alguno de sus movimientos lleva a un estado perdedor, y perdedor en caso contrario.
 
 
@@ -29,14 +29,14 @@ Una sola pila de $n$ fichas y un conjunto $S$ de tamaño $m$ con las cantidades 
 
 - **Periodicidad:** si en un turno se pueden quitar a lo sumo $k$ fichas, que un estado sea ganador o perdedor depende solo de si los $k$ estados anteriores son ganadores o perdedores. Como solo hay $2^k$ secuencias posibles de largo $k$, la secuencia de estados termina siendo periódica.
 
-- Si $S = {1, 2, 3, ..., m}$, gana el primer jugador si $n \bmod m \gt 0$ y pierde en caso contrario.
+- Si $S = \{1, 2, 3, ..., m\}$, gana el primer jugador si $n \bmod m \gt 0$ y pierde en caso contrario.
 
 
 # Nim
 
 Hay $n$ pilas y la pila $i$ tiene $x_i$ palitos. En cada turno se elige una pila no vacía y se quita cualquier cantidad positiva de palitos de ella. Gana el jugador que realiza el último movimiento.
 
-- Sea $s$ el xor del tamaño de todas las pilas, el jugador que empieza es ganador si $s \gt 0 $ y perdedor en caso contrario. A este valor $s$ se le dice nim-sum.
+- Sea $s$ el xor del tamaño de todas las pilas, el jugador que empieza es ganador si $s \gt 0$ y perdedor en caso contrario. A este valor $s$ se le dice nim-sum.
 
 - **Cantidad de movimientos ganadores desde un estado ganador:** es la cantidad de pilas $k$ tales que
 $$x_k \oplus s < x_k$$
@@ -89,12 +89,14 @@ $$g(v) = \operatorname{mex}\{\, g(v_1), g(v_2), \ldots, g(v_k) \,\}$$
 siendo $v_1, \ldots, v_k$ los estados alcanzables desde $v$.
 
 Cuándo pensar en Grundy:
+
 - El juego no es Nim directo, pero las reglas de movimiento dependen solo del estado.
 - El juego está formado por componentes independientes.
 - Clasificar los estados completos sería demasiado lento, pero cada componente es pequeño y se puede precalcular.
 - No es Misère, ya que el teorema vale solo para juego normal.
 
 Receta:
+
 1. Definir el estado y los movimientos.
 2. Calcular $g$ de los estados pequeños (a mano o con fuerza bruta), empezando por los terminales.
 3. Combinar los componentes con XOR.

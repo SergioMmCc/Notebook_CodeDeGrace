@@ -43,16 +43,18 @@ El número de caminos de $(0, 0)$ hacia $(a, b)$, donde cada paso se da al norte
 
 El número de formas de pintar $n$ objetos con $r$ colores si cada color debe ser utilizado al menos una vez: $\sum_{k=0}^{r}\binom{r}{k}(-1)^{r-k}k^n$ o $\sum_{k=0}^{r}\binom{r}{r-k}(-1)^k(r-k)^n$
 
-El número de tuplas de $k$ números $x_1 + x_2 + ... + x_k$ cuya suma es igual a $n$ (Tener en cuenta que una tupla ${1, 2}$ y otra ${2, 1}$ se consideran diferentes): 
+El número de tuplas de $k$ números $x_1 + x_2 + ... + x_k$ cuya suma es igual a $n$ (Tener en cuenta que una tupla $\{1, 2\}$ y otra $\{2, 1\}$ se consideran diferentes):
+
 - Si los números deben ser positivos: $\binom{n-1}{k-1}$.
 - Si los números deben ser no negativos: $\binom{n+k-1}{n}$
-- Si dan lower bounds $x_i >= a_i$, se halla $n' = n - \sum_{i=1}^{k} a_i$ y se calcula: $\binom{n'+k-1}{n'}$
-- Si dan un upper bound $x_i <= a$: $\sum_{i=0}^{k} (-1)^i\binom{k}{i}\binom{n+k-1-(a+1)i}{k-1}$ (Tener en cuenta que un coeficiente binomial es igual a 0 si su parte superior es negativa)
-- Si me dan upper_bounds $x_i <= a_i$, se halla el resultado sin restricciones y con inclusión-exclusión se restan los casos donde $x_i >= a_i$
+- Si dan lower bounds $x_i \ge a_i$, se halla $n' = n - \sum_{i=1}^{k} a_i$ y se calcula: $\binom{n'+k-1}{n'}$
+- Si dan un upper bound $x_i \le a$: $\sum_{i=0}^{k} (-1)^i\binom{k}{i}\binom{n+k-1-(a+1)i}{k-1}$ (Tener en cuenta que un coeficiente binomial es igual a 0 si su parte superior es negativa)
+- Si me dan upper_bounds $x_i \le a_i$, se halla el resultado sin restricciones y con inclusión-exclusión se restan los casos donde $x_i \ge a_i$
 
 El número de tuplas de $k$ números $x_1 + x_2 + ... + x_k$ cuya suma es menor o igual a $n$: $\binom{n+k}{k}$
 
 El número de formas de poner $n$ pelotas en $k$ cajas (similar a decir que tengo que elegir n elementos de un conjunto de tamaño k):
+
 - Si cada caja puede tener maximo una pelota: $\binom{k}{n}$
 - Si cada caja puede contener multiples pelotas: $\binom{k+n-1}{n}$
 - Si cada caja puede contener maximo una pelota y dos cajas adyacentes no pueden tener una pelota: $\binom{k-n+1}{k-2n+1}$
@@ -64,9 +66,9 @@ El coeficiente multinomial
 $$\binom{n}{n_{1}, n_{2}, ..., n_{k}} = M(n_1, n_2, ..., n_{k}) = \frac{n!}{n_{1}!n_{2}!...n_{k}!} $$
 es igual a la cantidad de formas en que se pueden dividir $n$ elementos en subconjuntos de tamaño $n_1, n_2, ..., n_k$, donde $n_1 + n_2 + · · · + n_k = n$.
 
-- $$M(a, ..., b, c, ...) = M(a + ... + b, c, ...)M(a, ..., b)$$
+$$M(a, ..., b, c, ...) = M(a + ... + b, c, ...)M(a, ..., b)$$
 
-- $$(a_1 + ... + a_k)^n = \sum_{n_1+...+n_k=n, n_i>=0}^{} \binom{n}{n_1, ..., n_k}a_1^{n_1}...a_k^{n_k}$$
+$$(a_1 + ... + a_k)^n = \sum_{n_1+...+n_k=n,\ n_i \ge 0}^{} \binom{n}{n_1, ..., n_k}a_1^{n_1}...a_k^{n_k}$$
 
 La cantidad de permutaciones que se pueden obtener a partir de un multiset de $n$ elementos con valores de $1$ a $k$, esta dada por: $\binom{n}{freq_1, freq_2, ..., freq_k}$
 
@@ -146,7 +148,8 @@ donde $c(g)$ es la cantidad de ciclos que hay en la permutación $g$.
 
 ## Ejemplo: collar de 4 cuentas, 3 colores posibles, al collar se le pueden hacer rotaciones
 
-$G=\{e,r,r^2,r^3\}$ Donde $e$ representa la permutación que se obtiene al no hacer ninguna rotación, $r$ es al rotar una posición y $r^x$ es al rotar $x$ posiciones. Solo nos interesa rotar hasta 3 posiciones ya que rotar 4, 5, 6, ... sería equivalente a rotar 0, 1, 2, ..., posiciones. 
+$G=\{e,r,r^2,r^3\}$ Donde $e$ representa la permutación que se obtiene al no hacer ninguna rotación, $r$ es al rotar una posición y $r^x$ es al rotar $x$ posiciones. Solo nos interesa rotar hasta 3 posiciones ya que rotar 4, 5, 6, ... sería equivalente a rotar 0, 1, 2, ..., posiciones.
+
 En este caso, la cantidad de ciclos que tiene cada permutación se obtiene con el $gcd(x, 4)$
 
 $$c(e)=\gcd(0,4)=4,\quad c(r)=\gcd(1,4)=1,\quad c(r^2)=\gcd(2,4)=2,\quad c(r^3)=\gcd(3,4)=1$$
@@ -180,8 +183,7 @@ Se repite $n-2$ veces:
 2. Anotar en la secuencia el único nodo al que está conectada esa hoja.
 3. Eliminar esa hoja del árbol (y su arista).
 
-Al terminar las $n-2$ repeticiones, quedan exactamente 2 vértices, que ya no se
-anotan.
+Al terminar las $n-2$ repeticiones, quedan exactamente 2 vértices, que ya no se anotan.
 
 ### Cómo reconstruir el árbol a partir del código
 

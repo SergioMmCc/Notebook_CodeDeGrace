@@ -4,6 +4,7 @@
 - Sea $d(i)$ el número de divisores de $i$, la sumatoria de $d(i)$ para $i$ entre $1$ y $n$ es aproximadamente $n \ln(n)$.
 - Entre $1$ y $n$ hay aproximadamente $\pi(n) = \dfrac{n}{\ln(n)}$ números primos.
 - La distancia promedio entre primos desde $1$ hasta $n$ es $\ln(n)$.
+
   Para todos los enteros hasta $10^9$, la máxima distancia entre primos es $282$. Hasta $10^{18}$ es $1442$.
 - **Teorema de Bertrand:** para todo $n \geq 2$ hay al menos un primo $n < p < 2n$.
 
@@ -28,6 +29,7 @@ $$u(n) = n^{\tau(n)/2}$$
 ## Función phi de Euler (totient)
 
 $\phi(n)$ da la cantidad de números coprimos con $n$ entre $1$ y $n$.
+
 Ej: $\phi(12) = 4$, ya que $1, 5, 7$ y $11$ son coprimos con $12$.
 
 $$\phi(n) = \prod_i p_i^{a_i - 1}(p_i - 1)$$
@@ -38,19 +40,25 @@ $$\phi(n) = \prod_i p_i^{a_i - 1}(p_i - 1)$$
 - Para cualquier par $\{a, b\}$ con $d = \gcd(a, b)$:
 $$\phi(a \cdot b) = \phi(a) \cdot \phi(b) \cdot \frac{d}{\phi(d)}$$
 - Para cualquier número $n$: $\displaystyle\sum_{d \mid n} \phi(d) = n$
-  d|n quiere decir que d es divisor de n
+
+  $d \mid n$ quiere decir que $d$ es divisor de $n$
 
 **Exponenciación con phi:**
+
 - Para calcular $(a^{b^c}) \bmod m$:
+
   $m_1 = \phi(m)$, luego $(a^{(b^c \bmod m_1)}) \bmod m$.
 - Para calcular $(a^{b^{c^d}}) \bmod m$:
+
   $m_1 = \phi(m)$, $m_2 = \phi(m_1)$, luego $(a^{(b^{(c^d \bmod m_2)} \bmod m_1)}) \bmod m$.
+
   Y así sucesivamente para cadenas de potencias.
 - **Generalización:** $a^n \bmod m = a^{(n \bmod \phi(m))} \bmod m$
 
 ## Teoremas de congruencias
 
 - **Pequeño teorema de Fermat:** $x^{m-1} \bmod m = 1$, siendo $m$ primo y $x, m$ coprimos.
+
   Además: $x^k \bmod m = x^{(k \bmod (m-1))} \bmod m$
 - **Teorema de Euler (generalización):** $x^{\phi(m)} \bmod m = 1$ cuando $x, m$ son coprimos.
 - **Inverso modular:** si existe, se calcula como $a^{-1} = a^{\phi(m)-1}$; si $m$ es primo, $x^{-1} = x^{m-2}$.
@@ -77,9 +85,11 @@ $$F_n = \frac{\left(\frac{1+\sqrt5}{2}\right)^n - \left(\frac{1-\sqrt5}{2}\right
   Sin embargo, es difícil de usar por el redondeo.
 - **Con matrices:**
 $$\begin{pmatrix}1 & 1\\1 & 0\end{pmatrix}^n = \begin{pmatrix}F_{n+1} & F_n\\F_n & F_{n-1}\end{pmatrix}$$
-- **Identidad de Cassini:** $F_{n-1} F_{n-2} - F_n^2 = (-1)^n$
+- **Identidad de Cassini:** $F_{n+1} F_{n-1} - F_n^2 = (-1)^n$
 - **Regla de adición:** $F_{n+k} = F_k F_{n+1} + F_{k-1} F_n$
+
   Cuando $k = n$: $F_{2n} = F_n (F_{n+1} + F_{n-1})$
+
   Por lo tanto, para cualquier entero positivo $k$, $F_{kn}$ es múltiplo de $F_n$, y si $F_m$ es múltiplo de $F_n$, entonces $m$ es múltiplo de $n$.
 - **Identidad del GCD:** $\gcd(F_m, F_n) = F_{\gcd(m,n)}$
 - Para cualquier número $p$, existe una secuencia de Fibonacci módulo $p$ que se repite periódicamente, de longitud máxima $p^2$.

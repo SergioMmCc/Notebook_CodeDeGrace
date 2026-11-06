@@ -1,0 +1,149 @@
+[Template]
+template.h	Template
+
+[Data-structures]
+Data-structures/SegTree.cpp	Segment tree
+Data-structures/SegTree_iterativo.cpp	Segment tree iterativo
+Data-structures/SegTree_tricks.cpp	Segment tree tricks
+Data-structures/SegTree_with_structures.cpp	Segment tree with structures
+Data-structures/SegTree_segmento_con_mayor_suma.cpp	Segment tree segmento con mayor suma
+Data-structures/Merge_sort_tree.cpp	Merge Sort Tree
+Data-structures/SegTree_lazy.cpp	Segment tree lazy
+Data-structures/SegTree_lazy_some_operations.cpp	Segment tree lazy some operations
+Data-structures/SegTree_lazy_arithmetic_progression.cpp	Segment tree lazy arithmetic progression
+Data-structures/SegTree_lazy_segmento_con_mayor_suma.cpp	Segment tree lazy segmento con mayor suma
+Data-structures/SegTree_persistent.cpp	Segment tree persistent
+Data-structures/SegTree_sparse.h	Segment tree sparse
+Data-structures/SegTree_sparse_lazy.cpp	Segment tree sparse lazy
+Data-structures/SegTree_2D.cpp	Segment tree 2D
+Data-structures/SegTree_2D_sparse.cpp	Segment tree 2D sparse
+Data-structures/FenwickTree.cpp	Fenwick Tree
+Data-structures/SparseTable.cpp	Sparse Table
+Data-structures/SQRT_Decomposition.cpp	SQRT Decomposition
+Data-structures/Mo_algorithm.cpp	Mo's Algorithm
+Data-structures/Rectangular_partial_sums.cpp	Rectangular partial sums
+Data-structures/Kadane.cpp	Kadane
+
+[Graphs]
+Graphs/Dijkstra.cpp	Dijkstra
+Graphs/Bellman_Ford.cpp	Bellman Ford
+Graphs/SPFA.cpp	SPFA
+Graphs/Floyd_Warshal.cpp	Floyd Warshall
+Graphs/BFS_01.cpp	BFS 0-1
+Graphs/Find_edges_and_vertexes_in_shortest_path.cpp	Find edges and vertexes in shortest paths
+Graphs/LCA_BFS.cpp	LCA BFS
+Graphs/DSU.cpp	DSU
+Graphs/DSU_bipartition_test.cpp	DSU bipartition test
+Graphs/DSU_rollback.cpp	DSU rollback
+Graphs/Dynamic_connectivity_offline.cpp	Dynamic connectivity offline
+Graphs/Kruskal.cpp	Kruskal
+Graphs/Prim.cpp	Prim
+Graphs/Tarjan_SCC.cpp	Tarjan SCC
+Graphs/Toposort.cpp	Toposort
+Graphs/Bridges.cpp	Bridges
+Graphs/Articulation_points.cpp	Articulation points
+Graphs/TSP.cpp	TSP
+Graphs/Counting_cycles.cpp	Counting cycles
+Graphs/Counting_paths.cpp	Counting paths
+Graphs/Eulerian_path.cpp	Eulerian path
+Graphs/Grafo_funcional_Floyd.cpp	Grafo funcional Floyd
+Graphs/Grafo_funcional_count_steps.cpp	Grafo funcional count steps
+Graphs/Grafo_funcional_kth_step.cpp	Grafo funcional kth step
+Graphs/Find_faces_grafo_plano.cpp	Find faces grafo plano
+
+[Trees]
+Trees/Diameter.cpp	Diameter
+Trees/Euler_Tour.cpp	Euler Tour
+Trees/LCA_Euler_Tour.cpp	LCA Euler Tour
+Trees/LCA_and_BinaryLifting.cpp	LCA and Binary Lifting
+Trees/Heavy_light_decomposition.cpp	Heavy light decomposition
+Trees/Max_clique.cpp	Max clique
+Trees/Minimum_vertex_cover.cpp	Minimum vertex cover
+
+[Flow]
+Flow/MaxFlow_Dinic.cpp	Dinic
+Flow/MaxFlow_PushRelabel.cpp	Push Relabel
+Flow/Hungarian.cpp	Hungarian
+Flow/MinCostMaxFlow.cpp	Min Cost Max Flow
+Flow/Blossom.cpp	Blossom
+
+[DP]
+DP/D&Q.cpp	Divide and Conquer
+DP/Knuth.cpp	Knuth
+DP/CHT.cpp	Convex Hull Trick
+DP/CHT_dynamic.cpp	Convex Hull Trick dinamico
+DP/Digit_DP.cpp	Digit DP
+DP/LIS.cpp	LIS
+DP/Recorrer_submasks.cpp	Recorrer submasks
+
+[Math]
+Math/Combinatory.md	Combinatory
+Math/Coeficientes_binomiales.cpp	Coeficientes binomiales
+Math/Power_of_factorial_divisor.cpp	Power of factorial divisor
+Math/FactorialMOD.cpp	Factorial MOD
+Math/Matriz.cpp	Matriz
+Math/Probability.md	Probability
+Math/FFT.cpp	FFT
+Math/Random.cpp	Random
+Math/Composicion_funciones.cpp	Composicion de funciones
+Math/Numeros Practicos.cpp	Numeros practicos
+
+[Number Theory]
+Number Theory/Binpow.cpp	Binpow
+Number Theory/Inverso_modular.cpp	Inverso modular
+Number Theory/Descomposicion_prima.cpp	Descomposicion prima
+Number Theory/Sieve_erastosthenes.cpp	Sieve of Eratosthenes
+Number Theory/Segmented_sieve.cpp	Segmented sieve
+Number Theory/Divisores_de_cada_numero.cpp	Divisores de cada numero
+Number Theory/Miller_rabin.cpp	Miller Rabin
+Number Theory/Pollard_rho.cpp	Pollard rho
+Number Theory/Funcion_mobius.cpp	Funcion de Mobius
+Number Theory/Funcion_euler.cpp	Funcion de Euler
+Number Theory/Mulpow.cpp	Mulpow
+Number Theory/Euclides.cpp	Euclides
+Number Theory/Diofanticas.cpp	Diofanticas
+Number Theory/Chinese_remainder_theorem.cpp	Chinese remainder theorem
+Number Theory/Fibonacci_code.cpp	Fibonacci code
+Number Theory/Teoria.md	Teoria
+
+[Miscelanea]
+Miscelanea/Compresion.cpp	Compresion
+Miscelanea/Biseccion.cpp	Biseccion
+Miscelanea/Busquedad_ternaria.cpp	Busqueda ternaria
+Miscelanea/Bits.cpp	Bits
+Miscelanea/Sliding_window.cpp	Sliding window
+Miscelanea/Game_theory.md	Game theory
+Miscelanea/Games_on_arbitrary_graphs.cpp	Games on arbitrary graphs
+Miscelanea/Arbol_cartesiano.cpp	Arbol cartesiano
+Miscelanea/Combinaciones_longitud_k.cpp	Combinaciones longitud k
+Miscelanea/Josefo.cpp	Josefo
+Miscelanea/Hashing_XOR.cpp	Hashing XOR
+Miscelanea/Python.py	Python
+
+[C++]
+C++/Bitset.cpp	Bitset
+C++/Enteros_128.cpp	Enteros de 128 bits
+C++/Imprimir_decimales.cpp	Imprimir decimales
+C++/Deque.cpp	Deque
+C++/Indexed_set.cpp	Indexed set
+C++/Listas.cpp	Listas
+C++/Map.cpp	Map
+C++/Metodos_ordenar.cpp	Metodos de ordenamiento
+C++/Permutaciones.cpp	Permutaciones
+
+[Strings]
+Strings/Hashing.cpp	Hashing
+Strings/Minimal_rotation.cpp	Minimal Rotation
+Strings/String_matching.cpp	String Matching
+Strings/Trie.cpp	Trie
+
+[Geometria]
+Geometria/GeoStruct.cpp	Geo Struct
+Geometria/ConvexHull.cpp	Convex Hull
+Geometria/IntersectionPoints.cpp	Intersection Points
+Geometria/LineSegmentIntersection.cpp	Line Segment Intersection
+Geometria/SegmentIntersection.cpp	Segment Intersection
+Geometria/PointinPolygon.cpp	Point in Polygon
+Geometria/PolygonsArea.cpp	Polygons Area
+Geometria/LiChaoTree.cpp	Li Chao Tree
+Geometria/Gauss.cpp	Gauss (UNTESTED)

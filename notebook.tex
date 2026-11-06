@@ -1,0 +1,154 @@
+\documentclass[8pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,landscape,left=0.3cm,right=0.3cm,top=1cm,bottom=0.3cm,headheight=12pt,headsep=4pt]{geometry}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{ifthen}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tocloft}
+\usepackage{multicol}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+
+\hypersetup{hidelinks}
+
+% Necesario para los .md convertidos con pandoc
+\providecommand{\gt}{>}
+\providecommand{\lt}{<}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\DeclareUnicodeCharacter{2264}{\ensuremath{\le}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\ge}}
+\DeclareUnicodeCharacter{2260}{\ensuremath{\ne}}
+\DeclareUnicodeCharacter{2248}{\ensuremath{\approx}}
+\DeclareUnicodeCharacter{2261}{\ensuremath{\equiv}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\to}}
+\DeclareUnicodeCharacter{2190}{\ensuremath{\leftarrow}}
+\DeclareUnicodeCharacter{21D2}{\ensuremath{\Rightarrow}}
+\DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
+\DeclareUnicodeCharacter{00F7}{\ensuremath{\div}}
+\DeclareUnicodeCharacter{22C5}{\ensuremath{\cdot}}
+\DeclareUnicodeCharacter{2211}{\ensuremath{\sum}}
+\DeclareUnicodeCharacter{220F}{\ensuremath{\prod}}
+\DeclareUnicodeCharacter{221E}{\ensuremath{\infty}}
+\DeclareUnicodeCharacter{2208}{\ensuremath{\in}}
+\DeclareUnicodeCharacter{2209}{\ensuremath{\notin}}
+\DeclareUnicodeCharacter{2229}{\ensuremath{\cap}}
+\DeclareUnicodeCharacter{222A}{\ensuremath{\cup}}
+\DeclareUnicodeCharacter{2212}{\ensuremath{-}}
+\DeclareUnicodeCharacter{221A}{\ensuremath{\surd}}
+\DeclareUnicodeCharacter{2026}{\ldots}
+
+\renewcommand*{\ttdefault}{pcr}
+\renewcommand\cftsecfont{\fontsize{10}{9}\bfseries}
+\renewcommand\cftsecpagefont{\fontsize{10}{9}\mdseries}
+\renewcommand\cftsubsecfont{\fontsize{10}{6}\mdseries}
+\renewcommand\cftsubsecpagefont{\fontsize{10}{6}\mdseries}
+\renewcommand\cftsecafterpnum{\vspace{-.5ex}}
+\renewcommand\cftsubsecafterpnum{\vspace{0ex}}
+
+\newcommand{\Section}[1]{
+    \section*{#1}
+    \addcontentsline{toc}{subsection}{#1}
+    \vspace{-3mm}
+}
+
+\newcommand{\Topic}[1]{\textbf{#1}}
+
+\lstdefinestyle{shared}{
+    belowcaptionskip=1\baselineskip,
+    breaklines=true,
+    xleftmargin=0pt,
+    showstringspaces=false,
+    basicstyle=\fontsize{8}{5}\ttfamily,
+    aboveskip=0pt,
+    belowskip=0pt,
+    tabsize=2,
+    % Tildes y eñes en los comentarios del código
+    literate=
+      {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+      {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+      {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {ü}{{\"u}}1 {Ü}{{\"U}}1
+      {¿}{{?`}}1 {¡}{{!`}}1,
+}
+\lstdefinestyle{cpp}{
+    style=shared,
+    language=C++,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{blue!90!black},
+    identifierstyle=\color{black},
+    stringstyle=\color{red!90!black},
+}
+\lstdefinestyle{py}{
+    style=shared,
+    language=Python,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{orange},
+}
+\lstdefinestyle{java}{
+    style=shared,
+    language=Java,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{red},
+}
+\lstdefinestyle{txt}{
+    style=shared,
+}
+\lstset{style=shared, escapechar=@}
+
+
+\title{\vspace{-4ex}\Large{CodeDeGrace ICPC Team Notebook}}
+\author{}
+\date{}
+
+% Configure headers
+\fancyhf{}
+\fancyhead[L]{CodeDeGrace - Universidad Tecnologica de Pereira}
+\fancyhead[C]{%
+  \ifthenelse{\equal{\firstleftmark}{\lastleftmark}}%
+    {\leftmark}%
+    {\firstleftmark\ \& \lastleftmark}%
+}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Customize section marks to include section number
+\renewcommand{\sectionmark}[1]{\markboth{\thesection. #1}{}}
+
+\begin{document}
+\pagestyle{fancy}
+\setlength{\columnseprule}{0.4pt}
+\setlength{\columnsep}{10pt}
+
+% Pagina 1: solo titulo y contenidos
+\begin{multicols}{3}
+\maketitle
+\vspace{-13ex}
+\tableofcontents
+\end{multicols}
+
+% Salto de pagina: el template y el resto empiezan en la pagina 2
+\clearpage
+
+\setlength{\columnsep}{10pt}
+\begin{multicols}{3}
+\input{contents.tex}
+\end{multicols}
+
+% Solo si tienes un Theory.tex aparte (tus .md ya van dentro de contents.tex):
+% \setlength{\columnseprule}{0pt}
+% \setlength{\columnsep}{10pt}
+% \begin{multicols}{2}
+% {\fontsize{8}{6}\selectfont
+% \input{Theory.tex}
+% }
+% \end{multicols}
+
+\end{document}

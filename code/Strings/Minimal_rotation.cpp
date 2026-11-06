@@ -1,22 +1,13 @@
-//https://cses.fi/problemset/task/1110
-
-#include <bits/stdc++.h>
-#define ll long long
-using namespace std;
-int INF=1E9, MOD=1E9+7;
-
+#include "../template.h"
 
 void solve(){
-    string s;
-    cin>>s;
+    string s; cin>>s;
     s += s;
-    int n=s.size();
-
-    vector<int> fail(n, -1);
+    int n = sz(s);
+    vi fail(n, -1);
 
     int minRot=0;
-
-    for(int i=1; i<n; i++){
+    for1(i,n-1){
         char c = s[i];
         int j = fail[i-minRot-1];
 
@@ -34,11 +25,5 @@ void solve(){
         }
     }
 
-    cout<<s.substr(minRot, n/2)<<"\n";
-}
-
-int main() {
-    ios::sync_with_stdio(false);cin.tie(0);
-    solve();
-    return 0;
+    cout<<s.substr(minRot, n/2)<<endl;
 }

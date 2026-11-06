@@ -144,6 +144,7 @@ $$E[X + Y] = E[X] + E[Y]$$
 $$E\left[\sum_{i=1}^{n} c_i X_i\right] = \sum_{i=1}^{n} c_i\,E[X_i]$$
 
 Cuándo pensar en linealidad:
+
 - Calcular $E[X]$ como promedio ponderado es engorroso porque las probabilidades de cada valor son difíciles de hallar.
 - $X$ se puede escribir como suma de variables más simples.
 
@@ -208,8 +209,9 @@ $$E_0 = 0, \qquad E_n = \frac{E_{n-1} + 1}{p} \qquad\Longrightarrow\qquad E_n = 
 $$E = \frac{1}{a-b}$$
 Para llegar $m$ niveles más abajo el tiempo esperado es $\frac{m}{a-b}$.
 
-- **Coleccionista de cupones:** se quiere coleccionar $n$ tipos de cupones donde en cada compra sale uno al azar con la misma probabilidad. 
-Estando en el estado con $i-1$ cupones distintos, sale uno nuevo con probabilidad $\frac{n-(i-1)}{n}$, por lo que ese paso dura en promedio $\frac{n}{n-i+1}$. Por linealidad:
+- **Coleccionista de cupones:** se quiere coleccionar $n$ tipos de cupones donde en cada compra sale uno al azar con la misma probabilidad.
+
+  Estando en el estado con $i-1$ cupones distintos, sale uno nuevo con probabilidad $\frac{n-(i-1)}{n}$, por lo que ese paso dura en promedio $\frac{n}{n-i+1}$. Por linealidad:
 
 $$E[T] = \sum_{i=1}^{n}\frac{n}{n-i+1}$$
 
@@ -218,9 +220,10 @@ $$E[T] = \sum_{i=1}^{n}\frac{n}{n-i+1}$$
 La varianza mide qué tan dispersos están los valores de $X$ alrededor de su media $\mu$. Es el promedio de la distancia al cuadrado a la media.
 
 La covarianza mide cómo se mueven juntas dos variables $X$ y $Y$:
-Positiva: cuando $X$ está por encima de su media, $Y$ tiende a estarlo también (suben juntas).
-Negativa: cuando $X$ sube, $Y$ tiende a bajar.
-Cero: no hay relación lineal.
+
+- **Positiva:** cuando $X$ está por encima de su media, $Y$ tiende a estarlo también (suben juntas).
+- **Negativa:** cuando $X$ sube, $Y$ tiende a bajar.
+- **Cero:** no hay relación lineal.
 
 - **Varianza:**
 $$\operatorname{Var}(X) = E[(X-\mu)^2] = E[X^2] - E[X]^2$$
@@ -270,7 +273,8 @@ Ejemplo: llegan en promedio $3$ correos por hora, y la probabilidad de recibir e
 - **Uniforme continua en $[a, b]$** (Todos los valores en el intervalo son igual de probables): $E[X] = \frac{a+b}{2}$, $\;\operatorname{Var}(X) = \frac{(b-a)^2}{12}$
 
 - **Exponencial($\lambda$):** $X$ es el tiempo de espera hasta que ocurre un evento que sucede en promedio cada $\frac{1}{\lambda}$ unidades de tiempo.
-$\;E[X] = \frac{1}{\lambda}$, $\;\operatorname{Var}(X) = \frac{1}{\lambda^2}$
+
+  $E[X] = \frac{1}{\lambda}$, $\;\operatorname{Var}(X) = \frac{1}{\lambda^2}$
 
   Probabilidad de esperar a lo sumo un tiempo $x$:
 $$P(X \le x) = 1 - e^{-\lambda x}$$

@@ -1,6 +1,6 @@
 #include "../template.h"
 
-/***********************************************************************************************
+/**********************************************
 Para query suma y update suma */
     ll updateOp(ll a, ll b, ll len){
         if(b == neutro) return a;
@@ -12,9 +12,9 @@ Para query suma y update suma */
         if(b == neutro) return a;
         return a + b;
     }
-/**********************************************************************************************/
+/***********************************************/
 
-/***********************************************************************************************
+/***********************************************
 Para query minimo y update suma */
     ll updateOp(ll a, ll b, ll len){
         if(b == neutro) return a;
@@ -26,9 +26,9 @@ Para query minimo y update suma */
         if(b == neutro) return a;
         return min(a, b);
     }
-/**********************************************************************************************/
+/***********************************************/
 
-/***********************************************************************************************
+/*********************************************
 Para arrays de 1s y 0s y updates de invertir los valores (calc de suma) */
     int updateOp(int a, int len){
         return len - a;
@@ -59,9 +59,9 @@ Para arrays de 1s y 0s y updates de invertir los valores (calc de suma) */
         update(l, r, 2*v + 2, tm, tr);
         tree[v] = calcOp(tree[2*v + 1], tree[2*v + 2]);
     }
-/**********************************************************************************************/
+/**********************************************/
 
-/***********************************************************************************************
+/**********************************************
 - Si se llega a pedir update de diferentes tipos, toca tener cuidado con la propagacion. Ejemplo con
   update de asignacion (operacion identificada con 1) y de suma (operacion identificada con 0): */
     // Updates:
